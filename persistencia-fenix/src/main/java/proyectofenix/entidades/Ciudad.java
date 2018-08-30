@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -33,7 +34,7 @@ public class Ciudad implements Serializable{
 	/**
 	 * Nombre de una ciudad
 	 */
-	@Column(length = 30)
+	@Column(length = 30,nullable=false,unique=true)
 	@NotNull
 	@NotBlank
 	private String nombre;
@@ -41,6 +42,7 @@ public class Ciudad implements Serializable{
 	/**
 	 * Departamento al que corresponde la ciudad
 	 */
+	@ManyToOne
 	private Departamento departamento;
 
 	/**

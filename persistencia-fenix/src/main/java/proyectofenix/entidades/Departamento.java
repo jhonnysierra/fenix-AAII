@@ -6,18 +6,19 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
  * Clase que representa la informacion de un departamento;
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  */
 @Entity
-public class Departamento implements Serializable{
-	
-	
+public class Departamento implements Serializable {
+
 	/**
 	 * Serializable clase Departamento
 	 */
@@ -27,24 +28,25 @@ public class Departamento implements Serializable{
 	 * Id del Departamento
 	 */
 	@Id
-	@Column(length=2)
+	@Column(length = 2)
 	@NotNull
 	@NotBlank
 	private char id;
-	
+
 	/**
 	 * Nombre del departamento
 	 */
-	@Column(length=30)
+	@Column(length = 30, nullable = false, unique = true)
 	@NotNull
 	@NotBlank
 	private String nombre;
-	
+
 	/**
 	 * Lista de las ciudades de un Departamento
 	 */
+	@OneToMany(mappedBy = "departamento")
 	private List<Ciudad> ciudades;
-	
+
 	/**
 	 * Metodo constructor de la clase Departamento
 	 */
@@ -54,6 +56,7 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo get id clase Departamento
+	 * 
 	 * @return the id
 	 */
 	public char getId() {
@@ -62,6 +65,7 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo set id clase Departamento
+	 * 
 	 * @param id
 	 */
 	public void setId(char id) {
@@ -70,6 +74,7 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo get nombre clase Departamento
+	 * 
 	 * @return nombre
 	 */
 	public String getNombre() {
@@ -78,15 +83,16 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo set nombre clase Departamento
+	 * 
 	 * @param nombre
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
 
 	/**
 	 * Metodo get ciudades clase Departamento
+	 * 
 	 * @return the ciudades
 	 */
 	public List<Ciudad> getCiudades() {
@@ -95,6 +101,7 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo set ciudades clase Departamento
+	 * 
 	 * @param ciudades
 	 */
 	public void setCiudades(List<Ciudad> ciudades) {
@@ -103,13 +110,15 @@ public class Departamento implements Serializable{
 
 	/**
 	 * Metodo get serialversionuid
+	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* Metodo hashcode clase Departamento
+	/*
+	 * Metodo hashcode clase Departamento
 	 */
 	@Override
 	public int hashCode() {
@@ -120,7 +129,8 @@ public class Departamento implements Serializable{
 		return result;
 	}
 
-	/* Metodo equals clase Departamento
+	/*
+	 * Metodo equals clase Departamento
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -141,6 +151,4 @@ public class Departamento implements Serializable{
 		return true;
 	}
 
-	
-	
 }
