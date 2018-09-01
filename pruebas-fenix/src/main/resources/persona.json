@@ -1,0 +1,16 @@
+{
+	"PERSONA": [
+		{
+			"cedula": "123456789",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "pperez@mail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Pedro",
+			"ciudad_id": "01"
+		}
+	]
+}
