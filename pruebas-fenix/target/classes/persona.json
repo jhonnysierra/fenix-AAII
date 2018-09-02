@@ -2,6 +2,7 @@
 	"PERSONA": [
 		{
 			"cedula": "123456789",
+			"dtype": "Persona",
 			"apellidos": "Perez",
 			"contrasenia": "12345",
 			"correo": "pperez@mail.com",

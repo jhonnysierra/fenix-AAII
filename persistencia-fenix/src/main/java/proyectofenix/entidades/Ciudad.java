@@ -151,6 +151,4 @@ public class Ciudad implements Serializable{
 		return true;
 	}
 	
-	
-
 }

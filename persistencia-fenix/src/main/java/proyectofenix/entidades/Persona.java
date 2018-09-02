@@ -14,309 +14,335 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Clase encargada de representar la informacion de una persona
+ * 
  * @author Jhonny_Jorge_Javier
  * @version 1.0 16-agosto-2018
  *
  */
 
 @Entity
-
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona implements Serializable {
 
 	/**
 	 * Permite identificar de forma unica a la persona
 	 */
-	
+
 	/**
 	 * Permite identificar una persona
 	 */
 	@Id
-	@Column (length=15)
+	@Column(length = 15, nullable = false)
+	@NotNull
+	@NotBlank
 	private String cedula;
-	
+
 	/**
 	 * Nombre una persona
 	 */
-	@Column(length=30)
+	@Column(length = 30, nullable = false)
+	@NotNull
+	@NotBlank
 	private String nombres;
 	/**
 	 * Apellido de una persona
 	 */
-	@Column(length=30)
+	@Column(length = 30, nullable = false)
+	@NotNull
+	@NotBlank
 	private String apellidos;
-	
+
 	/**
-	 * Genero de una persona 
+	 * Genero de una persona
 	 */
-	@Column (length=9)
+	@Column(length = 9)
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
-	
-	
+
 	/**
 	 * Ciudad de una persona
 	 */
 	private Ciudad ciudad;
-	
+
+	/**
+	 * Direccion de una persona
+	 */
+	@Column(length = 30)
 	private String direccion;
-	
-	
+
 	/**
 	 * Lista que contiene los telefonos asociados a una persona
 	 */
-	@Column(length=10)
+	@Column(length = 10)
 	@ElementCollection
 	private List<String> telefonos;
-	/*private Map<Integer,String> telefonos;*/
-	
-	private String correo;
-	
+	/* private Map<Integer,String> telefonos; */
+
 	/**
-	 * Fecha de nacimiento de una persona 
+	 * Correo electronico de una Persona
+	 */
+	@Column(length = 80,nullable=false)
+	@NotNull
+	@NotBlank
+	private String correo;
+
+	/**
+	 * Fecha de nacimiento de una persona
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha_nacimiento;
-	
-	private char estado;
-	
-	private String contrasenia;
-	
-	private static final long serialVersionUID = 1L;
-	
-	
-	/**
-	 * Clase enumeracion que contiene las opciones para genero de una persona 
-	 *
-	 */
-	private enum Genero{
-		masculino, femenino;
-	}
-	
-	
 
 	/**
-	 * Metodo constructor de la clase Persona 
+	 * Estado de una Persona en el sistema 1 ACTIVO, 0 INACTIVO
+	 */
+	@Column(length = 2, nullable = false)
+	@NotNull
+	@NotBlank
+	private char estado;
+
+	/**
+	 * Contrasenia de una Persona para ingresar al sistema
+	 */
+	@Column(length = 30, nullable = false)
+	@NotNull
+	@NotBlank
+	private String contrasenia;
+
+	/**
+	 * serialVersionUID clase Persona
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Clase enumeracion que contiene las opciones para genero de una persona
+	 *
+	 */
+	private enum Genero {
+		masculino, femenino;
+	}
+
+	/**
+	 * Metodo constructor de la clase Persona
 	 */
 	public Persona() {
 		super();
 	}
 
-
-
 	/**
-	 * @return the cedula
+	 * Metodo get cedula clase Persona
+	 * 
+	 * @return cedula
 	 */
 	public String getCedula() {
 		return cedula;
 	}
 
-
-
 	/**
-	 * @param cedula the cedula to set
+	 * Metodo set cedula clase Persona
+	 * 
+	 * @param cedula
 	 */
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
 
-
-
 	/**
-	 * @return the nombres
+	 * Metodo get nombres clase Persona
+	 * 
+	 * @return nombres
 	 */
 	public String getNombres() {
 		return nombres;
 	}
 
-
-
 	/**
-	 * @param nombres the nombres to set
+	 * Metodo set nombres clase Persona
+	 * 
+	 * @param nombres
 	 */
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
 	}
 
-
-
 	/**
-	 * @return the apellidos
+	 * Metodo get apellidos clase Persona
+	 * 
+	 * @return apellidos
 	 */
 	public String getApellidos() {
 		return apellidos;
 	}
 
-
-
 	/**
-	 * @param apellidos the apellidos to set
+	 * Metodo set nombres clase Persona
+	 * 
+	 * @param apellidos
 	 */
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
 
-
-
 	/**
-	 * @return the genero
+	 * Metodo get genero clase Persona
+	 * 
+	 * @return genero
 	 */
 	public Genero getGenero() {
 		return genero;
 	}
 
-
-
 	/**
-	 * @param genero the genero to set
+	 * Metodo set genero clase Persona
+	 * 
+	 * @param genero
 	 */
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
-
-
 	/**
-	 * @return the ciudad
+	 * Metodo get ciudad clase Persona
+	 * 
+	 * @return ciudad
 	 */
 	public Ciudad getCiudad() {
 		return ciudad;
 	}
 
-
-
 	/**
-	 * @param ciudad the ciudad to set
+	 * Metodo set ciudad clase Persona
+	 * 
+	 * @param ciudad
 	 */
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
 
-
-
 	/**
-	 * @return the direccion
+	 * Metodo get direccion clase Persona
+	 * 
+	 * @return direccion
 	 */
 	public String getDireccion() {
 		return direccion;
 	}
 
-
-
 	/**
-	 * @param direccion the direccion to set
+	 * Metodo set direccion clase Persona
+	 * 
+	 * @param direccion
 	 */
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
 
-
-
 	/**
-	 * @return the telefonos
+	 * Metodo get telefonos clase Persona
+	 * 
+	 * @return telefonos
 	 */
 	public List<String> getTelefonos() {
 		return telefonos;
 	}
 
-
-
 	/**
-	 * @param telefonos the telefonos to set
+	 * Metodo set telefonos clase Persona
+	 * 
+	 * @param telefonos
 	 */
 	public void setTelefonos(List<String> telefonos) {
 		this.telefonos = telefonos;
 	}
 
-
-
 	/**
+	 * Metodo get correo clase Persona
+	 * 
 	 * @return the correo
 	 */
 	public String getCorreo() {
 		return correo;
 	}
 
-
-
 	/**
-	 * @param correo the correo to set
+	 * Metodo set correo clase Persona
+	 * 
+	 * @param correo
 	 */
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
 
-
-
 	/**
-	 * @return the fecha_nacimiento
+	 * Metodo get fecha clase Persona
+	 * 
+	 * @return the
 	 */
 	public Date getFecha_nacimiento() {
 		return fecha_nacimiento;
 	}
 
-
-
 	/**
-	 * @param fecha_nacimiento the fecha_nacimiento to set
+	 * Metodo set fecha clase Persona
+	 * 
+	 * @param fecha_nacimiento
 	 */
 	public void setFecha_nacimiento(Date fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 
-
-
 	/**
-	 * @return the estado
+	 * Metodo get estado clase Persona
+	 * 
+	 * @return estado
 	 */
 	public char getEstado() {
 		return estado;
 	}
 
-
-
 	/**
-	 * @param estado the estado to set
+	 * Metodo set estado clase Persona
+	 * 
+	 * @param estado
 	 */
 	public void setEstado(char estado) {
 		this.estado = estado;
 	}
 
-
-
 	/**
-	 * @return the contrasenia
+	 * Metodo get contrasenia clase Persona
+	 * 
+	 * @return contrasenia
 	 */
 	public String getContrasenia() {
 		return contrasenia;
 	}
 
-
-
 	/**
-	 * @param contrasenia the contrasenia to set
+	 * Metodo set contrasenia clase Persona
+	 * 
+	 * @param contrasenia
 	 */
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
 
-
-
 	/**
+	 * Metodo get serialversionuid clase Persona
+	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	/*
+	 * Metodo hashcode clase Persona
+	 * 
 	 */
 	@Override
 	public int hashCode() {
@@ -336,10 +362,9 @@ public class Persona implements Serializable {
 		return result;
 	}
 
-
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/*
+	 * Metodo equals clase Persona
+	 * 
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -400,8 +425,6 @@ public class Persona implements Serializable {
 		} else if (!telefonos.equals(other.telefonos))
 			return false;
 		return true;
-	} 
-	
-	
-   
+	}
+
 }
