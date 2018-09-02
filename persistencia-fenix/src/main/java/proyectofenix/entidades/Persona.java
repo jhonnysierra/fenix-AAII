@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
@@ -94,7 +95,7 @@ public class Persona implements Serializable {
 	/**
 	 * Fecha de nacimiento de una persona
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fecha_nacimiento;
 
 	/**
@@ -112,6 +113,13 @@ public class Persona implements Serializable {
 	@NotNull
 	@NotBlank
 	private String contrasenia;
+	
+	
+	/**
+	 * Bien raiz de la persona
+	 */
+	@OneToOne(mappedBy="persona")
+	private BienRaiz bienRaiz;
 
 	/**
 	 * serialVersionUID clase Persona
@@ -330,10 +338,26 @@ public class Persona implements Serializable {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
+	
+	
+	/**
+	 * Metodo get bienRaiz clase Persona
+	 * @return bienRaiz
+	 */
+	public BienRaiz getBienRaiz() {
+		return bienRaiz;
+	}
+
+	/**
+	 * Metodo set bienRaiz clase Persona
+	 * @param bienRaiz
+	 */
+	public void setBienRaiz(BienRaiz bienRaiz) {
+		this.bienRaiz = bienRaiz;
+	}
 
 	/**
 	 * Metodo get serialversionuid clase Persona
-	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
@@ -349,6 +373,7 @@ public class Persona implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apellidos == null) ? 0 : apellidos.hashCode());
+		result = prime * result + ((bienRaiz == null) ? 0 : bienRaiz.hashCode());
 		result = prime * result + ((cedula == null) ? 0 : cedula.hashCode());
 		result = prime * result + ((ciudad == null) ? 0 : ciudad.hashCode());
 		result = prime * result + ((contrasenia == null) ? 0 : contrasenia.hashCode());
@@ -379,6 +404,11 @@ public class Persona implements Serializable {
 			if (other.apellidos != null)
 				return false;
 		} else if (!apellidos.equals(other.apellidos))
+			return false;
+		if (bienRaiz == null) {
+			if (other.bienRaiz != null)
+				return false;
+		} else if (!bienRaiz.equals(other.bienRaiz))
 			return false;
 		if (cedula == null) {
 			if (other.cedula != null)
@@ -426,5 +456,4 @@ public class Persona implements Serializable {
 			return false;
 		return true;
 	}
-
 }
