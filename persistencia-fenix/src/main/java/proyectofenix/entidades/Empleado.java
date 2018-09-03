@@ -51,6 +51,12 @@ public class Empleado extends Persona implements Serializable{
 	private List<Prestamo> prestamo;
 	
 	/**
+	 * Lista de asesorias de un empleado
+	 */
+	@OneToMany(mappedBy = "empleado")
+	private List<Asesoria> aseoria;
+	
+	/**
 	 * Metodo constructor clase Empleado
 	 */
 	public Empleado() {
@@ -122,6 +128,23 @@ public class Empleado extends Persona implements Serializable{
 	public void setPrestamo(List<Prestamo> prestamo) {
 		this.prestamo = prestamo;
 	}
+	
+
+	/**
+	 * Metodo get lista asesorias clase Empleado
+	 * @return aseoria
+	 */
+	public List<Asesoria> getAseoria() {
+		return aseoria;
+	}
+
+	/**
+	 * Metodo set lista asesorias clase Empleado
+	 * @param aseoria
+	 */
+	public void setAseoria(List<Asesoria> aseoria) {
+		this.aseoria = aseoria;
+	}
 
 	/**
 	 * Metodo get serialversionuid clase Empleado
@@ -138,6 +161,7 @@ public class Empleado extends Persona implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((aseoria == null) ? 0 : aseoria.hashCode());
 		result = prime * result + ((fechaFin == null) ? 0 : fechaFin.hashCode());
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
@@ -159,6 +183,11 @@ public class Empleado extends Persona implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Empleado other = (Empleado) obj;
+		if (aseoria == null) {
+			if (other.aseoria != null)
+				return false;
+		} else if (!aseoria.equals(other.aseoria))
+			return false;
 		if (fechaFin == null) {
 			if (other.fechaFin != null)
 				return false;
@@ -178,4 +207,5 @@ public class Empleado extends Persona implements Serializable{
 			return false;
 		return true;
 	}
+
 }

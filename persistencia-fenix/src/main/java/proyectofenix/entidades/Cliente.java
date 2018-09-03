@@ -34,6 +34,15 @@ public class Cliente extends Persona implements Serializable {
 	 */
 	@OneToMany(mappedBy = "cliente")
 	private List<Prestamo> prestamo;
+	
+	/**
+	 * Lista de asesorias de un cliente
+	 */
+	@OneToMany(mappedBy = "cliente")
+	private List<Asesoria> asesoria;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<PrestamoRenovado> prestamoRenovado; 
 
 	/**
 	 * Serializable clase Cliente
@@ -82,6 +91,40 @@ public class Cliente extends Persona implements Serializable {
 		this.prestamo = prestamo;
 	}
 
+	
+	/**
+	 * Metodo get lista asesorias clase Cliente
+	 * @return asesoria
+	 */
+	public List<Asesoria> getAsesoria() {
+		return asesoria;
+	}
+
+	/**
+	 * Metodo set lista asesorias clase Cliente
+	 * @param asesoria
+	 */
+	public void setAsesoria(List<Asesoria> asesoria) {
+		this.asesoria = asesoria;
+	}
+	
+
+	/**
+	 * Metodo get lista prestamos renovados clase Cliente
+	 * @return prestamoRenovado
+	 */
+	public List<PrestamoRenovado> getPrestamoRenovado() {
+		return prestamoRenovado;
+	}
+
+	/**
+	 * Metodo set lista prestamos renovados clase Cliente
+	 * @param prestamoRenovado
+	 */
+	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {
+		this.prestamoRenovado = prestamoRenovado;
+	}
+
 	/**
 	 * Metodo get Serialversionuid clase Cliente
 	 * 
@@ -98,8 +141,10 @@ public class Cliente extends Persona implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((asesoria == null) ? 0 : asesoria.hashCode());
 		result = prime * result + ((noCuenta == null) ? 0 : noCuenta.hashCode());
 		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
+		result = prime * result + ((prestamoRenovado == null) ? 0 : prestamoRenovado.hashCode());
 		return result;
 	}
 
@@ -115,6 +160,11 @@ public class Cliente extends Persona implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
+		if (asesoria == null) {
+			if (other.asesoria != null)
+				return false;
+		} else if (!asesoria.equals(other.asesoria))
+			return false;
 		if (noCuenta == null) {
 			if (other.noCuenta != null)
 				return false;
@@ -125,6 +175,13 @@ public class Cliente extends Persona implements Serializable {
 				return false;
 		} else if (!prestamo.equals(other.prestamo))
 			return false;
+		if (prestamoRenovado == null) {
+			if (other.prestamoRenovado != null)
+				return false;
+		} else if (!prestamoRenovado.equals(other.prestamoRenovado))
+			return false;
 		return true;
 	}
+
+
 }

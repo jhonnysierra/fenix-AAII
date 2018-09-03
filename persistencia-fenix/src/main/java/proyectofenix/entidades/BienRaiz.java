@@ -26,6 +26,7 @@ public class BienRaiz implements Serializable{
 	 * Numero de indentificacion del bien raiz
 	 */
 	@Id
+	@Column(length = 50)
 	private String id;
 	
 	/**

@@ -60,6 +60,9 @@ public class TipoPrestamo implements Serializable {
 	 */
 	@OneToMany(mappedBy = "tipoPrestamo")
 	private List<Prestamo> prestamo;
+	
+	@OneToMany(mappedBy = "tipoPrestamo")
+	private List<PrestamoRenovado> prestamoRenovado;
 
 	/**
 	 * Metodo constructor clase TipoPrestamo
@@ -157,6 +160,24 @@ public class TipoPrestamo implements Serializable {
 	public void setPrestamo(List<Prestamo> prestamo) {
 		this.prestamo = prestamo;
 	}
+	
+	
+
+	/**
+	 * Metodo get lista prestamos renovados clase TipoPrestamo
+	 * @return prestamoRenovado
+	 */
+	public List<PrestamoRenovado> getPrestamoRenovado() {
+		return prestamoRenovado;
+	}
+
+	/**
+	 * Metodo set lista prestamos renovados clase TipoPrestamo
+	 * @param prestamoRenovado
+	 */
+	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {
+		this.prestamoRenovado = prestamoRenovado;
+	}
 
 	/**
 	 * Metodo get serialversionuid clase TipoPrestamo
@@ -178,6 +199,7 @@ public class TipoPrestamo implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
+		result = prime * result + ((prestamoRenovado == null) ? 0 : prestamoRenovado.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(tasaInteres);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -213,8 +235,14 @@ public class TipoPrestamo implements Serializable {
 				return false;
 		} else if (!prestamo.equals(other.prestamo))
 			return false;
+		if (prestamoRenovado == null) {
+			if (other.prestamoRenovado != null)
+				return false;
+		} else if (!prestamoRenovado.equals(other.prestamoRenovado))
+			return false;
 		if (Double.doubleToLongBits(tasaInteres) != Double.doubleToLongBits(other.tasaInteres))
 			return false;
 		return true;
 	}
+
 }
