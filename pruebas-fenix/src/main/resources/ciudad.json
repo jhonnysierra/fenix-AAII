@@ -1,0 +1,14 @@
+{
+	"CIUDAD": [
+		{
+			"id": "01",
+			"nombre": "CAICEDONIA",
+			"departamento_id": "01"
+		},
+		{
+			"id": "02",
+			"nombre": "ARMENIA",
+			"departamento_id": "02"
+		}
+	]
+}
