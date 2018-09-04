@@ -31,7 +31,7 @@ public class Departamento implements Serializable {
 	@Column(length = 2)
 	@NotNull
 	@NotBlank
-	private char id;
+	private String id;
 
 	/**
 	 * Nombre del departamento
@@ -59,7 +59,7 @@ public class Departamento implements Serializable {
 	 * 
 	 * @return the id
 	 */
-	public char getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -68,7 +68,7 @@ public class Departamento implements Serializable {
 	 * 
 	 * @param id
 	 */
-	public void setId(char id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -124,7 +124,8 @@ public class Departamento implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((ciudades == null) ? 0 : ciudades.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
@@ -141,7 +142,15 @@ public class Departamento implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Departamento other = (Departamento) obj;
-		if (id != other.id)
+		if (ciudades == null) {
+			if (other.ciudades != null)
+				return false;
+		} else if (!ciudades.equals(other.ciudades))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)

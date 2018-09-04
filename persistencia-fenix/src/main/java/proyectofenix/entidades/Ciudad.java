@@ -29,7 +29,7 @@ public class Ciudad implements Serializable{
 	@Column(length = 2)
 	@NotNull
 	@NotBlank
-	private char id;
+	private String id;
 
 	/**
 	 * Nombre de una ciudad
@@ -56,7 +56,7 @@ public class Ciudad implements Serializable{
 	 * Metodo get id clase Ciudad
 	 * @return id
 	 */
-	public char getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -64,7 +64,7 @@ public class Ciudad implements Serializable{
 	 * Metodo set id clase Ciudad
 	 * @param id
 	 */
-	public void setId(char id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -108,7 +108,7 @@ public class Ciudad implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
 	/* 
 	 * Metodo hashcode clase Ciudad
 	 * 
@@ -118,7 +118,7 @@ public class Ciudad implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((departamento == null) ? 0 : departamento.hashCode());
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
@@ -141,7 +141,10 @@ public class Ciudad implements Serializable{
 				return false;
 		} else if (!departamento.equals(other.departamento))
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
@@ -150,5 +153,6 @@ public class Ciudad implements Serializable{
 			return false;
 		return true;
 	}
+
 	
 }

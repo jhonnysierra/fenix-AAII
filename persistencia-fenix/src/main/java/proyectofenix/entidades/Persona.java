@@ -101,10 +101,10 @@ public class Persona implements Serializable {
 	/**
 	 * Estado de una Persona en el sistema 1 ACTIVO, 0 INACTIVO
 	 */
-	@Column(length = 2, nullable = false)
+	@Column(length = 1, nullable = false)
 	@NotNull
 	@NotBlank
-	private char estado;
+	private String estado;
 
 	/**
 	 * Contrasenia de una Persona para ingresar al sistema
@@ -130,7 +130,7 @@ public class Persona implements Serializable {
 	 * Clase enumeracion que contiene las opciones para genero de una persona
 	 *
 	 */
-	private enum Genero {
+	public enum Genero {
 		masculino, femenino;
 	}
 
@@ -303,21 +303,20 @@ public class Persona implements Serializable {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 
+
 	/**
 	 * Metodo get estado clase Persona
-	 * 
 	 * @return estado
 	 */
-	public char getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
 	/**
 	 * Metodo set estado clase Persona
-	 * 
 	 * @param estado
 	 */
-	public void setEstado(char estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
@@ -379,7 +378,7 @@ public class Persona implements Serializable {
 		result = prime * result + ((contrasenia == null) ? 0 : contrasenia.hashCode());
 		result = prime * result + ((correo == null) ? 0 : correo.hashCode());
 		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result + estado;
+		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((fecha_nacimiento == null) ? 0 : fecha_nacimiento.hashCode());
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		result = prime * result + ((nombres == null) ? 0 : nombres.hashCode());
@@ -435,7 +434,10 @@ public class Persona implements Serializable {
 				return false;
 		} else if (!direccion.equals(other.direccion))
 			return false;
-		if (estado != other.estado)
+		if (estado == null) {
+			if (other.estado != null)
+				return false;
+		} else if (!estado.equals(other.estado))
 			return false;
 		if (fecha_nacimiento == null) {
 			if (other.fecha_nacimiento != null)
@@ -456,4 +458,5 @@ public class Persona implements Serializable {
 			return false;
 		return true;
 	}
+
 }
