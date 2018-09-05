@@ -870,6 +870,70 @@ public class TestEntidades {
 
 	}
 
+	/**
+	 * Metodo para buscar una Empleado
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void buscarEmpleadoTest() {
+
+		Empleado empleadoBuscar = entityManager.find(Empleado.class, "1234");
+		Assert.assertNotNull(empleadoBuscar);
+		// Probar que la persona tiene 1 telefono asociado
+		Assert.assertEquals(1, empleadoBuscar.getTelefonos().size());
+		
+		// Creditos asociados a un empleado
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del empleado",1, empleadoBuscar.getPrestamo().size());
+	}
+	
+	/**
+	 * Metodo para modificar una Empleado
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void agregarEmpleadoTest() {
+		Date fechainicioEmpleado = null,fechaInicioAnterior;
+		
+		Empleado empleadoModificar = entityManager.find(Empleado.class, "12345");
+		
+		fechaInicioAnterior=empleadoModificar.getFechaInicio();
+		String fechaIni = "2012-01-30 09:00:00";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+
+		try {
+			fechainicioEmpleado = sdf.parse(fechaIni);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+
+		empleadoModificar.setFechaInicio(fechainicioEmpleado);
+		entityManager.merge(empleadoModificar);	
+		
+		Assert.assertNotEquals("La fecha no se modifico", fechaInicioAnterior, empleadoModificar.getFechaInicio());
+		
+	}	
+	
+	/**
+	 * Metodo para eliminar una Empleado
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
+	public void eliminarEmpleadoTest() {
+		Empleado empleadoEliminar = entityManager.find(Empleado.class, "12345");
+		Persona personaEliminar = entityManager.find(Persona.class, "12345");
+
+		entityManager.remove(empleadoEliminar);
+		entityManager.remove(personaEliminar);
+
+		empleadoEliminar = entityManager.find(Empleado.class, "12345");
+		Assert.assertNull("La persona existe", empleadoEliminar);
+	}
+
 	////////////////////////// CLASE CONSULTAS
 	////////////////////////// /////////////////////////////////////////
 	/**

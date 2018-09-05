@@ -3,6 +3,10 @@
 		{
 			"persona_cedula": "123456789",
 			"telefonos": "3100899009"
+		},
+		{
+			"persona_cedula": "1234",
+			"telefonos": "3112345676"
 		}
 	]
 }
