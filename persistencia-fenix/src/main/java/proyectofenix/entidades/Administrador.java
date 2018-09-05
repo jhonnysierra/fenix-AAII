@@ -3,6 +3,7 @@ package proyectofenix.entidades;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -24,6 +25,7 @@ public class Administrador extends Persona implements Serializable{
 	/**
 	 * Observacion de un Administrador
 	 */
+	@Column(length=100)
 	private String observacion;
 	
 	/**
