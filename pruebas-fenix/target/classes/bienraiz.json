@@ -1,11 +1,18 @@
 {
 	"BIENRAIZ": [
 		{
-			"id": "099",
-			"avaluo": 6000000,
+			"id": "001",
+			"avaluo": 16000000,
 			"direccion": "cra 9 9-34",
 			"ciudad_id": "01",
-			"persona_cedula": 1
+			"persona_cedula": "1115187219"
+		},
+		{
+			"id": "002",
+			"avaluo": 26000000,
+			"direccion": "cra 5 6-36",
+			"ciudad_id": "02",
+			"persona_cedula": "1115187219"
 		}
 	]
 }

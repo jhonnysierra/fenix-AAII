@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,12 +30,15 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NamedQueries({
+		@NamedQuery(name = Persona.OBTENER_PERSONAS_POR_CREDENCIALES, query = "select p from Persona p where p.cedula=:cedula and p.contrasenia=:contrasenia") })
 public class Persona implements Serializable {
 
 	/**
 	 * Permite identificar de forma unica a la persona
 	 */
 
+	public static final String OBTENER_PERSONAS_POR_CREDENCIALES = "PersonasPorCredenciales";
 	/**
 	 * Permite identificar una persona
 	 */
@@ -87,7 +92,7 @@ public class Persona implements Serializable {
 	/**
 	 * Correo electronico de una Persona
 	 */
-	@Column(length = 80,nullable=false)
+	@Column(length = 80, nullable = false)
 	@NotNull
 	@NotBlank
 	private String correo;
@@ -113,12 +118,11 @@ public class Persona implements Serializable {
 	@NotNull
 	@NotBlank
 	private String contrasenia;
-	
-	
+
 	/**
 	 * Bien raiz de la persona
 	 */
-	@OneToOne(mappedBy="persona")
+	@OneToOne(mappedBy = "persona")
 	private BienRaiz bienRaiz;
 
 	/**
@@ -303,9 +307,9 @@ public class Persona implements Serializable {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
 
-
 	/**
 	 * Metodo get estado clase Persona
+	 * 
 	 * @return estado
 	 */
 	public String getEstado() {
@@ -314,6 +318,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo set estado clase Persona
+	 * 
 	 * @param estado
 	 */
 	public void setEstado(String estado) {
@@ -337,10 +342,10 @@ public class Persona implements Serializable {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
-	
-	
+
 	/**
 	 * Metodo get bienRaiz clase Persona
+	 * 
 	 * @return bienRaiz
 	 */
 	public BienRaiz getBienRaiz() {
@@ -349,6 +354,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo set bienRaiz clase Persona
+	 * 
 	 * @param bienRaiz
 	 */
 	public void setBienRaiz(BienRaiz bienRaiz) {
@@ -357,6 +363,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo get serialversionuid clase Persona
+	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {

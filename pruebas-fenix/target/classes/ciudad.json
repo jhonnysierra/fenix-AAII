@@ -9,6 +9,16 @@
 			"id": "02",
 			"nombre": "ARMENIA",
 			"departamento_id": "02"
-		}
+		},
+		{
+			"id": "03",
+			"nombre": "CALI",
+			"departamento_id": "01"
+		},
+		{
+			"id": "04",
+			"nombre": "TEBAIDA",
+			"departamento_id": "02"
+		}	
 	]
 }

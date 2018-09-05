@@ -1,11 +1,13 @@
 package proyectofenix.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +46,12 @@ public class Ciudad implements Serializable{
 	 */
 	@ManyToOne
 	private Departamento departamento;
+	
+	/**
+	 * Lista de las ciudades de un Departamento
+	 */
+	@OneToMany(mappedBy = "ciudad")
+	private List<BienRaiz> bienRaiz;
 
 	/**
 	 * Metodo constructor de la clase Ciudad
@@ -102,13 +110,29 @@ public class Ciudad implements Serializable{
 
 	
 	/**
+	 * Metodo get bienRaiz clase Ciudad
+	 * @return bienRaiz
+	 */
+	public List<BienRaiz> getBienRaiz() {
+		return bienRaiz;
+	}
+
+	/**
+	 * Metodo set bienRaiz clase Ciudad
+	 * @param bienRaiz
+	 */
+	public void setBienRaiz(List<BienRaiz> bienRaiz) {
+		this.bienRaiz = bienRaiz;
+	}
+
+	/**
 	 * Metodo get serialversionui
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	/* 
 	 * Metodo hashcode clase Ciudad
 	 * 
@@ -117,6 +141,7 @@ public class Ciudad implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((bienRaiz == null) ? 0 : bienRaiz.hashCode());
 		result = prime * result + ((departamento == null) ? 0 : departamento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
@@ -136,6 +161,11 @@ public class Ciudad implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Ciudad other = (Ciudad) obj;
+		if (bienRaiz == null) {
+			if (other.bienRaiz != null)
+				return false;
+		} else if (!bienRaiz.equals(other.bienRaiz))
+			return false;
 		if (departamento == null) {
 			if (other.departamento != null)
 				return false;
@@ -153,6 +183,5 @@ public class Ciudad implements Serializable{
 			return false;
 		return true;
 	}
-
 	
 }

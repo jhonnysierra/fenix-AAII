@@ -12,6 +12,19 @@
 			"genero": "masculino",
 			"nombres": "Pedro",
 			"ciudad_id": "01"
+		},
+		{
+			"cedula": "1115187219",
+			"dtype": "Persona",
+			"apellidos": "Sierra Parra",
+			"contrasenia": "12345",
+			"correo": "jhonnysierrap@mail.com",
+			"direccion": "cra 8 13-06 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Jhonny",
+			"ciudad_id": "01"
 		}
 	]
 }
