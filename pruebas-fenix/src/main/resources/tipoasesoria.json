@@ -1,0 +1,24 @@
+{
+	"TIPOASESORIA": [
+		{
+			"id": 1,
+			"descripcion": "Para informacion de creditos",
+			"tipo": "CREDITOS"
+		},
+		{
+			"id": 2,
+			"descripcion": "Para informacion de pagos",
+			"tipo": "PAGOS"
+		},
+		{
+			"id": 3,
+			"descripcion": "Para informacion de cuentas",
+			"tipo": "CUENTAS"
+		},
+		{
+			"id": 4,
+			"descripcion": "Para informacion de general",
+			"tipo": "ASESORIA"
+		}
+	]
+}

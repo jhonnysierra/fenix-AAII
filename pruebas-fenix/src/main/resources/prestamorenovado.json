@@ -1,0 +1,18 @@
+{
+	"PRESTAMORENOVADO": [
+		{
+			"id": 1,
+			"nocuotas": 10,
+			"valor": 1000000,
+			"cliente_cedula": "123",
+			"tipoprestamo_id": 2
+		},
+		{
+			"id": 2,
+			"nocuotas": 24,
+			"valor": 24000000,
+			"cliente_cedula": "6208204",
+			"tipoprestamo_id": 1
+		}
+	]
+}

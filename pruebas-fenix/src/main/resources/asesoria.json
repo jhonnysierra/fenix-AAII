@@ -1,0 +1,31 @@
+{
+	"ASESORIA": [
+		{
+			"id": 1,
+			"fecha": "2018-03-03 15:00:00",
+			"horafin": "15:00:00",
+			"horainicio": "15:00:00",
+			"cliente_cedula": "6208204",
+			"empleado_cedula": "1234",
+			"tipoasesoria_id": 1
+		},
+		{
+			"id": 2,
+			"fecha": "2018-02-02 14:00:00",
+			"horafin": "16:30:00",
+			"horainicio": "16:00:00",
+			"cliente_cedula": "6208204",
+			"empleado_cedula": "1234",
+			"tipoasesoria_id": 2
+		},
+		{
+			"id": 3,
+			"fecha": "2018-01-01 09:00:00",
+			"horafin": "09:17:00",
+			"horainicio": "09:00:00",
+			"cliente_cedula": "123",
+			"empleado_cedula": "1234",
+			"tipoasesoria_id": 3
+		}
+	]
+}

@@ -27,15 +27,12 @@ public class PrestamoRenovado implements Serializable{
 	 * Identificador de la clase PrestamoRenovado
 	 */
 	@Id
-	@NotNull
-	@NotBlank
 	private int id;
 	
 	/**
 	 * Cliente que puede renovar credito
 	 */
 	@NotNull
-	@NotBlank
 	@ManyToOne
 	private Cliente cliente;
 	
@@ -43,14 +40,12 @@ public class PrestamoRenovado implements Serializable{
 	 * Valor por el que el Cliente puede renovar el credito
 	 */
 	@NotNull
-	@NotBlank
 	private double valor;
 	
 	/**
 	 * Numero de cuotas del credito a renovar
 	 */
 	@NotNull
-	@NotBlank
 	private int noCuotas;
 	
 	@ManyToOne

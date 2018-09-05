@@ -30,7 +30,6 @@ public class TipoAsesoria implements Serializable{
 	 */
 	@Id
 	@NotNull
-	@NotBlank
 	private int id;
 	
 	/**
@@ -38,7 +37,6 @@ public class TipoAsesoria implements Serializable{
 	 */
 	@Column(length=50,nullable=false,unique=true)
 	@NotNull
-	@NotBlank
 	private String tipo;
 	
 	/**
@@ -46,7 +44,6 @@ public class TipoAsesoria implements Serializable{
 	 */
 	@Column(length=100)
 	@NotNull
-	@NotBlank
 	private String descripcion;
 	
 	/**

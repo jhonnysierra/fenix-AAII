@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -31,12 +33,13 @@ public class Empleado extends Persona implements Serializable{
 	 */
 	@Column(nullable = false)
 	@NotNull
-	@NotBlank
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaInicio;
 	
 	/**
 	 * Fecha de fin de contrato de un Empleado
 	 */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaFin;
 	
 	/**

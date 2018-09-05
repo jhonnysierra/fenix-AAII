@@ -5,7 +5,7 @@
 			"dtype": "Persona",
 			"apellidos": "Perez",
 			"contrasenia": "12345",
-			"correo": "pperez@mail.com",
+			"correo": "pperez@gmail.com",
 			"direccion": "cra 9 ",
 			"estado": "1",
 			"fecha_nacimiento": "1990-09-09",
@@ -18,13 +18,70 @@
 			"dtype": "Persona",
 			"apellidos": "Sierra Parra",
 			"contrasenia": "12345",
-			"correo": "jhonnysierrap@mail.com",
+			"correo": "jhonnysierrap@gmail.com",
 			"direccion": "cra 8 13-06 ",
 			"estado": "1",
 			"fecha_nacimiento": "1990-09-09",
 			"genero": "masculino",
 			"nombres": "Jhonny",
 			"ciudad_id": "01"
+		},
+		{
+			"cedula": "6208204",
+			"dtype": "Cliente",
+			"apellidos": "Morales Molina",
+			"contrasenia": "12345",
+			"correo": "hectormm@gmail.com",
+			"direccion": "cra 8 13-06 ",
+			"estado": "1",
+			"fecha_nacimiento": "1950-04-03",
+			"genero": "masculino",
+			"nombres": "Hector",
+			"ciudad_id": "02"
+		},
+		{
+			"cedula": "123",
+			"dtype": "Cliente",
+			"apellidos": "Londono Molina",
+			"contrasenia": "12345",
+			"correo": "caroloslondono@gmail.com",
+			"direccion": "cra 31A 35E-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1986-12-03",
+			"genero": "masculino",
+			"nombres": "Carlos",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1234",
+			"dtype": "Empleado",
+			"apellidos": "Farias",
+			"contrasenia": "12345",
+			"correo": "javierfarias@gmail.com",
+			"direccion": "cll 31A 35E-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1976-11-12",
+			"genero": "masculino",
+			"nombres": "Javier",
+			"ciudad_id": "04"
+		}
+	],
+	"CLIENTE": [
+		{
+			"cedula": "6208204",
+			"nocuenta": "88723947"
+		},
+		{
+			"cedula": "123",
+			"nocuenta": "87889234"
+		}
+	],
+	"EMPLEADO": [
+		{
+			"cedula": "1234",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 2500000
 		}
 	]
 }

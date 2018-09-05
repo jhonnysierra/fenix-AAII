@@ -26,7 +26,6 @@ public class Cliente extends Persona implements Serializable {
 	 */
 	@Column(length = 50, nullable = false, unique = true)
 	@NotNull
-	@NotBlank
 	private String noCuenta;
 	
 	/**
