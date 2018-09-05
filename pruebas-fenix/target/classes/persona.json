@@ -64,6 +64,19 @@
 			"genero": "masculino",
 			"nombres": "Javier",
 			"ciudad_id": "04"
+		},
+		{
+			"cedula": "12345",
+			"dtype": "Empleado",
+			"apellidos": "Salazar",
+			"contrasenia": "12345",
+			"correo": "andressalazar@gmail.com",
+			"direccion": "cll 9 7-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1995-08-23",
+			"genero": "masculino",
+			"nombres": "Andres",
+			"ciudad_id": "01"
 		}
 	],
 	"CLIENTE": [
@@ -82,6 +95,12 @@
 			"fechafin": "2010-01-01 08:00:00",
 			"fechainicio": "2010-01-01 08:00:00",
 			"salario": 2500000
+		},
+		{
+			"cedula": "12345",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 3500000
 		}
 	]
 }

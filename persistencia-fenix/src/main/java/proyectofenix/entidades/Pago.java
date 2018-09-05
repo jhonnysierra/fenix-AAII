@@ -32,14 +32,12 @@ public class Pago implements Serializable {
 	 */
 	@Id
 	@NotNull
-	@NotBlank
 	private int id;
 
 	/**
 	 * Valor del pago realizado por un cliente
 	 */
 	@NotNull
-	@NotBlank
 	private double valor;
 
 	/**

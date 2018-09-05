@@ -31,7 +31,6 @@ public class TipoPrestamo implements Serializable {
 	 */
 	@Id
 	@NotNull
-	@NotBlank
 	private int id;
 
 	/**
@@ -39,14 +38,12 @@ public class TipoPrestamo implements Serializable {
 	 */
 	@Column(length = 50, unique = true, nullable = false)
 	@NotNull
-	@NotBlank
 	private String nombre;
 
 	/**
 	 * Tasa de interes de acuerdo al tipo de prestamo
 	 */
 	@NotNull
-	@NotBlank
 	private double tasaInteres;
 
 	/**

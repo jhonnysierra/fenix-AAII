@@ -12,7 +12,7 @@
 		{
 			"id": 2,
 			"fecha": "2018-02-02 14:00:00",
-			"horafin": "16:30:00",
+			"horafin": "16:00:00",
 			"horainicio": "16:00:00",
 			"cliente_cedula": "6208204",
 			"empleado_cedula": "1234",
@@ -26,6 +26,15 @@
 			"cliente_cedula": "123",
 			"empleado_cedula": "1234",
 			"tipoasesoria_id": 3
-		}
+		},
+		{
+			"id": 4,
+			"fecha": "2018-01-01 09:00:00",
+			"horafin": "09:00:00",
+			"horainicio": "09:00:00",
+			"cliente_cedula": "123",
+			"empleado_cedula": "12345",
+			"tipoasesoria_id": 1
+		}		
 	]
 }

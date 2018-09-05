@@ -35,7 +35,6 @@ public class Prestamo implements Serializable {
 	 */
 	@Id
 	@NotNull
-	@NotBlank
 	private int id;
 
 	/**

@@ -35,7 +35,9 @@ import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Departamento;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.PrestamoRenovado;
 import proyectofenix.entidades.TipoAsesoria;
 import proyectofenix.entidades.TipoPrestamo;
@@ -108,7 +110,6 @@ public class TestEntidades {
 
 		personaAgregar = entityManager.find(Persona.class, "1115187219");
 		Assert.assertEquals("jhonnysierrap@gmail.com", personaAgregar.getCorreo());
-		System.out.println(personaAgregar.getGenero());
 		Assert.assertNotNull(personaAgregar);
 	}
 
@@ -124,8 +125,10 @@ public class TestEntidades {
 
 		entityManager.merge(personaModificar);
 
-		System.out.println(
-				"<cedula: " + personaModificar.getCedula() + "> <apellidos: " + personaModificar.getApellidos() + ">");
+		/*
+		 * System.out.println( "<cedula: " + personaModificar.getCedula() +
+		 * "> <apellidos: " + personaModificar.getApellidos() + ">");
+		 */
 	}
 
 	/**
@@ -451,10 +454,10 @@ public class TestEntidades {
 		Assert.assertNotNull(tipoAsesoriaBuscar);
 
 		// Probar relacion con asesoria
-		Assert.assertEquals("ERROR Numero de asesorias no es el esperado", 1,tipoAsesoriaBuscar.getAsesoria().size());
+		Assert.assertEquals("ERROR Numero de asesorias no es el esperado", 2, tipoAsesoriaBuscar.getAsesoria().size());
 
 	}
-	
+
 	/**
 	 * Metodo para agregar un tipo de asesoria
 	 */
@@ -462,8 +465,8 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "asesoria.json", "tipoasesoria.json" })
 	public void agregarTipoAsesoriaTest() {
-		TipoAsesoria tipoAsesoriaAgregar= new TipoAsesoria();
-		
+		TipoAsesoria tipoAsesoriaAgregar = new TipoAsesoria();
+
 		tipoAsesoriaAgregar.setId(4);
 		tipoAsesoriaAgregar.setDescripcion("Nueva asesoria");
 		tipoAsesoriaAgregar.setTipo("TARJETAS");
@@ -472,8 +475,8 @@ public class TestEntidades {
 
 		tipoAsesoriaAgregar = entityManager.find(TipoAsesoria.class, 4);
 		Assert.assertNotNull("El objeto tipo asesoria es null", tipoAsesoriaAgregar);
-	}	
-	
+	}
+
 	/**
 	 * Metodo para modificar un tipo de asesoria
 	 */
@@ -481,16 +484,17 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "asesoria.json", "tipoasesoria.json" })
 	public void modificarTipoAsesoriaTest() {
-		TipoAsesoria tipoAsesoriaAgregar= entityManager.find(TipoAsesoria.class, 3);
-		
+		TipoAsesoria tipoAsesoriaAgregar = entityManager.find(TipoAsesoria.class, 3);
+
 		tipoAsesoriaAgregar.setTipo("CUENTAS EN MORA");
 
 		entityManager.merge(tipoAsesoriaAgregar);
 
 		tipoAsesoriaAgregar = entityManager.find(TipoAsesoria.class, 3);
-		Assert.assertEquals("NO se cambio eL nombre del tipo asesoria", "CUENTAS EN MORA", tipoAsesoriaAgregar.getTipo());
+		Assert.assertEquals("NO se cambio eL nombre del tipo asesoria", "CUENTAS EN MORA",
+				tipoAsesoriaAgregar.getTipo());
 	}
-	
+
 	/**
 	 * Metodo para eliminar un tipo asesoria
 	 */
@@ -498,14 +502,14 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "asesoria.json", "tipoasesoria.json" })
 	public void eliminarTipoAsesoriaTest() {
-		TipoAsesoria tipoAsesoriaAgregar= entityManager.find(TipoAsesoria.class, 3);
+		TipoAsesoria tipoAsesoriaAgregar = entityManager.find(TipoAsesoria.class, 3);
 
 		entityManager.remove(tipoAsesoriaAgregar);
 
 		tipoAsesoriaAgregar = entityManager.find(TipoAsesoria.class, 3);
 		Assert.assertNull("El tipo asesoria existe", tipoAsesoriaAgregar);
 	}
-	
+
 	/**
 	 * Metodo para buscar una asesoria
 	 */
@@ -518,11 +522,11 @@ public class TestEntidades {
 
 		// Probar relacion con tipo asesoria
 		Assert.assertEquals("ERROR nombre tipo credito", "CREDITOS", asesoriaBuscar.getTipoasesoria().getTipo());
-		
-		//Probar relacion con Empleado
+
+		// Probar relacion con Empleado
 		Assert.assertEquals("ERROR en empleado de asesoria", "Javier", asesoriaBuscar.getEmpleado().getNombres());
 	}
-	
+
 	/**
 	 * Metodo para agregar una asesoria
 	 */
@@ -533,42 +537,42 @@ public class TestEntidades {
 		Asesoria asesoriaAgregar = new Asesoria();
 		Cliente cliente = new Cliente();
 		Empleado empleado = new Empleado();
-		
+
 		String fechaAseso = "1995-12-30 08:16:00";
-		String horaIni ="08:16:00";
-		String horaFi ="08:56:00";
+		String horaIni = "08:16:00";
+		String horaFi = "08:56:00";
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm:ss");
-		
+
 		Date fechaAsesoria = new Date();
 		Date horaInicio = new Date();
 		Date horaFin = new Date();
-		
+
 		try {
 			fechaAsesoria = sdf.parse(fechaAseso);
-			horaInicio=sdfHora.parse(horaIni);
+			horaInicio = sdfHora.parse(horaIni);
 			horaFin = sdfHora.parse(horaFi);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		cliente= entityManager.find(Cliente.class, "123");
-		empleado=entityManager.find(Empleado.class, "1234");
-		
+		cliente = entityManager.find(Cliente.class, "123");
+		empleado = entityManager.find(Empleado.class, "1234");
+
 		asesoriaAgregar.setId(4);
 		asesoriaAgregar.setFecha(fechaAsesoria);
 		asesoriaAgregar.setHoraFin(horaFin);
 		asesoriaAgregar.setHoraInicio(horaInicio);
 		asesoriaAgregar.setCliente(cliente);
 		asesoriaAgregar.setEmpleado(empleado);
-	
+
 		entityManager.persist(asesoriaAgregar);
 
 		asesoriaAgregar = entityManager.find(Asesoria.class, 4);
 		Assert.assertNotNull("El objeto asesoria es null", asesoriaAgregar);
 	}
-	
+
 	/**
 	 * Metodo para modificar una asesoria
 	 */
@@ -578,14 +582,14 @@ public class TestEntidades {
 	public void modificarAsesoriaTest() {
 		Asesoria asesoriaModificar = entityManager.find(Asesoria.class, 3);
 		Cliente cliente = entityManager.find(Cliente.class, "6208204");
-		
+
 		asesoriaModificar.setCliente(cliente);
 
 		entityManager.merge(asesoriaModificar);
 
 		Assert.assertEquals("NO se cambio el cliente", "6208204", asesoriaModificar.getCliente().getCedula());
 	}
-	
+
 	/**
 	 * Metodo para eliminar una asesoria
 	 */
@@ -594,14 +598,278 @@ public class TestEntidades {
 	@UsingDataSet({ "asesoria.json", "tipoasesoria.json", "persona.json" })
 	public void eliminarAsesoriaTest() {
 		Asesoria eliminarAsesoria = entityManager.find(Asesoria.class, 3);
-		
+
 		entityManager.remove(eliminarAsesoria);
-		
-		eliminarAsesoria=entityManager.find(Asesoria.class, 3);
-		
+
+		eliminarAsesoria = entityManager.find(Asesoria.class, 3);
+
 		Assert.assertNull("La asesoria existe", eliminarAsesoria);
 	}
-	
+
+	/**
+	 * Metodo para buscar un tipo de prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "prestamorenovado.json" })
+	public void buscarTipoPrestamoTest() {
+		TipoPrestamo tipoPrestamoBuscar = entityManager.find(TipoPrestamo.class, 1);
+		Assert.assertNotNull(tipoPrestamoBuscar);
+
+		// Probar relacion con prestamo
+		Assert.assertEquals("ERROR Numero de prestamo no es el esperado", 1, tipoPrestamoBuscar.getPrestamo().size());
+
+		// Probar relacion con prestamo renovado
+		Assert.assertEquals("ERROR Numero de prestamo renovado no es el esperado", 1,
+				tipoPrestamoBuscar.getPrestamoRenovado().size());
+	}
+
+	/**
+	 * Metodo para agregar un tipo de prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json" })
+	public void agregarTipoPrestamoTest() {
+		TipoPrestamo tipoPresatamoAgregar = new TipoPrestamo();
+
+		tipoPresatamoAgregar.setId(5);
+		tipoPresatamoAgregar.setDescripcion("Descripcion");
+		tipoPresatamoAgregar.setNombre("PRESTAMO INTERCAMBIO");
+		tipoPresatamoAgregar.setTasaInteres(0.35);
+
+		entityManager.persist(tipoPresatamoAgregar);
+
+		tipoPresatamoAgregar = entityManager.find(TipoPrestamo.class, 5);
+		Assert.assertNotNull("El objeto tipo asesoria es null", tipoPresatamoAgregar);
+
+	}
+
+	/**
+	 * Metodo para modificar un tipo de prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json" })
+	public void modificarTipoPrestamoTest() {
+		TipoPrestamo tipoPresatamoModificar = entityManager.find(TipoPrestamo.class, 4);
+		String tasaInteres;
+
+		tipoPresatamoModificar.setTasaInteres(0.35);
+
+		entityManager.persist(tipoPresatamoModificar);
+
+		tipoPresatamoModificar = entityManager.find(TipoPrestamo.class, 4);
+		tasaInteres = String.valueOf(tipoPresatamoModificar.getTasaInteres());
+		Assert.assertEquals("La tasa de interes no se modifico", "0.35", tasaInteres);
+
+	}
+
+	/**
+	 * Metodo para eliminar un tipo de prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json" })
+	public void eliminarTipoPrestamoTest() {
+		TipoPrestamo tipoPresatamoEliminar = entityManager.find(TipoPrestamo.class, 4);
+
+		entityManager.remove(tipoPresatamoEliminar);
+
+		tipoPresatamoEliminar = entityManager.find(TipoPrestamo.class, 4);
+		Assert.assertNull("El tipo prestamo existe", tipoPresatamoEliminar);
+
+	}
+
+	/**
+	 * Metodo para buscar un prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void buscarPrestamoTest() {
+		Prestamo prestamoBuscar = entityManager.find(Prestamo.class, 2);
+		Assert.assertNotNull(prestamoBuscar);
+
+		// Probar la relacion con tipo prestamo
+		Assert.assertEquals("ERROR nombre tipo prestamo", "PRESTAMO PERSONAL",
+				prestamoBuscar.getTipoPrestamo().getNombre());
+
+		// Probar la relacion con el cliente
+		Assert.assertEquals("No corresponde el cliente", "Hector", prestamoBuscar.getCliente().getNombres());
+
+		// Probar relacion con pagos
+		Assert.assertEquals("ERROR numero de pagos", 2, prestamoBuscar.getPagos().size());
+	}
+
+	/**
+	 * Metodo para agregar un prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void agregarPrestamoTest() {
+		Prestamo prestamoAgregar = new Prestamo();
+		Empleado empleado = entityManager.find(Empleado.class, "12345");
+		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, 3);
+
+		String fechaInicio = "2017-12-30 08:16:00";
+		String fechaFin = "2018-03-30 08:16:00";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date fechaInicioPrestamo = new Date();
+		Date fechaFinPrestamo = new Date();
+
+		try {
+			fechaInicioPrestamo = sdf.parse(fechaInicio);
+			fechaFinPrestamo = sdf.parse(fechaFin);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		prestamoAgregar.setId(5);
+		prestamoAgregar.setEmpleado(empleado);
+		prestamoAgregar.setFechaInicio(fechaInicioPrestamo);
+		prestamoAgregar.setFechaFin(fechaFinPrestamo);
+		prestamoAgregar.setNoCuotas(48);
+		prestamoAgregar.setValorPrestamo(34000000);
+		prestamoAgregar.setEmpleado(empleado);
+		prestamoAgregar.setTipoPrestamo(tipoPrestamo);
+
+		entityManager.persist(prestamoAgregar);
+
+		prestamoAgregar = entityManager.find(Prestamo.class, 5);
+		Assert.assertNotNull("El objeto prestamo es null", prestamoAgregar);
+	}
+
+	/**
+	 * Metodo para modificar un prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void modificarPrestamoTest() {
+		Prestamo prestamoModificar = entityManager.find(Prestamo.class, 3);
+		String fechaFin = "2019-03-30 08:16:00";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Date fechaFinPrestamo = new Date();
+		Date fechaAnterior = new Date();
+
+		try {
+			fechaFinPrestamo = sdf.parse(fechaFin);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		fechaAnterior = prestamoModificar.getFechaFin();
+
+		prestamoModificar.setFechaFin(fechaFinPrestamo);
+
+		entityManager.persist(prestamoModificar);
+
+		prestamoModificar = entityManager.find(Prestamo.class, 3);
+
+		Assert.assertNotEquals("La fecha no se modifico", fechaAnterior, prestamoModificar.getFechaFin());
+
+	}
+
+	/**
+	 * Metodo para eliminar un prestamo
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void eliminarPrestamoTest() {
+		Prestamo prestamoEliminar = entityManager.find(Prestamo.class, 2);
+
+		entityManager.remove(prestamoEliminar);
+
+		prestamoEliminar = entityManager.find(Prestamo.class, 2);
+		Assert.assertNull("El prestamo existe", prestamoEliminar);
+
+	}
+
+	/**
+	 * Metodo para buscar un pago
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void buscarPagoTest() {
+		Pago pagoBuscar = entityManager.find(Pago.class, 2);
+		Assert.assertNotNull(pagoBuscar);
+
+	}
+
+	/**
+	 * Metodo para agregar un pago
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void agregarPagoTest() {
+		Pago pagoAgregar = new Pago();
+		Prestamo prestamo = entityManager.find(Prestamo.class, 2);
+		String fecha = "2016-12-30 08:16:00";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date fechaPago = new Date();
+
+		try {
+			fechaPago = sdf.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		pagoAgregar.setId(5);
+		pagoAgregar.setFecha(fechaPago);
+		pagoAgregar.setValor(200000);
+		pagoAgregar.setPrestamo(prestamo);
+
+		entityManager.persist(pagoAgregar);
+
+		pagoAgregar = entityManager.find(Pago.class, 5);
+		Assert.assertNotNull("El objeto pago es null", pagoAgregar);
+	}
+
+	/**
+	 * Metodo para modificar un pago
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void modificarPagoTest() {
+		Pago pagoModificar = entityManager.find(Pago.class, 2);
+
+		pagoModificar.setValor(250000);
+
+		entityManager.merge(pagoModificar);
+
+		String pagoActual = String.valueOf(pagoModificar.getValor());
+		Assert.assertEquals("El pago no se modifico", "250000.0", pagoActual);
+	}
+
+	/**
+	 * Metodo para eliminar un pago
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
+	public void eliminarPagoTest() {
+		Pago pagoEliminar = entityManager.find(Pago.class, 2);
+
+		entityManager.remove(pagoEliminar);
+
+		pagoEliminar = entityManager.find(Pago.class, 2);
+		Assert.assertNull("El pago existe", pagoEliminar);
+
+	}
+
 	////////////////////////// CLASE CONSULTAS
 	////////////////////////// /////////////////////////////////////////
 	/**
@@ -615,11 +883,13 @@ public class TestEntidades {
 		// obterner la informacion en una lista
 		List<Persona> personas = query.getResultList();
 
-		Assert.assertEquals(5, personas.size());
+		Assert.assertEquals(6, personas.size());
 
-		for (Persona p : personas) {
-			System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(), p.getNombres()));
-		}
+		/*
+		 * for (Persona p : personas) {
+		 * System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(),
+		 * p.getNombres())); }
+		 */
 
 	}
 
