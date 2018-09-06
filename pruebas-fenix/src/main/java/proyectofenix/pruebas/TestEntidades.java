@@ -29,6 +29,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Ciudad;
@@ -932,6 +933,7 @@ public class TestEntidades {
 		empleadoEliminar = entityManager.find(Empleado.class, "12345");
 		Assert.assertNull("La persona existe", empleadoEliminar);
 	}
+	
 	/**
 	 * Metodo para buscar un Cliente
 	 */
@@ -965,7 +967,73 @@ public class TestEntidades {
 		clienteModificar = entityManager.find(Cliente.class, "6208204");
 		Assert.assertEquals("La cuenta no se modifico", "234", clienteModificar.getNoCuenta());
 	}
+	/**
+	 * Metodo para eliminar una Cliente
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
+	public void eliminarClienteTest() {
+		Cliente clienteEliminar = entityManager.find(Cliente.class, "6208204");
+		Persona personaEliminar = entityManager.find(Persona.class, "6208204");
+
+		entityManager.remove(clienteEliminar);
+		entityManager.remove(personaEliminar);
+
+		clienteEliminar = entityManager.find(Cliente.class, "6208204");
+		Assert.assertNull("El cliente existe", clienteEliminar);
+	}	
+
+	/**
+	 * Metodo para buscar un Administrador
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void buscarAdministradorTest() {
+
+		Administrador administradorBuscar = entityManager.find(Administrador.class, "201856105");
+		Assert.assertNotNull(administradorBuscar);
+		// Probar que la persona tiene telefonos asociados
+		Assert.assertEquals(0, administradorBuscar.getTelefonos().size());
+		
+		// Creditos asociados a un cliente
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del Administrador",0, administradorBuscar.getPrestamo().size());
+	}
 	
+	/**
+	 * Metodo para modificar una Administrador
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void modificarAdministradorTest() {
+		
+		Administrador administradorModificar = entityManager.find(Administrador.class, "201856105");
+
+		administradorModificar.setContrasenia("123456");
+		entityManager.merge(administradorModificar);	
+		
+		administradorModificar = entityManager.find(Administrador.class, "201856105");
+		Assert.assertEquals("La contrasena no se modifico", "123456", administradorModificar.getContrasenia());
+	}
+	
+	/**
+	 * Metodo para eliminar una Administrador
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
+	public void eliminarAdministradorTest() {
+		Administrador administradorEliminar= entityManager.find(Administrador.class, "201856105");
+		Persona personaEliminar = entityManager.find(Persona.class, "201856105");
+
+		entityManager.remove(administradorEliminar);
+		entityManager.remove(personaEliminar);
+
+		administradorEliminar = entityManager.find(Administrador.class, "201856105");
+		Assert.assertNull("El Administrador existe", administradorEliminar);
+	}	
 	
 	////////////////////////// CLASE CONSULTAS
 	////////////////////////// /////////////////////////////////////////
