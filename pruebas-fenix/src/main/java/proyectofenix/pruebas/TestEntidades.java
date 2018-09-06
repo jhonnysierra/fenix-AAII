@@ -893,7 +893,7 @@ public class TestEntidades {
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
-	public void agregarEmpleadoTest() {
+	public void modificarEmpleadoTest() {
 		Date fechainicioEmpleado = null,fechaInicioAnterior;
 		
 		Empleado empleadoModificar = entityManager.find(Empleado.class, "12345");
@@ -914,7 +914,6 @@ public class TestEntidades {
 		entityManager.merge(empleadoModificar);	
 		
 		Assert.assertNotEquals("La fecha no se modifico", fechaInicioAnterior, empleadoModificar.getFechaInicio());
-		
 	}	
 	
 	/**
@@ -933,7 +932,41 @@ public class TestEntidades {
 		empleadoEliminar = entityManager.find(Empleado.class, "12345");
 		Assert.assertNull("La persona existe", empleadoEliminar);
 	}
+	/**
+	 * Metodo para buscar un Cliente
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void buscarClienteTest() {
 
+		Cliente clienteBuscar = entityManager.find(Cliente.class, "6208204");
+		Assert.assertNotNull(clienteBuscar);
+		// Probar que la persona tiene telefonos asociados
+		Assert.assertEquals(0, clienteBuscar.getTelefonos().size());
+		
+		// Creditos asociados a un cliente
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del cliente",4, clienteBuscar.getPrestamo().size());
+	}
+	
+	/**
+	 * Metodo para modificar una Cliente
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
+	public void modificarClienteTest() {
+		
+		Cliente clienteModificar = entityManager.find(Cliente.class, "6208204");
+
+		clienteModificar.setNoCuenta("234");
+		entityManager.merge(clienteModificar);	
+		
+		clienteModificar = entityManager.find(Cliente.class, "6208204");
+		Assert.assertEquals("La cuenta no se modifico", "234", clienteModificar.getNoCuenta());
+	}
+	
+	
 	////////////////////////// CLASE CONSULTAS
 	////////////////////////// /////////////////////////////////////////
 	/**
@@ -947,7 +980,7 @@ public class TestEntidades {
 		// obterner la informacion en una lista
 		List<Persona> personas = query.getResultList();
 
-		Assert.assertEquals(6, personas.size());
+		Assert.assertEquals(12, personas.size());
 
 		/*
 		 * for (Persona p : personas) {

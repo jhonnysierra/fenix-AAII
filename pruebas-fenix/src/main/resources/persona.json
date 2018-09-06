@@ -77,6 +77,84 @@
 			"genero": "masculino",
 			"nombres": "Andres",
 			"ciudad_id": "01"
+		},
+		{
+			"cedula": "6212751",
+			"dtype": "Empleado",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "julianaperez@mail.com",
+			"direccion": "CRA 5 6-77 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-05",
+			"genero": "femenino",
+			"nombres": "Juliana",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "3117860844",
+			"dtype": "Cliente",
+			"apellidos": "Penaloza",
+			"contrasenia": "12345",
+			"correo": "penaloza@mail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1993-05-09",
+			"genero": "masculino",
+			"nombres": "Sebastian",
+			"ciudad_id": "04"
+		},
+		{
+			"cedula": "3113260765",
+			"dtype": "Cliente",
+			"apellidos": "Linares",
+			"contrasenia": "12345",
+			"correo": "linares@mail.com",
+			"direccion": "cra 5 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "femenino",
+			"nombres": "Marcela",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "201856105",
+			"dtype": "Administrador",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "pperez@mail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Edwin",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "1234567876",
+			"dtype": "Administrador",
+			"apellidos": "Ortiz Londono",
+			"contrasenia": "12345",
+			"correo": "julianortiz@mail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Julian",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1115187223",
+			"dtype": "Administrador",
+			"apellidos": "Ortiz Campos",
+			"contrasenia": "12345",
+			"correo": "sergionortiz@mail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1989-09-09",
+			"genero": "masculino",
+			"nombres": "Sergio",
+			"ciudad_id": "04"
 		}
 	],
 	"CLIENTE": [
@@ -87,6 +165,14 @@
 		{
 			"cedula": "123",
 			"nocuenta": "87889234"
+		},
+		{
+			"cedula": "3117860844",
+			"nocuenta": "08885663"
+		},
+		{
+			"cedula": "3113260765",
+			"nocuenta": "4765536"
 		}
 	],
 	"EMPLEADO": [
@@ -101,6 +187,27 @@
 			"fechafin": "2010-01-01 08:00:00",
 			"fechainicio": "2010-01-01 08:00:00",
 			"salario": 3500000
+		},
+		{
+			"cedula": "6212751",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 4500000
 		}
+	],
+	"ADMINISTRADOR": [
+		{
+			"cedula": "201856105",
+			"observacion": "ninguna"
+		},
+		{
+			"cedula": "1234567876",
+			"observacion": "ninguna"
+		},
+		{
+			"cedula": "1115187223",
+			"observacion": "ninguna"
+		}
+		
 	]
 }
