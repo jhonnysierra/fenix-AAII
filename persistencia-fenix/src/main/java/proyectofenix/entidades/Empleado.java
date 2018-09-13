@@ -47,12 +47,6 @@ public class Empleado extends Persona implements Serializable{
 	private double salario; 
 	
 	/**
-	 * Lista de prestamos de un cliente
-	 */
-	@OneToMany(mappedBy = "empleado")
-	private List<Prestamo> prestamo;
-	
-	/**
 	 * Lista de asesorias de un empleado
 	 */
 	@OneToMany(mappedBy = "empleado")
@@ -116,23 +110,6 @@ public class Empleado extends Persona implements Serializable{
 	
 
 	/**
-	 * Metodo get lista prestamos clase Empleado
-	 * @return prestamo
-	 */
-	public List<Prestamo> getPrestamo() {
-		return prestamo;
-	}
-
-	/**
-	 * Metodo set lista prestamos clase Empleado
-	 * @param prestamo
-	 */
-	public void setPrestamo(List<Prestamo> prestamo) {
-		this.prestamo = prestamo;
-	}
-	
-
-	/**
 	 * Metodo get lista asesorias clase Empleado
 	 * @return aseoria
 	 */
@@ -166,12 +143,12 @@ public class Empleado extends Persona implements Serializable{
 		result = prime * result + ((aseoria == null) ? 0 : aseoria.hashCode());
 		result = prime * result + ((fechaFin == null) ? 0 : fechaFin.hashCode());
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
-		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(salario);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
+	
 
 	/*
 	 * Metodo equals clase Empleado
@@ -199,11 +176,6 @@ public class Empleado extends Persona implements Serializable{
 			if (other.fechaInicio != null)
 				return false;
 		} else if (!fechaInicio.equals(other.fechaInicio))
-			return false;
-		if (prestamo == null) {
-			if (other.prestamo != null)
-				return false;
-		} else if (!prestamo.equals(other.prestamo))
 			return false;
 		if (Double.doubleToLongBits(salario) != Double.doubleToLongBits(other.salario))
 			return false;

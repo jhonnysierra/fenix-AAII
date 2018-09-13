@@ -14,6 +14,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -125,6 +126,15 @@ public class Persona implements Serializable {
 	@OneToOne(mappedBy = "persona")
 	private BienRaiz bienRaiz;
 
+	/**
+	 * Lista de prestamos de una persona
+	 */
+	@OneToMany(mappedBy = "persona")
+	private List<Prestamo> prestamo;
+	
+	@OneToMany(mappedBy = "persona")
+	private List<PrestamoRenovado> prestamoRenovado; 
+	
 	/**
 	 * serialVersionUID clase Persona
 	 */
@@ -360,6 +370,46 @@ public class Persona implements Serializable {
 	public void setBienRaiz(BienRaiz bienRaiz) {
 		this.bienRaiz = bienRaiz;
 	}
+	
+	
+	/**
+	 * Metodo get lista prestamo clase Persona
+	 * @return the prestamo
+	 */
+	public List<Prestamo> getPrestamo() {
+		return prestamo;
+	}
+
+	/**
+	 * Metodo set lista prestamo clase Persona
+	 * @param prestamo the prestamo to set
+	 */
+	public void setPrestamo(List<Prestamo> prestamo) {
+		this.prestamo = prestamo;
+	}
+
+	/**
+	 * Metodo get lista prestamo renovado clase Persona
+	 * @return prestamoRenovado
+	 */
+	public List<PrestamoRenovado> getPrestamoRenovado() {
+		return prestamoRenovado;
+	}
+
+	/**
+	 * Metodo set lista prestamo renovado clase Persona
+	 * @param prestamoRenovado
+	 */
+	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {
+		this.prestamoRenovado = prestamoRenovado;
+	}
+
+	/**
+	 * @return the obtenerPersonasPorCredenciales
+	 */
+	public static String getObtenerPersonasPorCredenciales() {
+		return OBTENER_PERSONAS_POR_CREDENCIALES;
+	}
 
 	/**
 	 * Metodo get serialversionuid clase Persona
@@ -389,6 +439,7 @@ public class Persona implements Serializable {
 		result = prime * result + ((fecha_nacimiento == null) ? 0 : fecha_nacimiento.hashCode());
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		result = prime * result + ((nombres == null) ? 0 : nombres.hashCode());
+		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
 		result = prime * result + ((telefonos == null) ? 0 : telefonos.hashCode());
 		return result;
 	}
@@ -457,6 +508,11 @@ public class Persona implements Serializable {
 			if (other.nombres != null)
 				return false;
 		} else if (!nombres.equals(other.nombres))
+			return false;
+		if (prestamo == null) {
+			if (other.prestamo != null)
+				return false;
+		} else if (!prestamo.equals(other.prestamo))
 			return false;
 		if (telefonos == null) {
 			if (other.telefonos != null)

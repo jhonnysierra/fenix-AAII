@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -30,11 +29,11 @@ public class PrestamoRenovado implements Serializable{
 	private int id;
 	
 	/**
-	 * Cliente que puede renovar credito
+	 * Persona que puede renovar credito
 	 */
 	@NotNull
 	@ManyToOne
-	private Cliente cliente;
+	private Persona persona;
 	
 	/**
 	 * Valor por el que el Cliente puede renovar el credito
@@ -79,20 +78,22 @@ public class PrestamoRenovado implements Serializable{
 
 
 	/**
-	 * Metodo get cliente clase PrestamoRenovado
-	 * @return ciente
+	 * Metodo get persona clase PrestamoRenovado
+	 * @return persona
 	 */
-	public Cliente getCliente() {
-		return cliente;
+	public Persona getPersona() {
+		return persona;
 	}
 
+
 	/**
-	 * Metodo set cliente clase PrestamoRenovado
-	 * @param ciente the ciente to set
+	 * Metodo set persona clase PrestamoRenovado
+	 * @param persona
 	 */
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
+
 
 	/**
 	 * Metodo get valor clase PrestamoRenovado
@@ -165,9 +166,9 @@ public class PrestamoRenovado implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
 		result = prime * result + id;
 		result = prime * result + noCuotas;
+		result = prime * result + ((persona == null) ? 0 : persona.hashCode());
 		result = prime * result + ((tipoPrestamo == null) ? 0 : tipoPrestamo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valor);
@@ -188,14 +189,14 @@ public class PrestamoRenovado implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		PrestamoRenovado other = (PrestamoRenovado) obj;
-		if (cliente == null) {
-			if (other.cliente != null)
-				return false;
-		} else if (!cliente.equals(other.cliente))
-			return false;
 		if (id != other.id)
 			return false;
 		if (noCuotas != other.noCuotas)
+			return false;
+		if (persona == null) {
+			if (other.persona != null)
+				return false;
+		} else if (!persona.equals(other.persona))
 			return false;
 		if (tipoPrestamo == null) {
 			if (other.tipoPrestamo != null)

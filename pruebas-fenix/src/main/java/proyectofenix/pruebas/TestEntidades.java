@@ -7,14 +7,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.GenerationType;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.apache.derby.tools.sysinfo;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.core.spi.Typed;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
@@ -24,8 +21,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -377,14 +372,14 @@ public class TestEntidades {
 	public void buscarPrestamoRenovadoTest() {
 		PrestamoRenovado prestamoRenovadoBuscar = entityManager.find(PrestamoRenovado.class, 1);
 		Assert.assertNotNull(prestamoRenovadoBuscar);
+		Cliente cliente = entityManager.find(Cliente.class, "123");
 
 		// Probar relacion con tipo de prestamo
 		Assert.assertEquals("El tipo de prestamo no corresponde al esperado", "PRESTAMO PERSONAL",
 				prestamoRenovadoBuscar.getTipoPrestamo().getNombre());
 
 		// Probar relacion con Cliente
-		Assert.assertEquals("La cuenta no corresponde a la esperada", "87889234",
-				prestamoRenovadoBuscar.getCliente().getNoCuenta());
+		Assert.assertEquals("La cuenta no corresponde a la esperada", "87889234", cliente.getNoCuenta());
 
 	}
 
@@ -396,16 +391,16 @@ public class TestEntidades {
 	@UsingDataSet({ "prestamorenovado.json", "persona.json", "tipoprestamo.json" })
 	public void agregarPrestamoRenovadoTest() {
 		PrestamoRenovado prestamoRenovadoAgregar = new PrestamoRenovado();
-		Cliente cliente = new Cliente();
+		Persona cliente = new Persona();
 		TipoPrestamo tipoPrestamo = new TipoPrestamo();
 
-		cliente = entityManager.find(Cliente.class, "6208204");
+		cliente = entityManager.find(Persona.class, "6208204");
 		tipoPrestamo = entityManager.find(TipoPrestamo.class, 4);
 
 		prestamoRenovadoAgregar.setId(3);
 		prestamoRenovadoAgregar.setNoCuotas(36);
 		prestamoRenovadoAgregar.setValor(36000000);
-		prestamoRenovadoAgregar.setCliente(cliente);
+		prestamoRenovadoAgregar.setPersona(cliente);
 		prestamoRenovadoAgregar.setTipoPrestamo(tipoPrestamo);
 
 		entityManager.persist(prestamoRenovadoAgregar);
@@ -697,7 +692,7 @@ public class TestEntidades {
 				prestamoBuscar.getTipoPrestamo().getNombre());
 
 		// Probar la relacion con el cliente
-		Assert.assertEquals("No corresponde el cliente", "Hector", prestamoBuscar.getCliente().getNombres());
+		Assert.assertEquals("No corresponde el cliente", "Hector", prestamoBuscar.getPersona().getNombres());
 
 		// Probar relacion con pagos
 		Assert.assertEquals("ERROR numero de pagos", 2, prestamoBuscar.getPagos().size());
@@ -711,7 +706,7 @@ public class TestEntidades {
 	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json" })
 	public void agregarPrestamoTest() {
 		Prestamo prestamoAgregar = new Prestamo();
-		Empleado empleado = entityManager.find(Empleado.class, "12345");
+		Persona empleado = entityManager.find(Empleado.class, "12345");
 		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, 3);
 
 		String fechaInicio = "2017-12-30 08:16:00";
@@ -731,12 +726,12 @@ public class TestEntidades {
 		}
 
 		prestamoAgregar.setId(5);
-		prestamoAgregar.setEmpleado(empleado);
+		prestamoAgregar.setPersona(empleado);
 		prestamoAgregar.setFechaInicio(fechaInicioPrestamo);
 		prestamoAgregar.setFechaFin(fechaFinPrestamo);
 		prestamoAgregar.setNoCuotas(48);
 		prestamoAgregar.setValorPrestamo(34000000);
-		prestamoAgregar.setEmpleado(empleado);
+		prestamoAgregar.setPersona(empleado);
 		prestamoAgregar.setTipoPrestamo(tipoPrestamo);
 
 		entityManager.persist(prestamoAgregar);
@@ -804,6 +799,9 @@ public class TestEntidades {
 	public void buscarPagoTest() {
 		Pago pagoBuscar = entityManager.find(Pago.class, 2);
 		Assert.assertNotNull(pagoBuscar);
+
+		// Probar relacion de pago con prestamo
+		Assert.assertEquals("ERROR prestamo no corresponde al pago", 1, pagoBuscar.getPrestamo().getId());
 
 	}
 
@@ -883,11 +881,12 @@ public class TestEntidades {
 		Assert.assertNotNull(empleadoBuscar);
 		// Probar que la persona tiene 1 telefono asociado
 		Assert.assertEquals(1, empleadoBuscar.getTelefonos().size());
-		
+
 		// Creditos asociados a un empleado
-		Assert.assertEquals("El numero esperado no corresponde a los creditos del empleado",1, empleadoBuscar.getPrestamo().size());
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del empleado", 1,
+				empleadoBuscar.getPrestamo().size());
 	}
-	
+
 	/**
 	 * Metodo para modificar una Empleado
 	 */
@@ -895,11 +894,11 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
 	public void modificarEmpleadoTest() {
-		Date fechainicioEmpleado = null,fechaInicioAnterior;
-		
+		Date fechainicioEmpleado = null, fechaInicioAnterior;
+
 		Empleado empleadoModificar = entityManager.find(Empleado.class, "12345");
-		
-		fechaInicioAnterior=empleadoModificar.getFechaInicio();
+
+		fechaInicioAnterior = empleadoModificar.getFechaInicio();
 		String fechaIni = "2012-01-30 09:00:00";
 
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
@@ -910,13 +909,12 @@ public class TestEntidades {
 			e.printStackTrace();
 		}
 
-
 		empleadoModificar.setFechaInicio(fechainicioEmpleado);
-		entityManager.merge(empleadoModificar);	
-		
+		entityManager.merge(empleadoModificar);
+
 		Assert.assertNotEquals("La fecha no se modifico", fechaInicioAnterior, empleadoModificar.getFechaInicio());
-	}	
-	
+	}
+
 	/**
 	 * Metodo para eliminar una Empleado
 	 */
@@ -933,7 +931,7 @@ public class TestEntidades {
 		empleadoEliminar = entityManager.find(Empleado.class, "12345");
 		Assert.assertNull("La persona existe", empleadoEliminar);
 	}
-	
+
 	/**
 	 * Metodo para buscar un Cliente
 	 */
@@ -946,11 +944,12 @@ public class TestEntidades {
 		Assert.assertNotNull(clienteBuscar);
 		// Probar que la persona tiene telefonos asociados
 		Assert.assertEquals(0, clienteBuscar.getTelefonos().size());
-		
+
 		// Creditos asociados a un cliente
-		Assert.assertEquals("El numero esperado no corresponde a los creditos del cliente",4, clienteBuscar.getPrestamo().size());
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del cliente", 4,
+				clienteBuscar.getPrestamo().size());
 	}
-	
+
 	/**
 	 * Metodo para modificar una Cliente
 	 */
@@ -958,15 +957,16 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
 	public void modificarClienteTest() {
-		
+
 		Cliente clienteModificar = entityManager.find(Cliente.class, "6208204");
 
 		clienteModificar.setNoCuenta("234");
-		entityManager.merge(clienteModificar);	
-		
+		entityManager.merge(clienteModificar);
+
 		clienteModificar = entityManager.find(Cliente.class, "6208204");
 		Assert.assertEquals("La cuenta no se modifico", "234", clienteModificar.getNoCuenta());
 	}
+
 	/**
 	 * Metodo para eliminar una Cliente
 	 */
@@ -982,7 +982,7 @@ public class TestEntidades {
 
 		clienteEliminar = entityManager.find(Cliente.class, "6208204");
 		Assert.assertNull("El cliente existe", clienteEliminar);
-	}	
+	}
 
 	/**
 	 * Metodo para buscar un Administrador
@@ -996,11 +996,12 @@ public class TestEntidades {
 		Assert.assertNotNull(administradorBuscar);
 		// Probar que la persona tiene telefonos asociados
 		Assert.assertEquals(0, administradorBuscar.getTelefonos().size());
-		
+
 		// Creditos asociados a un cliente
-		Assert.assertEquals("El numero esperado no corresponde a los creditos del Administrador",0, administradorBuscar.getPrestamo().size());
+		Assert.assertEquals("El numero esperado no corresponde a los creditos del Administrador", 0,
+				administradorBuscar.getPrestamo().size());
 	}
-	
+
 	/**
 	 * Metodo para modificar una Administrador
 	 */
@@ -1008,16 +1009,16 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "tipoPrestamo.json", "prestamo.json", "persona.json", "pago.json", "persona_telefonos.json" })
 	public void modificarAdministradorTest() {
-		
+
 		Administrador administradorModificar = entityManager.find(Administrador.class, "201856105");
 
 		administradorModificar.setContrasenia("123456");
-		entityManager.merge(administradorModificar);	
-		
+		entityManager.merge(administradorModificar);
+
 		administradorModificar = entityManager.find(Administrador.class, "201856105");
 		Assert.assertEquals("La contrasena no se modifico", "123456", administradorModificar.getContrasenia());
 	}
-	
+
 	/**
 	 * Metodo para eliminar una Administrador
 	 */
@@ -1025,7 +1026,7 @@ public class TestEntidades {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
 	public void eliminarAdministradorTest() {
-		Administrador administradorEliminar= entityManager.find(Administrador.class, "201856105");
+		Administrador administradorEliminar = entityManager.find(Administrador.class, "201856105");
 		Persona personaEliminar = entityManager.find(Persona.class, "201856105");
 
 		entityManager.remove(administradorEliminar);
@@ -1033,8 +1034,8 @@ public class TestEntidades {
 
 		administradorEliminar = entityManager.find(Administrador.class, "201856105");
 		Assert.assertNull("El Administrador existe", administradorEliminar);
-	}	
-	
+	}
+
 	////////////////////////// CLASE CONSULTAS
 	////////////////////////// /////////////////////////////////////////
 	/**
@@ -1048,7 +1049,7 @@ public class TestEntidades {
 		// obterner la informacion en una lista
 		List<Persona> personas = query.getResultList();
 
-		Assert.assertEquals(12, personas.size());
+		Assert.assertEquals(14, personas.size());
 
 		/*
 		 * for (Persona p : personas) {

@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -67,32 +66,18 @@ public class Prestamo implements Serializable {
 	 */
 	@OneToMany(mappedBy = "prestamo")
 	private List<Pago> pagos;
-	
+
 	/**
 	 * Numero de cuotas del credito
 	 */
 	@Column(nullable = false)
 	private int noCuotas;
-	
-	
+
 	/**
-	 * Cliente que realiza el prestamo
+	 * Persona que realiza un prestamo
 	 */
 	@ManyToOne
-	private Cliente cliente;
-	
-	/**
-	 * Empleado que realiza el prestamo
-	 */
-	@ManyToOne
-	private Empleado empleado;
-	
-	/**
-	 * Administrador que realiza el prestamo
-	 */
-	@ManyToOne
-	private Administrador administrador;
-	
+	private Persona persona;
 
 	/**
 	 * Metodo constructor clase Prestamo
@@ -100,9 +85,10 @@ public class Prestamo implements Serializable {
 	public Prestamo() {
 		super();
 	}
-	
+
 	/**
 	 * Metodo get id clase Prestamo
+	 * 
 	 * @return id
 	 */
 	public int getId() {
@@ -111,6 +97,7 @@ public class Prestamo implements Serializable {
 
 	/**
 	 * Metodo get id clase Prestamo
+	 * 
 	 * @param id
 	 */
 	public void setId(int id) {
@@ -119,6 +106,7 @@ public class Prestamo implements Serializable {
 
 	/**
 	 * Metodo get valorPrestamo clase Prestamo
+	 * 
 	 * @return valorPrestamo
 	 */
 	public double getValorPrestamo() {
@@ -205,11 +193,10 @@ public class Prestamo implements Serializable {
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
 	}
-	
-	
 
 	/**
 	 * Metodo get noCuotas clase Prestamo
+	 * 
 	 * @return noCuotas
 	 */
 	public int getNoCuotas() {
@@ -218,6 +205,7 @@ public class Prestamo implements Serializable {
 
 	/**
 	 * Metodo set noCuotas clase Prestamo
+	 * 
 	 * @param noCuotas
 	 */
 	public void setNoCuotas(int noCuotas) {
@@ -225,53 +213,19 @@ public class Prestamo implements Serializable {
 	}
 
 	/**
-	 * Metodo get cliente clase Prestamo
-	 * @return cliente
+	 * Metodo get Persona clase Prestamo
+	 * @return persona
 	 */
-	public Cliente getCliente() {
-		return cliente;
+	public Persona getPersona() {
+		return persona;
 	}
 
 	/**
-	 * Metodo set cliente clase Prestamo
-	 * @param cliente
+	 * Metodo set Persona clase Prestamo
+	 * @param persona
 	 */
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	
-	
-
-	/**
-	 * Metodo get empleado clase Prestamo
-	 * @return empleado
-	 */
-	public Empleado getEmpleado() {
-		return empleado;
-	}
-
-	/**
-	 * Metodo set empleado clase Prestamo
-	 * @param empleado
-	 */
-	public void setEmpleado(Empleado empleado) {
-		this.empleado = empleado;
-	}
-
-	/**
-	 * Metodo get administrador clase Prestamo
-	 * @return administrador
-	 */
-	public Administrador getAdministrador() {
-		return administrador;
-	}
-
-	/**
-	 * Metodo set administrador clase Prestamo
-	 * @param administrador
-	 */
-	public void setAdministrador(Administrador administrador) {
-		this.administrador = administrador;
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 	/**
@@ -290,14 +244,12 @@ public class Prestamo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((administrador == null) ? 0 : administrador.hashCode());
-		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
-		result = prime * result + ((empleado == null) ? 0 : empleado.hashCode());
 		result = prime * result + ((fechaFin == null) ? 0 : fechaFin.hashCode());
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		result = prime * result + id;
 		result = prime * result + noCuotas;
 		result = prime * result + ((pagos == null) ? 0 : pagos.hashCode());
+		result = prime * result + ((persona == null) ? 0 : persona.hashCode());
 		result = prime * result + ((tipoPrestamo == null) ? 0 : tipoPrestamo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valorPrestamo);
@@ -317,21 +269,6 @@ public class Prestamo implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Prestamo other = (Prestamo) obj;
-		if (administrador == null) {
-			if (other.administrador != null)
-				return false;
-		} else if (!administrador.equals(other.administrador))
-			return false;
-		if (cliente == null) {
-			if (other.cliente != null)
-				return false;
-		} else if (!cliente.equals(other.cliente))
-			return false;
-		if (empleado == null) {
-			if (other.empleado != null)
-				return false;
-		} else if (!empleado.equals(other.empleado))
-			return false;
 		if (fechaFin == null) {
 			if (other.fechaFin != null)
 				return false;
@@ -350,6 +287,11 @@ public class Prestamo implements Serializable {
 			if (other.pagos != null)
 				return false;
 		} else if (!pagos.equals(other.pagos))
+			return false;
+		if (persona == null) {
+			if (other.persona != null)
+				return false;
+		} else if (!persona.equals(other.persona))
 			return false;
 		if (tipoPrestamo == null) {
 			if (other.tipoPrestamo != null)

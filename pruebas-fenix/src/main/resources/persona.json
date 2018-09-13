@@ -155,6 +155,32 @@
 			"genero": "masculino",
 			"nombres": "Sergio",
 			"ciudad_id": "04"
+		},
+		{
+			"cedula": "1115187224",
+			"dtype": "Cliente",
+			"apellidos": "Campos",
+			"contrasenia": "12345",
+			"correo": "campos@gmail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1985-09-09",
+			"genero": "masculino",
+			"nombres": "Sergio",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1115187225",
+			"dtype": "Cliente",
+			"apellidos": "Montes",
+			"contrasenia": "12345",
+			"correo": "campos@gmail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1985-01-10",
+			"genero": "masculino",
+			"nombres": "Bernarndo",
+			"ciudad_id": "03"
 		}
 	],
 	"CLIENTE": [
@@ -173,6 +199,14 @@
 		{
 			"cedula": "3113260765",
 			"nocuenta": "4765536"
+		},
+		{
+			"cedula": "1115187224",
+			"nocuenta": "47655364"
+		},
+		{
+			"cedula": "1115187225",
+			"nocuenta": "47600364"
 		}
 	],
 	"EMPLEADO": [
@@ -208,6 +242,5 @@
 			"cedula": "1115187223",
 			"observacion": "ninguna"
 		}
-		
 	]
 }

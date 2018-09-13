@@ -1,11 +1,11 @@
 package proyectofenix.entidades;
 
 import java.io.Serializable;
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+
 
 /**
  * Clase encargada de representar la informacion de un Administrador hereda de la clase Persona
@@ -27,12 +27,6 @@ public class Administrador extends Persona implements Serializable{
 	 */
 	@Column(length=100)
 	private String observacion;
-	
-	/**
-	 * Lista de prestamos de un Administrador
-	 */
-	@OneToMany(mappedBy = "administrador")
-	private List<Prestamo> prestamo;
 	
 	/**
 	 * Metodo constructor clase Administrador
@@ -58,22 +52,6 @@ public class Administrador extends Persona implements Serializable{
 	}
 
 	/**
-	 * Metodo get lista prestamos clase Administrador
-	 * @return prestamo
-	 */
-	public List<Prestamo> getPrestamo() {
-		return prestamo;
-	}
-
-	/**
-	 * Metodo set lista prestamos clase Administrador
-	 * @param prestamo
-	 */
-	public void setPrestamo(List<Prestamo> prestamo) {
-		this.prestamo = prestamo;
-	}
-
-	/**
 	 * Metodo set serialversionuid clase Administrador
 	 * @return serialversionuid
 	 */
@@ -89,10 +67,9 @@ public class Administrador extends Persona implements Serializable{
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((observacion == null) ? 0 : observacion.hashCode());
-		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
 		return result;
 	}
-
+	
 	/* 
 	 * Metodo equals clase Administrador
 	 */
@@ -110,11 +87,8 @@ public class Administrador extends Persona implements Serializable{
 				return false;
 		} else if (!observacion.equals(other.observacion))
 			return false;
-		if (prestamo == null) {
-			if (other.prestamo != null)
-				return false;
-		} else if (!prestamo.equals(other.prestamo))
-			return false;
 		return true;
 	}
+	
+	
 }

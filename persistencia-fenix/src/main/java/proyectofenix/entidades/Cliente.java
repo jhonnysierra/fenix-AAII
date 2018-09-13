@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,20 +28,11 @@ public class Cliente extends Persona implements Serializable {
 	private String noCuenta;
 	
 	/**
-	 * Lista de prestamos de un cliente
-	 */
-	@OneToMany(mappedBy = "cliente")
-	private List<Prestamo> prestamo;
-	
-	/**
 	 * Lista de asesorias de un cliente
 	 */
 	@OneToMany(mappedBy = "cliente")
 	private List<Asesoria> asesoria;
 	
-	@OneToMany(mappedBy = "cliente")
-	private List<PrestamoRenovado> prestamoRenovado; 
-
 	/**
 	 * Serializable clase Cliente
 	 */
@@ -75,23 +65,6 @@ public class Cliente extends Persona implements Serializable {
 	
 
 	/**
-	 * Metodo get lista prestamos clase Cliente
-	 * @return prestamo
-	 */
-	public List<Prestamo> getPrestamo() {
-		return prestamo;
-	}
-
-	/**
-	 * Metodo set lista prestamos clase Cliente
-	 * @param prestamo
-	 */
-	public void setPrestamo(List<Prestamo> prestamo) {
-		this.prestamo = prestamo;
-	}
-
-	
-	/**
 	 * Metodo get lista asesorias clase Cliente
 	 * @return asesoria
 	 */
@@ -107,22 +80,6 @@ public class Cliente extends Persona implements Serializable {
 		this.asesoria = asesoria;
 	}
 	
-
-	/**
-	 * Metodo get lista prestamos renovados clase Cliente
-	 * @return prestamoRenovado
-	 */
-	public List<PrestamoRenovado> getPrestamoRenovado() {
-		return prestamoRenovado;
-	}
-
-	/**
-	 * Metodo set lista prestamos renovados clase Cliente
-	 * @param prestamoRenovado
-	 */
-	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {
-		this.prestamoRenovado = prestamoRenovado;
-	}
 
 	/**
 	 * Metodo get Serialversionuid clase Cliente
@@ -142,8 +99,6 @@ public class Cliente extends Persona implements Serializable {
 		int result = super.hashCode();
 		result = prime * result + ((asesoria == null) ? 0 : asesoria.hashCode());
 		result = prime * result + ((noCuenta == null) ? 0 : noCuenta.hashCode());
-		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
-		result = prime * result + ((prestamoRenovado == null) ? 0 : prestamoRenovado.hashCode());
 		return result;
 	}
 
@@ -168,16 +123,6 @@ public class Cliente extends Persona implements Serializable {
 			if (other.noCuenta != null)
 				return false;
 		} else if (!noCuenta.equals(other.noCuenta))
-			return false;
-		if (prestamo == null) {
-			if (other.prestamo != null)
-				return false;
-		} else if (!prestamo.equals(other.prestamo))
-			return false;
-		if (prestamoRenovado == null) {
-			if (other.prestamoRenovado != null)
-				return false;
-		} else if (!prestamoRenovado.equals(other.prestamoRenovado))
 			return false;
 		return true;
 	}
