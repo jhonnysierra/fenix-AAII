@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,7 +24,32 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@NamedQueries({
+		@NamedQuery(name = Prestamo.OBTENER_CUOTAS_PRESTAMO, query = "select pagos from Prestamo p,IN(p.pagos) pagos where p.id=:id"),
+		@NamedQuery(name = Prestamo.OBTENER_TIPO_PRESTAMO, query = "select p.tipoPrestamo from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS, query = "select DISTINCT p.persona from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO, query = "select p.id,pagos,p.persona.cedula,p.persona.correo from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio") })
 public class Prestamo implements Serializable {
+
+	/**
+	 * Permite obtener las cuotas de un prestamo
+	 */
+	public static final String OBTENER_CUOTAS_PRESTAMO = "CuotasPrestamo";
+
+	/**
+	 * Permite obtener las cuotas de un prestamo
+	 */
+	public static final String OBTENER_TIPO_PRESTAMO = "TipoPrestamo";
+
+	/**
+	 * Permite obtener los prestamos hechos por un cliente
+	 */
+	public static final String OBTENER_PRESTAMOS = "ClientesTodosLosPrestamos";
+
+	/**
+	 * Permite obtener los prestamos hechos por un cliente
+	 */
+	public static final String OBTENER_CAMPOS_PRESTAMO = "ObtenerAlgunosCampos";
 
 	/**
 	 * serialVersionUID clase Prestamo
@@ -45,14 +72,14 @@ public class Prestamo implements Serializable {
 	 * Fecha de inicio del prestamo
 	 */
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
 
 	/**
 	 * Fecha de fin del prestamo, de acuerdo al numero de cuotas
 	 */
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaFin;
 
 	/**
@@ -214,6 +241,7 @@ public class Prestamo implements Serializable {
 
 	/**
 	 * Metodo get Persona clase Prestamo
+	 * 
 	 * @return persona
 	 */
 	public Persona getPersona() {
@@ -222,6 +250,7 @@ public class Prestamo implements Serializable {
 
 	/**
 	 * Metodo set Persona clase Prestamo
+	 * 
 	 * @param persona
 	 */
 	public void setPersona(Persona persona) {

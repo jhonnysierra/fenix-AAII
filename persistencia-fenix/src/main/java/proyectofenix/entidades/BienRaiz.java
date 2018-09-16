@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
@@ -16,8 +18,15 @@ import javax.persistence.OneToOne;
  */
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = BienRaiz.OBTENER_PERSONA_BIENRAIZ, query = "select br.persona from BienRaiz br where br.id=:id") })
 public class BienRaiz implements Serializable{
 
+	/**
+	 * Permite obtener el prestamo asociado a un bien raiz
+	 */
+	public static final String OBTENER_PERSONA_BIENRAIZ = "BienRaizPersona";
+	
 	/**
 	 * serialVersionUID clase BienRaiz
 	 */

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +20,13 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Cliente.OBTENER_DATOS_CLIENTE, query = "select c from Cliente c") })
 public class Cliente extends Persona implements Serializable {
+
+	/**
+	 * Permite obtener los datos de los clientes
+	 */
+	public static final String OBTENER_DATOS_CLIENTE = "DatosCliente";
 
 	/**
 	 * Numero de cuenta de un cliente
@@ -26,13 +34,13 @@ public class Cliente extends Persona implements Serializable {
 	@Column(length = 50, nullable = false, unique = true)
 	@NotNull
 	private String noCuenta;
-	
+
 	/**
 	 * Lista de asesorias de un cliente
 	 */
 	@OneToMany(mappedBy = "cliente")
 	private List<Asesoria> asesoria;
-	
+
 	/**
 	 * Serializable clase Cliente
 	 */
@@ -62,10 +70,10 @@ public class Cliente extends Persona implements Serializable {
 	public void setNoCuenta(String noCuenta) {
 		this.noCuenta = noCuenta;
 	}
-	
 
 	/**
 	 * Metodo get lista asesorias clase Cliente
+	 * 
 	 * @return asesoria
 	 */
 	public List<Asesoria> getAsesoria() {
@@ -74,12 +82,12 @@ public class Cliente extends Persona implements Serializable {
 
 	/**
 	 * Metodo set lista asesorias clase Cliente
+	 * 
 	 * @param asesoria
 	 */
 	public void setAsesoria(List<Asesoria> asesoria) {
 		this.asesoria = asesoria;
 	}
-	
 
 	/**
 	 * Metodo get Serialversionuid clase Cliente
@@ -126,6 +134,5 @@ public class Cliente extends Persona implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

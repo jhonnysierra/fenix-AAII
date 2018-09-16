@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -15,8 +17,14 @@ import javax.persistence.Entity;
  */
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Administrador.OBTENER_DATOS_ADMINISTRADOR, query = "select a from Administrador a") })
 public class Administrador extends Persona implements Serializable{
 
+	/**
+	 * Permite obtener los datos de los administradores
+	 */
+	public static final String OBTENER_DATOS_ADMINISTRADOR = "DatosAdministrador";
+	
 	/**
 	 * serialVersionUID Clase Administrador
 	 */

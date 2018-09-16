@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -1067,7 +1068,7 @@ public class TestEntidades {
 	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
 	public void obtenerPersonaPorCredencialesTest() {
 
-		// Para que no muestre error si no hay resultados
+		// Para que no muestre error si no hay resultados solo para getSingleResult
 		try {
 			TypedQuery<Persona> query = entityManager.createNamedQuery(Persona.OBTENER_PERSONAS_POR_CREDENCIALES,
 					Persona.class);
@@ -1079,6 +1080,142 @@ public class TestEntidades {
 
 			Assert.assertNotNull(p);
 			// System.out.println(p);
+
+		} catch (NoResultException e) {
+			Assert.fail(String.format("Error buscandola la persona %s", e.getMessage()));
+		}
+
+	}
+
+	/**
+	 * Permite obtener los clientes creados
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerClientesTest() {
+		TypedQuery<Cliente> clientes = entityManager.createNamedQuery(Cliente.OBTENER_DATOS_CLIENTE, Cliente.class);
+		List<Cliente> resultadosClientes = clientes.getResultList();
+
+		Assert.assertEquals("El resultado de la consulta no corresponde al numero de clientes", 6,
+				resultadosClientes.size());
+
+		/*
+		 * for (Persona p : resultadosClientes) {
+		 * System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(),
+		 * p.getNombres())); }
+		 */
+
+	}
+
+	/**
+	 * Permite obtener los empleados creados
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerEmpleadosTest() {
+		TypedQuery<Empleado> empleados = entityManager.createNamedQuery(Empleado.OBTENER_DATOS_EMPLEADO,
+				Empleado.class);
+		List<Empleado> resultadosEmpleados = empleados.getResultList();
+
+		Assert.assertEquals("El resultado de la consulta no corresponde al numero de empleados", 3,
+				resultadosEmpleados.size());
+
+		/*
+		 * for (Persona p : resultadosEmpleados) {
+		 * System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(),
+		 * p.getNombres())); }
+		 */
+
+	}
+
+	/**
+	 * Permite obtener los administradores creados
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerAdministradoresTest() {
+		TypedQuery<Administrador> administradores = entityManager
+				.createNamedQuery(Administrador.OBTENER_DATOS_ADMINISTRADOR, Administrador.class);
+		List<Administrador> resultadosAdministradores = administradores.getResultList();
+
+		Assert.assertEquals("El resultado de la consulta no corresponde al numero de administradores", 3,
+				resultadosAdministradores.size());
+
+		/*
+		 * for (Persona p : resultadosEmpleados) {
+		 * System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(),
+		 * p.getNombres())); }
+		 */
+	}
+
+	/**
+	 * Permite obtener los clientes creados
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerPersonasLimitarResultadosTest() {
+		// Para que no muestre error si no hay resultados
+		try {
+			TypedQuery<Persona> query = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
+			query.setMaxResults(3);
+			List<Persona> listaPersonas = query.getResultList();
+
+			for (Persona p : listaPersonas) {
+				System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(), p.getNombres()));
+			}
+
+		} catch (NoResultException e) {
+			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+
+	}
+
+	/**
+	 * Permite obtener las personas desde un numero de registro especifico
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerPersonasFirstResultadosTest() {
+		// Para que no muestre error si no hay resultados
+		try {
+			TypedQuery<Persona> query = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
+			query.setFirstResult(10);
+			List<Persona> listaPersonas = query.getResultList();
+
+			for (Persona p : listaPersonas) {
+				System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(), p.getNombres()));
+			}
+
+		} catch (NoResultException e) {
+			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+
+	}
+
+	/**
+	 * Permite hacer filtro de una persona por edad
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void obtenerPersonasFiltroEdadTest() {
+		// Para que no muestre error si no hay resultados
+		try {
+			Query query = entityManager.createNativeQuery("select * from Persona p where (YEAR(CURDATE())-YEAR(p.fecha_nacimiento))>50 and p.estado='1'", Persona.class);
+//					"select p from Persona p where (YEAR(CURDATE)-YEAR(p.fecha_nacimiento))>50 and p.estado='1'",
+//					Persona.class);
+			
+			// obterner la informacion en una lista
+			List<Persona> personas = query.getResultList();
+
+			for (Persona p : personas) {
+				System.out.println(String.format("CC:%s, nombre:%s", p.getCedula(), p.getNombres()));
+			}
 
 		} catch (NoResultException e) {
 			Assert.fail(String.format("Error: %s", e.getMessage()));

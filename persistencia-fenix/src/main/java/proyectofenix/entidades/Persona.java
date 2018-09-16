@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,21 +31,38 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({
-		@NamedQuery(name = Persona.OBTENER_PERSONAS_POR_CREDENCIALES, query = "select p from Persona p where p.cedula=:cedula and p.contrasenia=:contrasenia") })
+		@NamedQuery(name = Persona.OBTENER_PERSONAS_POR_CREDENCIALES, query = "select p from Persona p where p.cedula=:cedula and p.contrasenia=:contrasenia"),
+		@NamedQuery(name = Persona.OBTENER_DATOS_PERSONAS, query = "select p from Persona p"),
+		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_PERSONA, query = "select prestamos from Persona p,IN(p.prestamo) prestamos where p.cedula=:cedula"),
+		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, query = "select p.cedula,presta from Persona p LEFT JOIN p.prestamo presta") })
 public class Persona implements Serializable {
+
+	/**
+	 * Permite obtener los datos de las personas
+	 */
+	public static final String OBTENER_DATOS_PERSONAS = "DatosPersonas";
 
 	/**
 	 * Permite identificar de forma unica a la persona
 	 */
-
 	public static final String OBTENER_PERSONAS_POR_CREDENCIALES = "PersonasPorCredenciales";
+
+	/**
+	 * Permite obterner los prestamos de una persona
+	 */
+	public static final String OBTENER_PRESTAMOS_PERSONA = "PrestamosPersona";
+
+	/**
+	 * Permite listar las personas y sus prestamos incluyendo las que no tengam.
+	 */
+	public static final String OBTENER_PRESTAMOS_TODAS_PERSONAS = "PrestamosDeTodasLasPersonas";
+
 	/**
 	 * Permite identificar una persona
 	 */
 	@Id
 	@Column(length = 15, nullable = false)
 	@NotNull
-	@NotBlank
 	private String cedula;
 
 	/**
@@ -54,14 +70,12 @@ public class Persona implements Serializable {
 	 */
 	@Column(length = 30, nullable = false)
 	@NotNull
-	@NotBlank
 	private String nombres;
 	/**
 	 * Apellido de una persona
 	 */
 	@Column(length = 30, nullable = false)
 	@NotNull
-	@NotBlank
 	private String apellidos;
 
 	/**
@@ -95,7 +109,6 @@ public class Persona implements Serializable {
 	 */
 	@Column(length = 80, nullable = false)
 	@NotNull
-	@NotBlank
 	private String correo;
 
 	/**
@@ -109,7 +122,6 @@ public class Persona implements Serializable {
 	 */
 	@Column(length = 1, nullable = false)
 	@NotNull
-	@NotBlank
 	private String estado;
 
 	/**
@@ -117,7 +129,6 @@ public class Persona implements Serializable {
 	 */
 	@Column(length = 30, nullable = false)
 	@NotNull
-	@NotBlank
 	private String contrasenia;
 
 	/**
@@ -131,10 +142,10 @@ public class Persona implements Serializable {
 	 */
 	@OneToMany(mappedBy = "persona")
 	private List<Prestamo> prestamo;
-	
+
 	@OneToMany(mappedBy = "persona")
-	private List<PrestamoRenovado> prestamoRenovado; 
-	
+	private List<PrestamoRenovado> prestamoRenovado;
+
 	/**
 	 * serialVersionUID clase Persona
 	 */
@@ -370,10 +381,10 @@ public class Persona implements Serializable {
 	public void setBienRaiz(BienRaiz bienRaiz) {
 		this.bienRaiz = bienRaiz;
 	}
-	
-	
+
 	/**
 	 * Metodo get lista prestamo clase Persona
+	 * 
 	 * @return the prestamo
 	 */
 	public List<Prestamo> getPrestamo() {
@@ -382,6 +393,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo set lista prestamo clase Persona
+	 * 
 	 * @param prestamo the prestamo to set
 	 */
 	public void setPrestamo(List<Prestamo> prestamo) {
@@ -390,6 +402,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo get lista prestamo renovado clase Persona
+	 * 
 	 * @return prestamoRenovado
 	 */
 	public List<PrestamoRenovado> getPrestamoRenovado() {
@@ -398,6 +411,7 @@ public class Persona implements Serializable {
 
 	/**
 	 * Metodo set lista prestamo renovado clase Persona
+	 * 
 	 * @param prestamoRenovado
 	 */
 	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {

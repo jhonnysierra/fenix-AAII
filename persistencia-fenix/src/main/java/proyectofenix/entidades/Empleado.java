@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,8 +21,13 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Empleado.OBTENER_DATOS_EMPLEADO, query = "select e from Empleado e") })
 public class Empleado extends Persona implements Serializable{
 	
+	/**
+	 * Permite obtener los datos de los empleados
+	 */
+	public static final String OBTENER_DATOS_EMPLEADO = "DatosEmpleado";
 	
 	/**
 	 * serialVersionUID clase Empleado

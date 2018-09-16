@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Pago implements Serializable {
+
 
 	/**
 	 * serialVersionUID clase Pago
@@ -57,6 +60,7 @@ public class Pago implements Serializable {
 
 	/**
 	 * Metodo get id clase Pago
+	 * 
 	 * @return id
 	 */
 	public int getId() {
@@ -65,6 +69,7 @@ public class Pago implements Serializable {
 
 	/**
 	 * Metodo set id clase Pago
+	 * 
 	 * @param id
 	 */
 	public void setId(int id) {

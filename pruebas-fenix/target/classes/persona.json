@@ -86,7 +86,7 @@
 			"correo": "julianaperez@mail.com",
 			"direccion": "CRA 5 6-77 ",
 			"estado": "1",
-			"fecha_nacimiento": "1990-09-05",
+			"fecha_nacimiento": "1989-09-05",
 			"genero": "femenino",
 			"nombres": "Juliana",
 			"ciudad_id": "03"
@@ -112,7 +112,7 @@
 			"correo": "linares@mail.com",
 			"direccion": "cra 5 ",
 			"estado": "1",
-			"fecha_nacimiento": "1990-09-09",
+			"fecha_nacimiento": "1984-09-09",
 			"genero": "femenino",
 			"nombres": "Marcela",
 			"ciudad_id": "01"
@@ -125,7 +125,7 @@
 			"correo": "pperez@mail.com",
 			"direccion": "cra 9 ",
 			"estado": "1",
-			"fecha_nacimiento": "1990-09-09",
+			"fecha_nacimiento": "1964-09-09",
 			"genero": "masculino",
 			"nombres": "Edwin",
 			"ciudad_id": "01"
@@ -166,7 +166,7 @@
 			"estado": "1",
 			"fecha_nacimiento": "1985-09-09",
 			"genero": "masculino",
-			"nombres": "Sergio",
+			"nombres": "Sergio G",
 			"ciudad_id": "03"
 		},
 		{
