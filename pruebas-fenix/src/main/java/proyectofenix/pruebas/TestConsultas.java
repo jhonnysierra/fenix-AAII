@@ -26,7 +26,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import proyectofenix.DTO.ConsultaAtencionEmpleadoDTO;
 import proyectofenix.DTO.consulta10DTO;
+import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Pago;
@@ -327,8 +329,32 @@ public class TestConsultas {
 
 		Assert.assertEquals("Los clientes no corresponden a los vacios", 4, clienteSinAsesoria.size());
 
-/*		for (Cliente c : clienteSinAsesoria) {
-			System.out.println(String.format("Cedula:%s Nombres:%s", c.getCedula(), c.getNombres()));
+		/*
+		 * for (Cliente c : clienteSinAsesoria) {
+		 * System.out.println(String.format("Cedula:%s Nombres:%s", c.getCedula(),
+		 * c.getNombres())); }
+		 */
+
+	}
+
+	/**
+	 * Permite obtener el numero Asesorias atendidas por un cliente. Una asesoria ha
+	 * sido atendida cuando la hora de inicio es diferente de la hora de fin. Item 4
+	 * guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "asesoria.json" })
+	public void obtenerTotalAsesoriasEmpleadoTest() {
+		TypedQuery<ConsultaAtencionEmpleadoDTO> query = entityManager
+				.createNamedQuery(Asesoria.OBTENER_TOTAL_ASESORIAS_EMPLEADO, ConsultaAtencionEmpleadoDTO.class);
+
+		List<ConsultaAtencionEmpleadoDTO> empleadoAsesoria = query.getResultList();
+
+		Assert.assertEquals("Error asesorias atendidas", 1, empleadoAsesoria.size());
+
+		/*for (ConsultaAtencionEmpleadoDTO asesoria : empleadoAsesoria) {
+			System.out.println(String.format("Cedula:%s Asesorias:%s", asesoria.getCedula(), asesoria.getAsesorias()));
 		}*/
 
 	}

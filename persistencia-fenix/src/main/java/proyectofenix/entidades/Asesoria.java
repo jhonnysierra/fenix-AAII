@@ -6,60 +6,70 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  * Clase encargada de representar la informacion de la asesoria a un cliente
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  *
  */
 
 @Entity
-public class Asesoria implements Serializable{
+@NamedQueries({
+		@NamedQuery(name = Asesoria.OBTENER_TOTAL_ASESORIAS_EMPLEADO, query = "select new proyectofenix.DTO.ConsultaAtencionEmpleadoDTO(a.empleado.cedula,COUNT(a.empleado.cedula)) from Asesoria a where a.horaInicio!=a.horaFin GROUP BY a.empleado.cedula") })
+public class Asesoria implements Serializable {
+
+	/**
+	 * Permite obtener el numero de asesorias atendidas por cada Empleado
+	 */
+	public static final String OBTENER_TOTAL_ASESORIAS_EMPLEADO = "TotalAsesoriasEmpleado";
 
 	/**
 	 * serialVersionUID clase Asesoria
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Identificador de una asesoria
 	 */
 	@Id
 	private int id;
-	
+
 	/**
 	 * Tipo de asesoria
 	 */
 	@ManyToOne
 	private TipoAsesoria tipoasesoria;
-	
+
 	/**
 	 * Empleado que realiza la asesoria
 	 */
 	@ManyToOne
 	private Empleado empleado;
-	
+
 	/**
 	 * Cliente que recibe la asesoria
 	 */
 	@ManyToOne
 	private Cliente cliente;
-	
+
 	/**
 	 * Hora de inicio de la asesoria
 	 */
 	@Temporal(TemporalType.TIME)
 	private Date horaInicio;
-	
+
 	/**
 	 * Hora de fin de la asesoria
 	 */
 	@Temporal(TemporalType.TIME)
 	private Date horaFin;
-	
+
 	/**
 	 * Fecha en la que se realiza la asesoria
 	 */
@@ -75,6 +85,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get id clase Asesoria
+	 * 
 	 * @return id
 	 */
 	public int getId() {
@@ -83,6 +94,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set id clase Asesoria
+	 * 
 	 * @param id
 	 */
 	public void setId(int id) {
@@ -91,6 +103,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get tipoasesoria clase Asesoria
+	 * 
 	 * @return tipoasesoria
 	 */
 	public TipoAsesoria getTipoasesoria() {
@@ -99,6 +112,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set tipoasesoria clase Asesoria
+	 * 
 	 * @param tipoasesoria
 	 */
 	public void setTipoasesoria(TipoAsesoria tipoasesoria) {
@@ -107,6 +121,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get empleado clase Asesoria
+	 * 
 	 * @return empleado
 	 */
 	public Empleado getEmpleado() {
@@ -115,6 +130,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set empleado clase Asesoria
+	 * 
 	 * @param empleado
 	 */
 	public void setEmpleado(Empleado empleado) {
@@ -123,6 +139,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get cliente clase Asesoria
+	 * 
 	 * @return cliente
 	 */
 	public Cliente getCliente() {
@@ -131,6 +148,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set cliente clase Asesoria
+	 * 
 	 * @param cliente
 	 */
 	public void setCliente(Cliente cliente) {
@@ -139,6 +157,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get horaInicio clase Asesoria
+	 * 
 	 * @return horaInicio
 	 */
 	public Date getHoraInicio() {
@@ -147,6 +166,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set horaInicio clase Asesoria
+	 * 
 	 * @param horaInicio
 	 */
 	public void setHoraInicio(Date horaInicio) {
@@ -155,6 +175,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get horaFin clase Asesoria
+	 * 
 	 * @return horaFin
 	 */
 	public Date getHoraFin() {
@@ -163,6 +184,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set horaFin clase Asesoria
+	 * 
 	 * @param horaFin
 	 */
 	public void setHoraFin(Date horaFin) {
@@ -171,6 +193,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get fecha clase Asesoria
+	 * 
 	 * @return fecha
 	 */
 	public Date getFecha() {
@@ -179,6 +202,7 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo set fecha clase Asesoria
+	 * 
 	 * @param fecha
 	 */
 	public void setFecha(Date fecha) {
@@ -187,13 +211,14 @@ public class Asesoria implements Serializable{
 
 	/**
 	 * Metodo get serialversionuid clase Asesoria
+	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase Asesoria
 	 */
 	@Override
@@ -210,7 +235,7 @@ public class Asesoria implements Serializable{
 		return result;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase Asesoria
 	 */
 	@Override
@@ -256,5 +281,5 @@ public class Asesoria implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

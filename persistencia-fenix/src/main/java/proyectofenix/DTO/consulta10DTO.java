@@ -4,14 +4,16 @@ import java.util.List;
 
 import proyectofenix.entidades.Pago;
 
+/**
+ * Clase que representa el resutado de la consulta de prestamos por fecha
+ * @author JJ
+ *
+ */
 public class consulta10DTO {
 	private int idPrestamo;
 	private String cedula;
 	private String correo;
 	private Pago pagos;
-
-
-
 
 
 	/**
