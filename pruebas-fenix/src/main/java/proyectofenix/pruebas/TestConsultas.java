@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 
 import proyectofenix.DTO.consulta10DTO;
 import proyectofenix.entidades.BienRaiz;
+import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
@@ -134,27 +135,27 @@ public class TestConsultas {
 
 		Query query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, Object.class);
 		// query.setParameter("cedula", "6208204");
+
 		List<Object[]> resultadoPersonas = query.getResultList();
 
-///////////SALE NULL EN EL CAMPO DE LAS CUOTAS ???????
+///////////SALE NULL EN EL CAMPO DE LOS PRESTAMOS. COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE ???????----->>>>>
 
-		Object[] objeto = (Object[]) resultadoPersonas.get(0);
-		System.out.println("PRIMER USUARIOO campos-> [" + objeto[0] + "]");
-		// COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE
-		// List<Prestamo> prestamosCliente = (List<Prestamo>) objeto[1];
+		// Object[] objeto = (Object[]) resultadoPersonas.get(0);
+		// System.out.println("PRIMER USUARIOO campos-> [" + objeto[0] + "]");
 
-		// System.out.println("Tamano lista: " + prestamosCliente.size());
+		System.out.println("Tamano lista: " + resultadoPersonas.size());
 
 		// Persona resultadoPersonas = query.getSingleResult();
 
 		// resultadoPersonas.forEach(r -> System.out.println(Arrays.toString(r)));
 
-		// Assert.assertEquals(4, resultadoPrestamos.size());
-		Prestamo prestamo;
+		Assert.assertEquals(17, resultadoPersonas.size());
+
+		Prestamo prestamo = null;
 
 		for (Object[] obj : resultadoPersonas) {
 			prestamo = (Prestamo) obj[1];
-			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], prestamo.getId()));
+			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], ""));
 		}
 
 	}
@@ -191,8 +192,7 @@ public class TestConsultas {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json", "prestamo.json", "pago.json" })
 	public void obtenerPrestamoPorFechaTest() {
-		// TypedQuery<Pago> queryPagos =
-		// entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO, Pago.class);
+
 		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO, Object.class);
 
 		Date fechaInicio = null;
@@ -246,16 +246,90 @@ public class TestConsultas {
 
 		List<consulta10DTO> resultadoPrestamos = query.getResultList();
 
-		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
-
-		// resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
-
 		Assert.assertEquals(5, resultadoPrestamos.size());
+
+		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
 
 		for (consulta10DTO con : resultadoPrestamos) {
 			System.out.println(String.format("Id:%s Cedula:%s Email:%s IdPago:%s", con.getIdPrestamo(), con.getCedula(),
-					con.getCorreo(), con.getIdPago()));
+					con.getCorreo(), con.getPagos().getId()));
 		}
+
+	}
+
+	/**
+	 * Permite obtener el numero de prestamos realizados haciendo uso de COUNT. Item
+	 * 1 guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json" })
+	public void obtenerTotalPrestamosRealizadosTest() {
+		Long totalPrestamos;
+		try {
+			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_TOTAL_PRESTAMOS);
+
+			totalPrestamos = (Long) query.getSingleResult();
+
+			// System.out.println("Total Prestamos:" + totalPrestamos);
+
+			Assert.assertEquals("No corresponde al total de prestamos", 10, totalPrestamos.intValue());
+
+		} catch (NoResultException e) {
+			Assert.fail(String.format("Error calculando el total de prestamos%s", e.getMessage()));
+		}
+
+	}
+
+	/**
+	 * Permite obtener el numero de prestamos realizados agrupados por fecha. Item 2
+	 * guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json", "persona.json" })
+	public void obtenerPrestamosAgrupadosFechaTest() {
+		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMOS_AGRUPADOS_FECHA, Object.class);
+
+		List<Object[]> prestamosAgrupadoFecha = query.getResultList();
+
+		Date fechaInicio = null;
+
+		System.out.println("Tamaño de la lista: " + prestamosAgrupadoFecha.size());
+
+		// prestamosAgrupadoFecha.forEach(r -> System.out.println(Arrays.toString(r)));
+
+		Assert.assertEquals("No corresponde al total de prestamos agrupados por fecha", 5,
+				prestamosAgrupadoFecha.size());
+
+		for (Object[] obj : prestamosAgrupadoFecha) {
+			fechaInicio = (Date) obj[1];
+			System.out.println(String.format("Cantidad:%s Fecha:%s", obj[0], fechaInicio));
+		}
+
+	}
+
+	/**
+	 * Permite obtener el numero clientes que no han solicitado una asesoria. Item 3
+	 * guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "asesoria.json" })
+	public void obtenerClientesSinAsesoriaTest() {
+		TypedQuery<Cliente> query = entityManager.createNamedQuery(Cliente.OBTENER_CLIENTE_SIN_ASESORIA, Cliente.class);
+
+		List<Cliente> clienteSinAsesoria = query.getResultList();
+
+		// System.out.println("Tamaño de la lista: " + clienteSinAsesoria.size());
+
+		// clienteSinAsesoria.forEach(r -> System.out.println(Arrays.toString(r)));
+
+		Assert.assertEquals("Los clientes no corresponden a los vacios", 4, clienteSinAsesoria.size());
+
+/*		for (Cliente c : clienteSinAsesoria) {
+			System.out.println(String.format("Cedula:%s Nombres:%s", c.getCedula(), c.getNombres()));
+		}*/
 
 	}
 }

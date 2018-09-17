@@ -29,7 +29,9 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_TIPO_PRESTAMO, query = "select p.tipoPrestamo from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS, query = "select DISTINCT p.persona from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO, query = "select p.id,p.persona.cedula,p.persona.correo,pagos from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio"),
-		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO_DTO, query = "select new proyectofenix.DOT.consulta10DTO(p.id,p.persona.cedula,p.persona.correo,pagos) from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio") })
+		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO_DTO, query = "select new proyectofenix.DTO.consulta10DTO(p.id,p.persona.cedula,p.persona.correo,pagos) from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio"),
+		@NamedQuery(name = Prestamo.OBTENER_TOTAL_PRESTAMOS, query = "select COUNT(p.id) from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_AGRUPADOS_FECHA, query = "select COUNT(DISTINCT p.persona.cedula),p.fechaInicio from Prestamo p GROUP BY p.fechaInicio") })
 public class Prestamo implements Serializable {
 
 	/**
@@ -53,9 +55,21 @@ public class Prestamo implements Serializable {
 	public static final String OBTENER_CAMPOS_PRESTAMO = "ObtenerAlgunosCampos";
 
 	/**
-	 * Permite obtener los prestamos hechos por un cliente dependiendo de la fecha usando DOT
+	 * Permite obtener los prestamos hechos por un cliente dependiendo de la fecha
+	 * usando DOT
 	 */
 	public static final String OBTENER_CAMPOS_PRESTAMO_DTO = "ObtenerAlgunosCamposDTO";
+
+	/**
+	 * Permite obtener el total de los prestamos
+	 */
+	public static final String OBTENER_TOTAL_PRESTAMOS = "ObtenerTotalPrestamos";
+
+	/**
+	 * Permite obtener el total de los prestamos agrupados por fecha
+	 */
+	public static final String OBTENER_PRESTAMOS_AGRUPADOS_FECHA = "ObtenerPrestamosAgrupadosFecha";
+	
 	/**
 	 * serialVersionUID clase Prestamo
 	 */
