@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.derby.tools.sysinfo;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -25,6 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import proyectofenix.DTO.consulta10DTO;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
@@ -32,6 +34,7 @@ import proyectofenix.entidades.Prestamo;
 
 /**
  * Clase que contiene los metodos para probar las consultas
+ * 
  * @author JJ
  *
  */
@@ -86,6 +89,7 @@ public class TestConsultas {
 		query.setParameter("id", 1);
 
 		List<Pago> resultadoPagos = query.getResultList();
+		// System.out.println("Tamaño lista:"+resultadoPagos.size());
 
 		Assert.assertEquals(2, resultadoPagos.size());
 
@@ -121,101 +125,137 @@ public class TestConsultas {
 
 	/**
 	 * Metodo que permita listar las personas y cada uno de sus prestamos,
-	 * incluyendo los que no tengan prestamos
+	 * incluyendo los que no tengan prestamos. Item 7 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json", "prestamo.json" })
 	public void obtenerlistaPersonasYPrestamosTest() {
 
-		Query query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS);
-
+		Query query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, Object.class);
+		// query.setParameter("cedula", "6208204");
 		List<Object[]> resultadoPersonas = query.getResultList();
 
-		Object[] objeto = (Object[]) resultadoPersonas.get(5);
-		System.out.println("PRIMER USUARIOO campos-> [" + objeto[0] + "]");
-		//COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE
-		List<Prestamo> prestamosCliente = (List<Prestamo>) objeto[1];
+///////////SALE NULL EN EL CAMPO DE LAS CUOTAS ???????
 
-		System.out.println("Tamano lista: " + prestamosCliente.size());
+		Object[] objeto = (Object[]) resultadoPersonas.get(0);
+		System.out.println("PRIMER USUARIOO campos-> [" + objeto[0] + "]");
+		// COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE
+		// List<Prestamo> prestamosCliente = (List<Prestamo>) objeto[1];
+
+		// System.out.println("Tamano lista: " + prestamosCliente.size());
 
 		// Persona resultadoPersonas = query.getSingleResult();
 
 		// resultadoPersonas.forEach(r -> System.out.println(Arrays.toString(r)));
 
 		// Assert.assertEquals(4, resultadoPrestamos.size());
-		for (Object[] o : resultadoPersonas) {
+		Prestamo prestamo;
 
-			System.out.println(String.format("Cedula:%s", o[0]));
+		for (Object[] obj : resultadoPersonas) {
+			prestamo = (Prestamo) obj[1];
+			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], prestamo.getId()));
 		}
 
 	}
 
 	/**
-	 * Metodo que permite listar las personas que han hecho un prestamo haciendo uso de DISTINCT.
-	 * Item 8 guia 9
+	 * Metodo que permite listar las personas que han hecho un prestamo haciendo uso
+	 * de DISTINCT. Item 8 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json", "prestamo.json" })
 	public void obtenerTodosPrestamosPersonasTest() {
 
-		TypedQuery<Persona> query = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMOS,
-				Persona.class);
+		TypedQuery<Persona> query = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMOS, Persona.class);
 
 		List<Persona> resultadoPrestamos = query.getResultList();
 
 		Assert.assertEquals(7, resultadoPrestamos.size());
 
-/*		for (Persona p : resultadoPrestamos) {
-			System.out.println(String.format("cedula:%s, nombres:%s", p.getCedula(), p.getNombres()));
-		}*/
+		/*
+		 * for (Persona p : resultadoPrestamos) {
+		 * System.out.println(String.format("cedula:%s, nombres:%s", p.getCedula(),
+		 * p.getNombres())); }
+		 */
 
 	}
-	
+
 	/**
-	 * Metodo que permita listar las personas y cada uno de sus prestamos,
-	 * incluyendo los que no tengan prestamos
+	 * Metodo que permita listar los prestamos por una fecha, mostrando el id del
+	 * prestamo, la cedula del cliente, el email y el id de la cuota pagada. Item 9
+	 * guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
-	@UsingDataSet({ "persona.json", "prestamo.json" })
+	@UsingDataSet({ "persona.json", "prestamo.json", "pago.json" })
 	public void obtenerPrestamoPorFechaTest() {
+		// TypedQuery<Pago> queryPagos =
+		// entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO, Pago.class);
+		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO, Object.class);
 
-		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO);
-		
 		Date fechaInicio = null;
 		try {
 			fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse("2018-09-09");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println(fechaInicio);
-		// No encuentra nada ??????????????
+
 		query.setParameter("fechaInicio", fechaInicio);
 
 		List<Object[]> resultadoPrestamos = query.getResultList();
-		
+
 		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
 
-		//Object[] objeto = (Object[]) resultadoPrestamos.get(1);
-		//System.out.println("PRIMER PRESTAMO -> [" + objeto[0] + "]");
-		//List<Prestamo> prestamosCliente = (List<Prestamo>) objeto[1];
+		// resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
 
-		//System.out.println("Tamano lista: " + prestamosCliente.size());
+		Assert.assertEquals(5, resultadoPrestamos.size());
 
-		// Persona resultadoPersonas = query.getSingleResult();
+		int idPrestamo;
+		Pago pago;
+		for (Object[] obj : resultadoPrestamos) {
+			idPrestamo = (int) obj[0];
+			pago = (Pago) obj[3];
+			System.out.println(
+					String.format("Id:%s Cedula:%s Email:%s IdPago:%s", idPrestamo, obj[1], obj[2], pago.getId()));
+		}
 
-		resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
+	}
 
-		// Assert.assertEquals(4, resultadoPrestamos.size());
-/*		for (Object[] o : resultadoPrestamos) {
+	/**
+	 * Metodo que permita listar los prestamos por una fecha, mostrando el id del
+	 * prestamo, la cedula del cliente, el email y el id de la cuota pagada;haciendo
+	 * uso de DTO Item. 10 guia 9
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "prestamo.json", "pago.json" })
+	public void obtenerPrestamoPorFechaDTOTest() {
+		TypedQuery<consulta10DTO> query = entityManager.createNamedQuery(Prestamo.OBTENER_CAMPOS_PRESTAMO_DTO,
+				consulta10DTO.class);
 
-			System.out.println(String.format("Cedula:%s", o[0]));
-		}*/
+		Date fechaInicio = null;
+		try {
+			fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse("2018-09-09");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
-	}	
-	
+		query.setParameter("fechaInicio", fechaInicio);
+
+		List<consulta10DTO> resultadoPrestamos = query.getResultList();
+
+		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
+
+		// resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
+
+		Assert.assertEquals(5, resultadoPrestamos.size());
+
+		for (consulta10DTO con : resultadoPrestamos) {
+			System.out.println(String.format("Id:%s Cedula:%s Email:%s IdPago:%s", con.getIdPrestamo(), con.getCedula(),
+					con.getCorreo(), con.getIdPago()));
+		}
+
+	}
 }

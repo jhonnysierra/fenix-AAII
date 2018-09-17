@@ -28,7 +28,8 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_CUOTAS_PRESTAMO, query = "select pagos from Prestamo p,IN(p.pagos) pagos where p.id=:id"),
 		@NamedQuery(name = Prestamo.OBTENER_TIPO_PRESTAMO, query = "select p.tipoPrestamo from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS, query = "select DISTINCT p.persona from Prestamo p"),
-		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO, query = "select p.id,pagos,p.persona.cedula,p.persona.correo from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio") })
+		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO, query = "select p.id,p.persona.cedula,p.persona.correo,pagos from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio"),
+		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO_DTO, query = "select new proyectofenix.DOT.consulta10DTO(p.id,p.persona.cedula,p.persona.correo,pagos) from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio") })
 public class Prestamo implements Serializable {
 
 	/**
@@ -47,10 +48,14 @@ public class Prestamo implements Serializable {
 	public static final String OBTENER_PRESTAMOS = "ClientesTodosLosPrestamos";
 
 	/**
-	 * Permite obtener los prestamos hechos por un cliente
+	 * Permite obtener los prestamos hechos por un cliente dependiendo de la fecha
 	 */
 	public static final String OBTENER_CAMPOS_PRESTAMO = "ObtenerAlgunosCampos";
 
+	/**
+	 * Permite obtener los prestamos hechos por un cliente dependiendo de la fecha usando DOT
+	 */
+	public static final String OBTENER_CAMPOS_PRESTAMO_DTO = "ObtenerAlgunosCamposDTO";
 	/**
 	 * serialVersionUID clase Prestamo
 	 */

@@ -48,7 +48,7 @@
 		{
 			"id": 6,
 			"fechafin": "2023-03-03 22:00:00",
-			"fechainicio": "2018-09-09",
+			"fechainicio": "2018-09-09 22:00:00",
 			"nocuotas": 128,
 			"valorprestamo": 14000000,
 			"persona_cedula": "3117860844",
@@ -57,7 +57,7 @@
 		{
 			"id": 7,
 			"fechafin": "2026-03-03 22:00:00",
-			"fechainicio": "2018-09-09",
+			"fechainicio": "2018-09-09 22:00:00",
 			"nocuotas": 138,
 			"valorprestamo": 35000000,
 			"persona_cedula": "3113260765",
@@ -66,7 +66,7 @@
 		{
 			"id": 8,
 			"fechafin": "2024-03-03 22:00:00",
-			"fechainicio": "2018-09-09",
+			"fechainicio": "2018-09-09 22:00:00",
 			"nocuotas": 114,
 			"valorprestamo": 3000000,
 			"persona_cedula": "1234567876",
@@ -75,7 +75,7 @@
 						{
 			"id": 9,
 			"fechafin": "2024-03-03 22:00:00",
-			"fechainicio": "2018-09-09",
+			"fechainicio": "2018-09-09 22:00:00",
 			"nocuotas": 114,
 			"valorprestamo": 3000000,
 			"persona_cedula": "1115187223",
