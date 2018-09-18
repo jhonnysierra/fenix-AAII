@@ -9,7 +9,7 @@ Resource Definitions //EN" "http://www.sun.com/software/appserver/dtds/sunresour
 		res-type="javax.sql.DataSource">
 		<property name="user" value="root" />
 		<property name="password" value="12345" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/fenix" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3308/fenix" />
 	</jdbc-connection-pool>
 	<jdbc-resource enabled="true" jndi-name="jdbc/fenix"
 		object-type="user" pool-name="mysql-proyecto-pool" />
