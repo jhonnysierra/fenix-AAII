@@ -1,8 +1,8 @@
 package proyectofenix.pruebas;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import org.apache.derby.tools.sysinfo;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
@@ -81,7 +80,7 @@ public class TestConsultas {
 	}
 
 	/**
-	 * Permite obtener el numero de cuotas asociadas a un prestamo Item 5 guia 9
+	 * Permite obtener el numero de cuotas asociadas a un prestamo. Item 5 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -104,8 +103,8 @@ public class TestConsultas {
 	}
 
 	/**
-	 * Metodo que permite obtener el numero de prestamos asociados a una persona.
-	 * Item 6 guia 9
+	 * Metodo que permite obtener el listado de prestamos realizados por una
+	 * persona. Item 6 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -128,7 +127,7 @@ public class TestConsultas {
 
 	/**
 	 * Metodo que permita listar las personas y cada uno de sus prestamos,
-	 * incluyendo los que no tengan prestamos. Item 7 guia 9
+	 * incluyendo las que no tengan prestamos. Item 7 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -142,29 +141,30 @@ public class TestConsultas {
 
 ///////////SALE NULL EN EL CAMPO DE LOS PRESTAMOS. COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE ???????----->>>>>
 
-		// Object[] objeto = (Object[]) resultadoPersonas.get(0);
-		// System.out.println("PRIMER USUARIOO campos-> [" + objeto[0] + "]");
-
 		System.out.println("Tamano lista: " + resultadoPersonas.size());
-
-		// Persona resultadoPersonas = query.getSingleResult();
 
 		// resultadoPersonas.forEach(r -> System.out.println(Arrays.toString(r)));
 
 		Assert.assertEquals(17, resultadoPersonas.size());
 
-		Prestamo prestamo = null;
-
+		Prestamo prestamo;
+		String idPrestamo;
 		for (Object[] obj : resultadoPersonas) {
-			prestamo = (Prestamo) obj[1];
-			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], ""));
+			if (obj[1] != null) {
+				prestamo = (Prestamo) obj[1];
+				idPrestamo = String.valueOf(prestamo.getId());
+			} else {
+				idPrestamo = "No ha realizado prestamos";
+			}
+
+			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], idPrestamo));
 		}
 
 	}
 
 	/**
-	 * Metodo que permite listar las personas que han hecho un prestamo haciendo uso
-	 * de DISTINCT. Item 8 guia 9
+	 * Metodo que permite listar las personas que han hecho un prestamo. En la
+	 * consulta se hace uso de DISTINCT. Item 8 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -208,7 +208,7 @@ public class TestConsultas {
 
 		List<Object[]> resultadoPrestamos = query.getResultList();
 
-		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
+		// System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
 
 		// resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
 
@@ -228,7 +228,7 @@ public class TestConsultas {
 	/**
 	 * Metodo que permita listar los prestamos por una fecha, mostrando el id del
 	 * prestamo, la cedula del cliente, el email y el id de la cuota pagada;haciendo
-	 * uso de DTO Item. 10 guia 9
+	 * uso de DTO. Item 10 guia 9
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -284,8 +284,8 @@ public class TestConsultas {
 	}
 
 	/**
-	 * Permite obtener el numero de prestamos realizados agrupados por fecha. Item 2
-	 * guia 10
+	 * Permite obtener el numero de prestamos realizados, agrupados por fecha. Item
+	 * 2 guia 10
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
@@ -297,7 +297,7 @@ public class TestConsultas {
 
 		Date fechaInicio = null;
 
-		System.out.println("Tamaño de la lista: " + prestamosAgrupadoFecha.size());
+		// System.out.println("Tamaño de la lista: " + prestamosAgrupadoFecha.size());
 
 		// prestamosAgrupadoFecha.forEach(r -> System.out.println(Arrays.toString(r)));
 
@@ -327,7 +327,7 @@ public class TestConsultas {
 
 		// clienteSinAsesoria.forEach(r -> System.out.println(Arrays.toString(r)));
 
-		Assert.assertEquals("Los clientes no corresponden a los vacios", 4, clienteSinAsesoria.size());
+		Assert.assertEquals("Error: Clientes sin asesoria", 4, clienteSinAsesoria.size());
 
 		/*
 		 * for (Cliente c : clienteSinAsesoria) {
@@ -338,8 +338,9 @@ public class TestConsultas {
 	}
 
 	/**
-	 * Permite obtener el numero Asesorias atendidas por un cliente. Una asesoria ha
-	 * sido atendida cuando la hora de inicio es diferente de la hora de fin. Item 4
+	 * Permite obtener el numero Asesorias atendidas por un Empleado. Una asesoria
+	 * ha sido atendida cuando la hora de inicio es diferente de la hora de fin.
+	 * Para el caso de nuestro proyecto las asesorias se manejan como citas. Item 4
 	 * guia 10
 	 */
 	@Test
@@ -353,9 +354,48 @@ public class TestConsultas {
 
 		Assert.assertEquals("Error asesorias atendidas", 1, empleadoAsesoria.size());
 
-		/*for (ConsultaAtencionEmpleadoDTO asesoria : empleadoAsesoria) {
-			System.out.println(String.format("Cedula:%s Asesorias:%s", asesoria.getCedula(), asesoria.getAsesorias()));
-		}*/
+		/*
+		 * for (ConsultaAtencionEmpleadoDTO asesoria : empleadoAsesoria) {
+		 * System.out.println(String.format("Cedula:%s Asesorias:%s",
+		 * asesoria.getCedula(), asesoria.getAsesorias())); }
+		 */
+	}
+
+	/**
+	 * Permite obtener el prestamo con el monto mas alto. Se ordenan los resultados
+	 * en orden descendente usando DESC y se limitan los resultados a 3 usando
+	 * setMaxResults. Item 5 guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json" })
+	public void obtenerMaximoPrestamoTest() {
+		double prestamoMaximo;
+		try {
+			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_MAX_VALOR_PRESTAMOS);
+
+			prestamoMaximo = (Double) query.getSingleResult();
+			DecimalFormat df = new DecimalFormat("#.#");
+			String numero = df.format(prestamoMaximo);
+
+//			System.out.println("Valor maximo prestamo: " + numero);
+
+			Assert.assertEquals("No corresponde al valor maximo del prestamo", "120000000", numero);
+
+		} catch (NoResultException e) {
+			Assert.fail(String.format("Error encontrando el prestamo maximo %s", e.getMessage()));
+		}
+
+		// Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
+		Query query2 = entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
+		query2.setMaxResults(3);
+		List<Object> prestamosMayorValor = query2.getResultList();
+
+		Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2", 3, prestamosMayorValor.size());
+
+		for (Object valorP : prestamosMayorValor) {
+			System.out.println(String.format("Valor prestamo:%.0f", valorP));
+		}
 
 	}
 }

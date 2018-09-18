@@ -31,7 +31,10 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO, query = "select p.id,p.persona.cedula,p.persona.correo,pagos from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio"),
 		@NamedQuery(name = Prestamo.OBTENER_CAMPOS_PRESTAMO_DTO, query = "select new proyectofenix.DTO.consulta10DTO(p.id,p.persona.cedula,p.persona.correo,pagos) from Prestamo p,IN(p.pagos) pagos where p.fechaInicio=:fechaInicio"),
 		@NamedQuery(name = Prestamo.OBTENER_TOTAL_PRESTAMOS, query = "select COUNT(p.id) from Prestamo p"),
-		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_AGRUPADOS_FECHA, query = "select COUNT(DISTINCT p.persona.cedula),p.fechaInicio from Prestamo p GROUP BY p.fechaInicio") })
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_AGRUPADOS_FECHA, query = "select COUNT(DISTINCT p.persona.cedula),p.fechaInicio from Prestamo p GROUP BY p.fechaInicio"),
+		@NamedQuery(name = Prestamo.OBTENER_MAX_VALOR_PRESTAMOS, query = "select MAX(p.valorPrestamo) from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_MAXIMOS_PRESTAMOS, query = "select p.valorPrestamo from Prestamo p ORDER BY p.valorPrestamo DESC")
+		})
 public class Prestamo implements Serializable {
 
 	/**
@@ -69,7 +72,17 @@ public class Prestamo implements Serializable {
 	 * Permite obtener el total de los prestamos agrupados por fecha
 	 */
 	public static final String OBTENER_PRESTAMOS_AGRUPADOS_FECHA = "ObtenerPrestamosAgrupadosFecha";
+
+	/**
+	 * Permite obtener el prestamo con el valor maximo de los prestamos
+	 */
+	public static final String OBTENER_MAX_VALOR_PRESTAMOS = "ObtenerPrestamoMaximo";
 	
+	/**
+	 * Permite obtener los prestamo con el valor maximo ordenados descendente
+	 */
+	public static final String OBTENER_MAXIMOS_PRESTAMOS = "ObtenerPrestamosMaximos";
+
 	/**
 	 * serialVersionUID clase Prestamo
 	 */
