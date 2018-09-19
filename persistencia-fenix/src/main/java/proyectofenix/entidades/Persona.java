@@ -38,6 +38,9 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Persona.PERSONA_POR_EMAIL, query = "select p from Persona p where p.correo=:email") })
 public class Persona implements Serializable {
 
+	/**
+	 * Permite obtener una persona buscandola por email
+	 */
 	public static final String PERSONA_POR_EMAIL = "PersonaPorEmail";
 	/**
 	 * Permite obtener los datos de las personas

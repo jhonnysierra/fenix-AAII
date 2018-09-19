@@ -77,6 +77,7 @@
 		<module>pruebas-fenix</module>
 		<module>negocio-fenix</module>
 		<module>ear-fenix</module>
+		<module>prueba-fenix</module>
 	</modules>
 </project>
 

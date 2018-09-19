@@ -15,10 +15,5 @@
   		<version>0.0.1-SNAPSHOT</version>
   		<type>ejb</type>
   	</dependency>
-  	<dependency>
-  		<groupId>fenix_project</groupId>
-  		<artifactId>persistencia-fenix</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
   </dependencies>
 </project>

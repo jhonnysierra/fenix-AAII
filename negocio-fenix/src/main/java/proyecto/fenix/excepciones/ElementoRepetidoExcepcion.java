@@ -1,8 +1,13 @@
 package proyecto.fenix.excepciones;
 
-public class ElementoRepetidoExcepcion  extends Exception{
+public class ElementoRepetidoExcepcion extends Exception{
 
-	public ElementoRepetidoExcepcion(String mesaje) {
-		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ElementoRepetidoExcepcion(String mensaje) {
+		super(mensaje);
 	}
 }

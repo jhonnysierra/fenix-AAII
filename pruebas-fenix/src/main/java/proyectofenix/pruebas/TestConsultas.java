@@ -323,10 +323,6 @@ public class TestConsultas {
 
 		List<Cliente> clienteSinAsesoria = query.getResultList();
 
-		// System.out.println("Tamaño de la lista: " + clienteSinAsesoria.size());
-
-		// clienteSinAsesoria.forEach(r -> System.out.println(Arrays.toString(r)));
-
 		Assert.assertEquals("Error: Clientes sin asesoria", 4, clienteSinAsesoria.size());
 
 		/*
@@ -362,15 +358,15 @@ public class TestConsultas {
 	}
 
 	/**
-	 * Permite obtener el prestamo con el monto mas alto. Se ordenan los resultados
-	 * en orden descendente usando DESC y se limitan los resultados a 3 usando
-	 * setMaxResults. Item 5 guia 10
+	 * Permite obtener el prestamo con el monto mas alto haciendo uso de max,
+	 * despues con otra consulta se obtiene el listado de los prestamos que tengan
+	 * ese monto como valor de prestamo. Item 5 guia 10
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "prestamo.json" })
 	public void obtenerMaximoPrestamoTest() {
-		double prestamoMaximo;
+		double prestamoMaximo = 0;
 		try {
 			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_MAX_VALOR_PRESTAMOS);
 
@@ -381,23 +377,75 @@ public class TestConsultas {
 //			System.out.println("Valor maximo prestamo: " + numero);
 
 			Assert.assertEquals("No corresponde al valor maximo del prestamo", "120000000", numero);
-			
-			//Consultar el prestamo donde sea el valor del maximo
+
+			// Consultar el prestamo donde sea el valor del maximo
 
 		} catch (NoResultException e) {
 			Assert.fail(String.format("Error encontrando el prestamo maximo %s", e.getMessage()));
 		}
 
-		// Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
-		Query query2 = entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
-		query2.setMaxResults(3);
-		List<Object> prestamosMayorValor = query2.getResultList();
+		TypedQuery<Prestamo> queryPrestamo = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMO_POR_VALOR_MAXIMO,
+				Prestamo.class);
+		queryPrestamo.setParameter("valorPrestamo", prestamoMaximo);
+		List<Prestamo> listaPrestamos = queryPrestamo.getResultList();
 
-		Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2", 3, prestamosMayorValor.size());
-
-		for (Object valorP : prestamosMayorValor) {
-			System.out.println(String.format("Valor prestamo:%.0f", valorP));
-		}
+		Assert.assertEquals("Error: Numero de prestamos con valor maximo", 1, listaPrestamos.size());
+		/*
+		 * // Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
+		 * Query query2 =
+		 * entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
+		 * query2.setMaxResults(3); List<Object> prestamosMayorValor =
+		 * query2.getResultList();
+		 * 
+		 * Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2",
+		 * 3, prestamosMayorValor.size());
+		 * 
+		 * for (Object valorP : prestamosMayorValor) {
+		 * System.out.println(String.format("Valor prestamo:%.0f", valorP)); }
+		 */
 
 	}
+
+	/**
+	 * Obtiene el listado de prestamos haciendo uso de una consulta que tiene como
+	 * parametro el MAX del atributo valor prestamo y devuelve la lista de prestamos
+	 * asociados a ese valor Item 6 guia 10
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json" })
+	public void obtenerTodosPrestamosMaximosTest() {
+
+		TypedQuery<Prestamo> queryPrestamo = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMOS_MAXIMOS,
+				Prestamo.class);
+
+		List<Prestamo> listaPrestamos = queryPrestamo.getResultList();
+
+		Assert.assertEquals("Error: Numero de prestamos con valor maximo", 1, listaPrestamos.size());
+		/*
+		 * // Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
+		 * Query query2 =
+		 * entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
+		 * query2.setMaxResults(3); List<Object> prestamosMayorValor =
+		 * query2.getResultList();
+		 * 
+		 * Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2",
+		 * 3, prestamosMayorValor.size());
+		 * 
+		 */
+		for (Prestamo valorP : listaPrestamos) {
+			System.out.println(String.format("Id:%s Valor prestamo:%.0f", valorP.getId(), valorP.getValorPrestamo()));
+		}
+	}
+
+	/*
+	 * La mejor manera de hacer la consulta de el prestamos o prestamos con el monto
+	 * maximo es con el metodo anterior(obtenerTodosPrestamosMaximosTest) ya que
+	 * alli en una sola consulta se obtienen los resultados, lo que genera que se
+	 * consuman menos recursos y memoria en el sistema. Mientras que en el metodo
+	 * (obtenerMaximoPrestamoTest) se necesita primero consultar el valor maximo y
+	 * despues enviarlo como parametro a otra consulta que devuelve el listado, en
+	 * el metodo anterior el listado se obtiene en una sola consulta.
+	 */
+
 }

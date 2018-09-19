@@ -33,8 +33,9 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_TOTAL_PRESTAMOS, query = "select COUNT(p.id) from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_AGRUPADOS_FECHA, query = "select COUNT(DISTINCT p.persona.cedula),p.fechaInicio from Prestamo p GROUP BY p.fechaInicio"),
 		@NamedQuery(name = Prestamo.OBTENER_MAX_VALOR_PRESTAMOS, query = "select MAX(p.valorPrestamo) from Prestamo p"),
-		@NamedQuery(name = Prestamo.OBTENER_MAXIMOS_PRESTAMOS, query = "select p.valorPrestamo from Prestamo p ORDER BY p.valorPrestamo DESC")
-		})
+		@NamedQuery(name = Prestamo.OBTENER_MAXIMOS_PRESTAMOS, query = "select p.valorPrestamo from Prestamo p ORDER BY p.valorPrestamo DESC"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_VALOR_MAXIMO, query = "select p from Prestamo p where p.valorPrestamo=:valorPrestamo"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_MAXIMOS, query = "select p from Prestamo p where p.valorPrestamo=select MAX(p.valorPrestamo) from Prestamo p") })
 public class Prestamo implements Serializable {
 
 	/**
@@ -77,11 +78,21 @@ public class Prestamo implements Serializable {
 	 * Permite obtener el prestamo con el valor maximo de los prestamos
 	 */
 	public static final String OBTENER_MAX_VALOR_PRESTAMOS = "ObtenerPrestamoMaximo";
-	
+
 	/**
 	 * Permite obtener los prestamo con el valor maximo ordenados descendente
 	 */
 	public static final String OBTENER_MAXIMOS_PRESTAMOS = "ObtenerPrestamosMaximos";
+
+	/**
+	 * Permite obtener los prestamo dado el valor maximo
+	 */
+	public static final String OBTENER_PRESTAMO_POR_VALOR_MAXIMO = "ObtenerPrestamosDadoMaximo";
+
+	/**
+	 * Permite el listado de prestamos con el mayor monto
+	 */
+	public static final String OBTENER_PRESTAMOS_MAXIMOS = "ObtenerTodosPrestamosMaximos";
 
 	/**
 	 * serialVersionUID clase Prestamo
