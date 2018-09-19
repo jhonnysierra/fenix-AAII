@@ -116,6 +116,12 @@
 			<artifactId>persistencia-fenix</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>fenix_project</groupId>
+			<artifactId>negocio-fenix</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
 	</dependencies>
 
 

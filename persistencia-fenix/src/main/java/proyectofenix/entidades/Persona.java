@@ -34,9 +34,11 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Persona.OBTENER_PERSONAS_POR_CREDENCIALES, query = "select p from Persona p where p.cedula=:cedula and p.contrasenia=:contrasenia"),
 		@NamedQuery(name = Persona.OBTENER_DATOS_PERSONAS, query = "select p from Persona p"),
 		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_PERSONA, query = "select prestamos from Persona p,IN(p.prestamo) prestamos where p.cedula=:cedula"),
-		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, query = "select p.cedula,presta from Persona p LEFT JOIN p.prestamo presta") })
+		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, query = "select p.cedula,presta from Persona p LEFT JOIN p.prestamo presta"),
+		@NamedQuery(name = Persona.PERSONA_POR_EMAIL, query = "select p from Persona p where p.correo=:email") })
 public class Persona implements Serializable {
 
+	public static final String PERSONA_POR_EMAIL = "PersonaPorEmail";
 	/**
 	 * Permite obtener los datos de las personas
 	 */

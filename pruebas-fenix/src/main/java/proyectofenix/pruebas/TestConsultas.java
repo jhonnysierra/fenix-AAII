@@ -381,6 +381,8 @@ public class TestConsultas {
 //			System.out.println("Valor maximo prestamo: " + numero);
 
 			Assert.assertEquals("No corresponde al valor maximo del prestamo", "120000000", numero);
+			
+			//Consultar el prestamo donde sea el valor del maximo
 
 		} catch (NoResultException e) {
 			Assert.fail(String.format("Error encontrando el prestamo maximo %s", e.getMessage()));

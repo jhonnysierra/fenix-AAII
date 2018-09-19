@@ -75,6 +75,8 @@
 	<modules>
 		<module>persistencia-fenix</module>
 		<module>pruebas-fenix</module>
+		<module>negocio-fenix</module>
+		<module>ear-fenix</module>
 	</modules>
 </project>
 
