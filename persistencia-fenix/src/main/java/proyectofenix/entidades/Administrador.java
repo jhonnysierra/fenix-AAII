@@ -2,40 +2,46 @@ package proyectofenix.entidades;
 
 import java.io.Serializable;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-
 /**
- * Clase encargada de representar la informacion de un Administrador hereda de la clase Persona
+ * Clase encargada de representar la informacion de un Administrador hereda de
+ * la clase Persona
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  *
  */
 
 @Entity
-@NamedQueries({ @NamedQuery(name = Administrador.OBTENER_DATOS_ADMINISTRADOR, query = "select a from Administrador a") })
-public class Administrador extends Persona implements Serializable{
+@NamedQueries({ @NamedQuery(name = Administrador.OBTENER_DATOS_ADMINISTRADOR, query = "select a from Administrador a"),
+		@NamedQuery(name = Administrador.CONTAR_ADMIN, query = "select count(a) from Administrador a") })
+public class Administrador extends Persona implements Serializable {
+
+	/**
+	 * Permite hacer la referencia a la consulta contar administradores 
+	 */
+	public static final String CONTAR_ADMIN = "ContarAdmin";
 
 	/**
 	 * Permite obtener los datos de los administradores
 	 */
 	public static final String OBTENER_DATOS_ADMINISTRADOR = "DatosAdministrador";
-	
+
 	/**
 	 * serialVersionUID Clase Administrador
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Observacion de un Administrador
 	 */
-	@Column(length=100)
+	@Column(length = 100)
 	private String observacion;
-	
+
 	/**
 	 * Metodo constructor clase Administrador
 	 */
@@ -45,6 +51,7 @@ public class Administrador extends Persona implements Serializable{
 
 	/**
 	 * Metodo get observacion clase Administrador
+	 * 
 	 * @return observavion
 	 */
 	public String getObservavion() {
@@ -53,6 +60,7 @@ public class Administrador extends Persona implements Serializable{
 
 	/**
 	 * Metodo set observacion clase Administrador
+	 * 
 	 * @param observavion
 	 */
 	public void setObservavion(String observavion) {
@@ -61,13 +69,14 @@ public class Administrador extends Persona implements Serializable{
 
 	/**
 	 * Metodo set serialversionuid clase Administrador
+	 * 
 	 * @return serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase Administrador
 	 */
 	@Override
@@ -77,8 +86,8 @@ public class Administrador extends Persona implements Serializable{
 		result = prime * result + ((observacion == null) ? 0 : observacion.hashCode());
 		return result;
 	}
-	
-	/* 
+
+	/*
 	 * Metodo equals clase Administrador
 	 */
 	@Override
@@ -97,6 +106,5 @@ public class Administrador extends Persona implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }

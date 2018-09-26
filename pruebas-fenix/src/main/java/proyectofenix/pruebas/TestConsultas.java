@@ -135,30 +135,20 @@ public class TestConsultas {
 	public void obtenerlistaPersonasYPrestamosTest() {
 
 		Query query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, Object.class);
-		// query.setParameter("cedula", "6208204");
 
 		List<Object[]> resultadoPersonas = query.getResultList();
 
-///////////SALE NULL EN EL CAMPO DE LOS PRESTAMOS. COMO LISTAR LOS PRESTAMOS DE CADA CLIENTE ???????----->>>>>
-
-		System.out.println("Tamano lista: " + resultadoPersonas.size());
-
-		// resultadoPersonas.forEach(r -> System.out.println(Arrays.toString(r)));
-
 		Assert.assertEquals(17, resultadoPersonas.size());
 
-		Prestamo prestamo;
-		String idPrestamo;
-		for (Object[] obj : resultadoPersonas) {
-			if (obj[1] != null) {
-				prestamo = (Prestamo) obj[1];
-				idPrestamo = String.valueOf(prestamo.getId());
-			} else {
-				idPrestamo = "No ha realizado prestamos";
-			}
-
-			System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0], idPrestamo));
-		}
+		/*
+		 * Prestamo prestamo; String idPrestamo; for (Object[] obj : resultadoPersonas)
+		 * { if (obj[1] != null) { prestamo = (Prestamo) obj[1]; idPrestamo =
+		 * String.valueOf(prestamo.getId()); } else { idPrestamo =
+		 * "No ha realizado prestamos"; }
+		 * 
+		 * System.out.println(String.format("Cedula:%s IdPrestamo:%s", obj[0],
+		 * idPrestamo)); }
+		 */
 
 	}
 
@@ -208,20 +198,18 @@ public class TestConsultas {
 
 		List<Object[]> resultadoPrestamos = query.getResultList();
 
-		// System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
-
 		// resultadoPrestamos.forEach(r -> System.out.println(Arrays.toString(r)));
 
 		Assert.assertEquals(5, resultadoPrestamos.size());
 
-		int idPrestamo;
+/*		int idPrestamo;
 		Pago pago;
 		for (Object[] obj : resultadoPrestamos) {
 			idPrestamo = (int) obj[0];
 			pago = (Pago) obj[3];
 			System.out.println(
 					String.format("Id:%s Cedula:%s Email:%s IdPago:%s", idPrestamo, obj[1], obj[2], pago.getId()));
-		}
+		}*/
 
 	}
 
@@ -250,12 +238,11 @@ public class TestConsultas {
 
 		Assert.assertEquals(5, resultadoPrestamos.size());
 
-		System.out.println("Tamaño de la lista: " + resultadoPrestamos.size());
 
-		for (consulta10DTO con : resultadoPrestamos) {
+/*		for (consulta10DTO con : resultadoPrestamos) {
 			System.out.println(String.format("Id:%s Cedula:%s Email:%s IdPago:%s", con.getIdPrestamo(), con.getCedula(),
 					con.getCorreo(), con.getPagos().getId()));
-		}
+		}*/
 
 	}
 
@@ -272,8 +259,6 @@ public class TestConsultas {
 			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_TOTAL_PRESTAMOS);
 
 			totalPrestamos = (Long) query.getSingleResult();
-
-			// System.out.println("Total Prestamos:" + totalPrestamos);
 
 			Assert.assertEquals("No corresponde al total de prestamos", 10, totalPrestamos.intValue());
 
@@ -295,19 +280,15 @@ public class TestConsultas {
 
 		List<Object[]> prestamosAgrupadoFecha = query.getResultList();
 
-		Date fechaInicio = null;
-
-		// System.out.println("Tamaño de la lista: " + prestamosAgrupadoFecha.size());
-
-		// prestamosAgrupadoFecha.forEach(r -> System.out.println(Arrays.toString(r)));
-
 		Assert.assertEquals("No corresponde al total de prestamos agrupados por fecha", 5,
 				prestamosAgrupadoFecha.size());
-
-		for (Object[] obj : prestamosAgrupadoFecha) {
-			fechaInicio = (Date) obj[1];
-			System.out.println(String.format("Cantidad:%s Fecha:%s", obj[0], fechaInicio));
-		}
+		
+		/*
+		 * Date fechaInicio = null; for (Object[] obj : prestamosAgrupadoFecha) {
+		 * fechaInicio = (Date) obj[1];
+		 * System.out.println(String.format("Cantidad:%s Fecha:%s", obj[0],
+		 * fechaInicio)); }
+		 */
 
 	}
 
@@ -374,7 +355,6 @@ public class TestConsultas {
 			DecimalFormat df = new DecimalFormat("#.#");
 			String numero = df.format(prestamoMaximo);
 
-//			System.out.println("Valor maximo prestamo: " + numero);
 
 			Assert.assertEquals("No corresponde al valor maximo del prestamo", "120000000", numero);
 
@@ -390,19 +370,6 @@ public class TestConsultas {
 		List<Prestamo> listaPrestamos = queryPrestamo.getResultList();
 
 		Assert.assertEquals("Error: Numero de prestamos con valor maximo", 1, listaPrestamos.size());
-		/*
-		 * // Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
-		 * Query query2 =
-		 * entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
-		 * query2.setMaxResults(3); List<Object> prestamosMayorValor =
-		 * query2.getResultList();
-		 * 
-		 * Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2",
-		 * 3, prestamosMayorValor.size());
-		 * 
-		 * for (Object valorP : prestamosMayorValor) {
-		 * System.out.println(String.format("Valor prestamo:%.0f", valorP)); }
-		 */
 
 	}
 
@@ -422,20 +389,12 @@ public class TestConsultas {
 		List<Prestamo> listaPrestamos = queryPrestamo.getResultList();
 
 		Assert.assertEquals("Error: Numero de prestamos con valor maximo", 1, listaPrestamos.size());
+
 		/*
-		 * // Se ordena Descendente por valor de prestamo y se imprimen los 3 primeros
-		 * Query query2 =
-		 * entityManager.createNamedQuery(Prestamo.OBTENER_MAXIMOS_PRESTAMOS);
-		 * query2.setMaxResults(3); List<Object> prestamosMayorValor =
-		 * query2.getResultList();
-		 * 
-		 * Assert.assertEquals("No corresponde al valor maximo del prestamo consulta 2",
-		 * 3, prestamosMayorValor.size());
-		 * 
+		 * for (Prestamo valorP : listaPrestamos) {
+		 * System.out.println(String.format("Id:%s Valor prestamo:%.0f", valorP.getId(),
+		 * valorP.getValorPrestamo())); }
 		 */
-		for (Prestamo valorP : listaPrestamos) {
-			System.out.println(String.format("Id:%s Valor prestamo:%.0f", valorP.getId(), valorP.getValorPrestamo()));
-		}
 	}
 
 	/*
