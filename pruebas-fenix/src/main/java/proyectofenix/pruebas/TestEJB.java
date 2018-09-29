@@ -195,7 +195,5 @@ public class TestEJB {
 		List<Empleado> lista = banco.listarEmpleados();	
 		
 		Assert.assertEquals("Error: La lista no tiene los empleados esperados ",3, lista.size());
-		
-
 	}
 }
