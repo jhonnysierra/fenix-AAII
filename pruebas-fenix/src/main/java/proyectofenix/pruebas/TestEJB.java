@@ -3,6 +3,7 @@ package proyectofenix.pruebas;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -153,12 +154,47 @@ public class TestEJB {
 		try {
 			banco.modificarEmpleado(empleadoModificar);
 		} catch (ExcepcionesFenix e1) {
-			Assert.fail(String.format("Error Metodo actualizar empleado: %s", e1.getMessage()));
+			Assert.fail(String.format("Error modificarEmpleado: %s", e1.getMessage()));
 		}
 		
 		Empleado empleadoModificado = entityManager.find(Empleado.class, "1234");
 		
 		Assert.assertEquals("El salario de empleado no se modificó", "3000000.0", String.valueOf(empleadoModificado.getSalario()));
+		
+
+	}
+	
+	/**
+	 * Permite probar el metodo eliminar empleado de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void eliminarEmpleadoTest() {
+				
+		try {
+			banco.eliminarEmpleado("1234");
+		} catch (ExcepcionesFenix e1) {
+			Assert.fail(String.format("Error modificarEmpleado: %s", e1.getMessage()));
+		}
+		
+		Empleado empleado = entityManager.find(Empleado.class, "1234");
+		
+		Assert.assertNull("Empleado es diferente de null",empleado);
+		
+
+	}
+	
+	/**
+	 * Permite probar el metodo listar empleados de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
+	public void listarEmpleadosTest() {
+		List<Empleado> lista = banco.listarEmpleados();	
+		
+		Assert.assertEquals("Error: La lista no tiene los empleados esperados ",3, lista.size());
 		
 
 	}
