@@ -74,7 +74,7 @@ public class TestConsultas {
 			Assert.assertEquals("No se encotro el dueño del bien raiz", "6208204", p.getCedula());
 
 		} catch (NoResultException e) {
-			Assert.fail(String.format("Error buscandola la persona relacionada con el bien raiz%s", e.getMessage()));
+			Assert.fail(String.format("Error buscando la persona relacionada con el bien raiz%s", e.getMessage()));
 		}
 
 	}

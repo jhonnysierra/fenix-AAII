@@ -35,9 +35,27 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_MAX_VALOR_PRESTAMOS, query = "select MAX(p.valorPrestamo) from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_MAXIMOS_PRESTAMOS, query = "select p.valorPrestamo from Prestamo p ORDER BY p.valorPrestamo DESC"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_VALOR_MAXIMO, query = "select p from Prestamo p where p.valorPrestamo=:valorPrestamo"),
-		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_MAXIMOS, query = "select p from Prestamo p where p.valorPrestamo=select MAX(p.valorPrestamo) from Prestamo p") })
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_MAXIMOS, query = "select p from Prestamo p where p.valorPrestamo=select MAX(p.valorPrestamo) from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_ALL, query = "select p from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_POR_TIPO, query = "select p from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_ID, query = "select p from Prestamo p where p.id=:id")})
 public class Prestamo implements Serializable {
 
+	/**
+	 * Permite obtener un prestamo por por Id de prestamo 
+	 */
+	public static final String OBTENER_PRESTAMO_POR_ID = "PrestamosPorId";
+	
+	/**
+	 * Permite obtener un prestamo por tipo 
+	 */
+	public static final String OBTENER_PRESTAMOS_POR_TIPO = "PrestamosPorTipo";
+	
+	/**
+	 * Permite obtener todos los prestamos
+	 */
+	public static final String OBTENER_PRESTAMOS_ALL = "TodosLosPrestamos";
+	
 	/**
 	 * Permite obtener las cuotas de un prestamo
 	 */

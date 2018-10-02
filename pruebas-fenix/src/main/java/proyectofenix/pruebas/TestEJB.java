@@ -32,6 +32,7 @@ import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Persona;
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.negocio.BancoEJB;
 
 @RunWith(Arquillian.class)
@@ -130,7 +131,7 @@ public class TestEJB {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json" })
 	public void buscarEmpleadoTest() {
-		
+
 		try {
 			Assert.assertNotNull(banco.buscarEmpleado("1234"));
 		} catch (Exception e) {
@@ -138,7 +139,7 @@ public class TestEJB {
 		}
 
 	}
-	
+
 	/**
 	 * Permite probar el buscar empleado de BancoEJB
 	 */
@@ -146,24 +147,24 @@ public class TestEJB {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json" })
 	public void modificarEmpleadoTest() {
-		
+
 		Empleado empleadoModificar = entityManager.find(Empleado.class, "1234");
-		
+
 		empleadoModificar.setSalario(3000000);
-		
+
 		try {
 			banco.modificarEmpleado(empleadoModificar);
 		} catch (ExcepcionesFenix e1) {
 			Assert.fail(String.format("Error modificarEmpleado: %s", e1.getMessage()));
 		}
-		
+
 		Empleado empleadoModificado = entityManager.find(Empleado.class, "1234");
-		
-		Assert.assertEquals("El salario de empleado no se modificó", "3000000.0", String.valueOf(empleadoModificado.getSalario()));
-		
+
+		Assert.assertEquals("El salario de empleado no se modificó", "3000000.0",
+				String.valueOf(empleadoModificado.getSalario()));
 
 	}
-	
+
 	/**
 	 * Permite probar el metodo eliminar empleado de BancoEJB
 	 */
@@ -171,20 +172,19 @@ public class TestEJB {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json" })
 	public void eliminarEmpleadoTest() {
-				
+
 		try {
 			banco.eliminarEmpleado("1234");
 		} catch (ExcepcionesFenix e1) {
 			Assert.fail(String.format("Error modificarEmpleado: %s", e1.getMessage()));
 		}
-		
+
 		Empleado empleado = entityManager.find(Empleado.class, "1234");
-		
-		Assert.assertNull("Empleado es diferente de null",empleado);
-		
+
+		Assert.assertNull("Empleado es diferente de null", empleado);
 
 	}
-	
+
 	/**
 	 * Permite probar el metodo listar empleados de BancoEJB
 	 */
@@ -192,8 +192,54 @@ public class TestEJB {
 	@Transactional(value = TransactionMode.ROLLBACK)
 	@UsingDataSet({ "persona.json" })
 	public void listarEmpleadosTest() {
-		List<Empleado> lista = banco.listarEmpleados();	
-		
-		Assert.assertEquals("Error: La lista no tiene los empleados esperados ",3, lista.size());
+		List<Empleado> lista = banco.listarEmpleados();
+
+		Assert.assertEquals("Error: La lista no tiene los empleados esperados ", 3, lista.size());
+	}
+
+	/**
+	 * Permite probar el metodo listar prestamos de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json" })
+	public void listarPrestamosTest() {
+		List<Prestamo> lista = banco.listarAllPrestamos();
+
+		Assert.assertEquals("Error: La lista no tiene los prestamos esperados ", 10, lista.size());
+	}
+
+	/**
+	 * Permite probar el metodo listar prestamos por tipo de prestamo BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json", "tipoprestamo.json" })
+	public void listarPrestamosPorTipoTest() {
+		List<Prestamo> lista = null;
+		try {
+			lista = banco.listarPrestamosPorTipo(1);
+		} catch (ExcepcionesFenix e) {
+			Assert.fail(String.format("Error: %s",e.getMessage()));
+		}
+
+		Assert.assertEquals("Error: La lista no tiene los prestamos esperados ", 1, lista.size());
+	}
+	
+	/**
+	 * Permite probar el metodo buscar prestamos por id BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "prestamo.json", "tipoprestamo.json" })
+	public void buscarPrestamosPorIdTest() {
+		Prestamo prestamo = null;
+		try {
+			prestamo = banco.listarPrestamoPorId(10);
+		} catch (ExcepcionesFenix e) {
+			Assert.fail(String.format("Error: %s",e.getMessage()));
+		}
+
+		//Assert.assertEquals("Error: La lista no tiene los prestamos esperados ", 1, prestamo);
 	}
 }
