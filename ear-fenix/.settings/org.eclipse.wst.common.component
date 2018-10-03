@@ -8,5 +8,8 @@
         <dependent-module archiveName="persistencia-fenix.jar" deploy-path="/lib" handle="module:/resource/persistencia-fenix/persistencia-fenix">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="web-fenix.war" deploy-path="/" handle="module:/resource/web-fenix/web-fenix">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
