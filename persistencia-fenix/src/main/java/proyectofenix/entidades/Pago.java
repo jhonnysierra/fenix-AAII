@@ -21,8 +21,14 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select MAX(p.id)+1 from Pago p") })
 public class Pago implements Serializable {
 
+	/**
+	 * Permite obtener el maximo id de un pago y sumarle 1 para generar el
+	 * consecutivo
+	 */
+	public static final String OBTENER_CONSECUTIVO_PAGO = "ConsecutivoIdPago";
 
 	/**
 	 * serialVersionUID clase Pago

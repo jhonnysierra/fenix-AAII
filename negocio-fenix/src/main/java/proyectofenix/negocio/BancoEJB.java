@@ -9,10 +9,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
@@ -279,11 +281,11 @@ public class BancoEJB implements BancoEJBRemote {
 	/**
 	 * Metodo que permite obtener una lista con todos los prestamos de pendiendo del
 	 * tipo realizados por los clientes del banco
-	 * 
+	 * @param idTipoPrestamo id del tipo de prestamo por el que se quiere filtrar los prestamos
 	 * @return List<Prestamo> lista de todos los prestamos realizados de tipo
 	 */
-	public List<Prestamo> listarPrestamosPorTipo(int idPrestamo) throws ExcepcionesFenix {
-		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, idPrestamo);
+	public List<Prestamo> listarPrestamosPorTipo(int idTipoPrestamo) throws ExcepcionesFenix {
+		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, idTipoPrestamo);
 
 		if (tipoPrestamo == null) {
 			throw new ExcepcionesFenix("No se encontró el id del prestamo");
@@ -300,10 +302,10 @@ public class BancoEJB implements BancoEJBRemote {
 	/**
 	 * Metodo que permite buscar un prestamo por id
 	 * 
-	 * @param id id del prestamo a buscar
-	 * @return Prestamo prestamo encontrado o null si no encuentra nada
+	 * @param id del prestamo a buscar
+	 * @return Prestamo, prestamo encontrado o null si no encuentra nada
 	 */
-	public Prestamo listarPrestamoPorId(int id) {
+	public Prestamo listarPrestamoPorId(int id) throws ExcepcionesFenix{
 
 		try {
 			TypedQuery<Prestamo> query = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMO_POR_ID,
@@ -312,8 +314,50 @@ public class BancoEJB implements BancoEJBRemote {
 			Prestamo prestamo = query.getSingleResult();
 			return prestamo;
 		} catch (NoResultException e) {
-			e.getMessage();
+			throw new ExcepcionesFenix("No se encontró el prestamo " + e.getMessage());
 		}
-		return null;
+		
+	}
+	
+	/**
+	 * Metodo que permite registrar un pago
+	 * @param pago a realizar
+	 * @return Pago, pago realizado
+	 */
+	public Pago registrarPagoCuota(Pago pago) throws ExcepcionesFenix{
+		if(pago.getPrestamo()==null) {
+			throw new ExcepcionesFenix("No se puede realizar el pago porque NO se encontró el prestamo");
+		}
+		else if(entityManager.find(Pago.class, pago.getId())!=null) {
+			throw new ExcepcionesFenix("No se puede realizar el pago porque el id del pago ya existe");
+		}
+		
+		try {
+			entityManager.persist(pago);
+			return pago;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix{
+		
+		
+		if(entityManager.find(Prestamo.class, prestamo.getId())!=null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
+		}
+		// Si el prestamo es hipotecario(4) y la persona no tiene bien raiz hay una excepcion
+		if(prestamo.getTipoPrestamo().getId()==4 && prestamo.getPersona().getBienRaiz()==null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo hipotecario porque el cliente no tiene un bien asociado");
+		}
+		
+		try {
+			entityManager.persist(prestamo);
+			return prestamo;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

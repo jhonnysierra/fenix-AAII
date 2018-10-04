@@ -38,9 +38,14 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_MAXIMOS, query = "select p from Prestamo p where p.valorPrestamo=select MAX(p.valorPrestamo) from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_ALL, query = "select p from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_POR_TIPO, query = "select p from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
-		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_ID, query = "select p from Prestamo p where p.id=:id")})
+		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_ID, query = "select p from Prestamo p where p.id=:id"),
+		@NamedQuery(name = Prestamo.OBTENER_CONSECUTIVO_PRESTAMO, query = "select MAX(p.id)+1 from Prestamo p")})
 public class Prestamo implements Serializable {
 
+	/**
+	 * Permite obtener un prestamo el id más alto y sumarle 1 para generar el consecutivo
+	 */
+	public static final String OBTENER_CONSECUTIVO_PRESTAMO = "ConsecutivoIdPrestamo";
 	/**
 	 * Permite obtener un prestamo por por Id de prestamo 
 	 */

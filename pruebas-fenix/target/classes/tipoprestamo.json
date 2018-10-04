@@ -1,0 +1,28 @@
+{
+	"TIPOPRESTAMO": [
+		{
+			"id": 1,
+			"descripcion": "Compras tangibles de valor medio o bajo",
+			"nombre": "PRESTAMO DE CONSUMO",
+			"tasainteres": 0.02
+		},
+		{
+			"id": 2,
+			"descripcion": "Compras NO tangibles de valor bajo",
+			"nombre": "PRESTAMO PERSONAL",
+			"tasainteres": 0.05
+		},
+		{
+			"id": 3,
+			"descripcion": "Para pagos de estudios de pregrado o posgrado",
+			"nombre": "PRESTAMO DE ESTUDIO",
+			"tasainteres": 0.01
+		},
+		{
+			"id": 4,
+			"descripcion": "Para compras de gran valor,regularmente casas o apartamentos",
+			"nombre": "PRESTAMO HIPOTECARIO",
+			"tasainteres": 0.04
+		}
+	]
+}

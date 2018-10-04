@@ -2,6 +2,7 @@ package proyectofenix.pruebas;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +32,10 @@ import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
+import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.negocio.BancoEJB;
 
 @RunWith(Arquillian.class)
@@ -220,12 +223,12 @@ public class TestEJB {
 		try {
 			lista = banco.listarPrestamosPorTipo(1);
 		} catch (ExcepcionesFenix e) {
-			Assert.fail(String.format("Error: %s",e.getMessage()));
+			Assert.fail(String.format("Error: %s", e.getMessage()));
 		}
 
 		Assert.assertEquals("Error: La lista no tiene los prestamos esperados ", 1, lista.size());
 	}
-	
+
 	/**
 	 * Permite probar el metodo buscar prestamos por id BancoEJB
 	 */
@@ -235,11 +238,94 @@ public class TestEJB {
 	public void buscarPrestamosPorIdTest() {
 		Prestamo prestamo = null;
 		try {
-			prestamo = banco.listarPrestamoPorId(10);
+			prestamo = banco.listarPrestamoPorId(3);
+			Assert.assertNotNull("El prestamo es null", prestamo);
 		} catch (ExcepcionesFenix e) {
-			Assert.fail(String.format("Error: %s",e.getMessage()));
+			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+	}
+
+	/**
+	 * Permite probar el metodo registrar pago de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "pago.json", "prestamo.json" })
+	public void registrarPagoCuotaTest() {
+		int consecutivo;
+		Date fechaPago = null;
+		Prestamo prestamo = entityManager.find(Prestamo.class, 1);
+		Query query = entityManager.createNamedQuery(Pago.OBTENER_CONSECUTIVO_PAGO);
+
+		consecutivo = (int) query.getSingleResult();
+
+		try {
+			fechaPago = new SimpleDateFormat("yyy-MM-dd").parse("2018-01-01");
+		} catch (ParseException e1) {
+			e1.printStackTrace();
 		}
 
-		//Assert.assertEquals("Error: La lista no tiene los prestamos esperados ", 1, prestamo);
+		Pago pago = new Pago();
+		pago.setId(consecutivo);
+		pago.setValor(120000);
+		pago.setFecha(fechaPago);
+		pago.setPrestamo(prestamo);
+		
+
+		try {
+			
+			banco.registrarPagoCuota(pago);
+			//Assert.assertNotNull(banco.registrarPagoCuota(pago));
+			//System.out.println("COnsecutivo: " + pago.getId());
+		} catch (ExcepcionesFenix e) {
+			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+
+	}
+	
+	/**
+	 * Permite probar el metodo registrar pago de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({"prestamo.json", "persona.json", "bienraiz.json", "tipoprestamo.json" })
+	public void registrarPrestamoTest() {
+		int consecutivo;
+		Date fechaInicio = null, fechaFin=null;
+		Calendar sumaFecha = Calendar.getInstance();
+		
+		
+		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, 4);
+		Persona persona = entityManager.find(Persona.class, "1234");
+		
+		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
+		
+		consecutivo = (int) query.getSingleResult();
+		
+		try {
+			fechaInicio = new SimpleDateFormat("yyy-MM-dd").parse("2018-01-01");
+			sumaFecha.setTime(fechaInicio);
+			sumaFecha.add(Calendar.MONTH, 48);
+			fechaFin= sumaFecha.getTime();
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+
+		Prestamo prestamo = new Prestamo();
+		prestamo.setId(consecutivo);
+		prestamo.setPersona(persona);
+		prestamo.setValorPrestamo(2000000);
+		prestamo.setFechaInicio(fechaInicio);
+		prestamo.setTipoPrestamo(tipoPrestamo);
+	
+		try {
+			prestamo=banco.registrarPrestamo(prestamo);
+			
+			Assert.assertNotNull("El prestamo es null",prestamo);
+		} catch (ExcepcionesFenix e) {
+			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+
 	}
 }

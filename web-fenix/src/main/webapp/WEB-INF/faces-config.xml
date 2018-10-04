@@ -11,4 +11,9 @@ facesconfig_2_3.xsd"
 			<var>msg</var>
 		</resource-bundle>
 	</application>
+	<managed-bean>
+		<managed-bean-name>holaMundoBean1</managed-bean-name>
+		<managed-bean-class>proyectofenix.web.HolaMundoBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
 </faces-config>
