@@ -16,4 +16,14 @@ facesconfig_2_3.xsd"
 		<managed-bean-class>proyectofenix.web.HolaMundoBean</managed-bean-class>
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>ejemploBean1</managed-bean-name>
+		<managed-bean-class>proyectofenix.web.EjemploBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>clienteBean1</managed-bean-name>
+		<managed-bean-class>proyectofenix.web.ClienteBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
 </faces-config>

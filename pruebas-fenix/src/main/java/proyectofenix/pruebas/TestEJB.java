@@ -72,7 +72,7 @@ public class TestEJB {
 		cliente.setNombres("jhonny");
 		cliente.setApellidos("Sierra Parra");
 		cliente.setContrasenia("123456");
-		cliente.setCorreo("prueba@gmail.com");
+		cliente.setCorreo("pruebasp@gmail.com");
 		cliente.setEstado("1");
 		cliente.setCiudad(ciudad);
 		cliente.setDireccion("cra 8 # 13-06");

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta charset="UTF-8" />
+<title>Registrar Cliente</title>
+</head>
+<body>
+
+<form jsf:id="formCliente" >
+
+	<label for="cedulaCliente" >Cedula:</label>
+	<input id="cedulaCliente" type="text" jsf:value="#{clienteBean1.cedula}" />
+	<BR />
+	<label for="nombresCliente" >Nombres:</label>
+	<input id="nombresCliente" type="text" jsf:value="#{clienteBean1.nombres}" />
+	<BR />
+	<label for="apellidosCliente" >Apellidos:</label>
+	<input id="apellidosCliente" type="text" jsf:value="#{clienteBean1.apellidos}" />
+	<BR />
+	<label for="correoCliente" >Correo:</label>
+	<input id="correoCliente" type="text" jsf:value="#{clienteBean1.correo}" />
+	
+	<BR />
+	<label for="direccionCliente" >Direccion:</label>
+	<input id="direccionCliente" type="text" jsf:value="#{clienteBean1.direccion}" />
+	
+	
+	<BR />
+	<label for="estadoCliente" >Estado:</label>
+	<input id="estadoCliente" type="text" jsf:value="#{clienteBean1.estado}" />
+	
+	
+	<BR />
+	<label for="contraseniaCliente" >Contraseña:</label>
+	<input id="contraseniaCliente" type="text" jsf:value="#{clienteBean1.contrasenia}" />
+	
+	<BR />
+	<input type="submit" jsf:action="#{clienteBean1.agregarCliente}" value="Aceptar" />
+	
+	<h:messages /><br />
+</form>
+</body>
+</html>
