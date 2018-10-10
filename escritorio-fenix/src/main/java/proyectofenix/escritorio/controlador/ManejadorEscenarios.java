@@ -68,7 +68,12 @@ public class ManejadorEscenarios {
 			escenario.setScene(scene);
 			escenario.show();
 
-			//cargarEscena();
+			
+			//se carga el controlador del inicio
+			InicioControlador inicioControlador = loader.getController();
+			inicioControlador.setEscenarioInicial(this);
+			
+			//cargarEscenaDetalleCliente();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -79,7 +84,7 @@ public class ManejadorEscenarios {
 	/**
 	 * carga una escena en el centro del escenario
 	 */
-	public void cargarEscena() {
+	public void cargarEscenaDetalleCliente() {
 
 		try {
 
@@ -108,12 +113,12 @@ public class ManejadorEscenarios {
 			
 			// se carga la interfaz
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../vista/gestionar_persona.fxml"));
+			loader.setLocation(Main.class.getResource("../vista/crear_cliente.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 			
 			// se crea el escenario
 			Stage escenarioCrear = new Stage();
-			escenarioCrear.setTitle("Crear");
+			escenarioCrear.setTitle("Registrar Cliente");
 			Scene scene = new Scene(page);
 			escenarioCrear.setScene(scene);
 			

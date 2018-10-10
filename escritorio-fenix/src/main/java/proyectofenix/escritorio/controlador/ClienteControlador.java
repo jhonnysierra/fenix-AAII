@@ -3,8 +3,11 @@
  */
 package proyectofenix.escritorio.controlador;
 
+import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,13 +69,15 @@ public class ClienteControlador {
 	 * instancia del manejador de escenario
 	 */
 	private ManejadorEscenarios escenarioInicial;
-	
+
 	private ClienteObservable clienteObservable;
-	
-	public ClienteControlador() {}
+
+	public ClienteControlador() {
+	}
 
 	/**
-	 * permite carga la informacion en las tables y escuchar las operaciones que se realizan con la tabla
+	 * permite carga la informacion en las tables y escuchar las operaciones que se
+	 * realizan con la tabla
 	 */
 	@FXML
 	private void initialize() {
@@ -86,10 +91,11 @@ public class ClienteControlador {
 				.addListener((observable, oldValue, newValue) -> mostrarDetalleCliente(newValue));
 
 	}
-	
+
 	/**
 	 * permite obtener una instancia del escenario general
-	 * @param escenarioInicial 
+	 * 
+	 * @param escenarioInicial
 	 */
 	public void setEscenarioInicial(ManejadorEscenarios escenarioInicial) {
 		this.escenarioInicial = escenarioInicial;
@@ -98,6 +104,7 @@ public class ClienteControlador {
 
 	/**
 	 * permite mostrar la informacion del cliente seleccionado
+	 * 
 	 * @param cliente cliente al que se le desea mostrar el detalle
 	 */
 	public void mostrarDetalleCliente(ClienteObservable cliente) {
@@ -120,7 +127,7 @@ public class ClienteControlador {
 		}
 
 	}
-	
+
 	/**
 	 * permite mostrar la ventana de agregar cliente
 	 */
@@ -129,26 +136,33 @@ public class ClienteControlador {
 		escenarioInicial.cargarEscenarioCrearCliente();
 		tablaClientes.refresh();
 	}
-	
+
 	/**
 	 * permite eliminar un cliente seleccionado
 	 */
 	@FXML
 	public void elimiarCliente() {
+
+		Alert confirmarEliminar = Utilidades.mensajeConfirmar("Eliminar Cliente",
+				"¿Realmente desea eliminar el cliente?");
+
+		Optional<ButtonType> result = confirmarEliminar.showAndWait();
 		
-		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
-		
-		System.out.println(tablaClientes.getItems().size());
-		
-		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
-		
-		if(escenarioInicial.eliminarCliente(cliente)) {
-			tablaClientes.getItems().remove(indice);
-			Utilidades.mostrarMensaje("Borrar", "El cliente ha sido eliminado con exito");			
+		if (result.get() == ButtonType.OK) {
+			int indice = tablaClientes.getSelectionModel().getSelectedIndex();
+
+			System.out.println(tablaClientes.getItems().size());
+
+			Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
+
+			if (escenarioInicial.eliminarCliente(cliente)) {
+				tablaClientes.getItems().remove(indice);
+				Utilidades.mostrarMensaje("Eliminar", "El cliente ha sido eliminado con exito");
+			} else {
+				Utilidades.mostrarMensaje("Error", "El cliente no pudo ser eliminado");
+			}
 		}
-		else {
-			Utilidades.mostrarMensaje("Error", "El cliente no pudo ser eliminado");		
-		}
+
 	}
 
 }

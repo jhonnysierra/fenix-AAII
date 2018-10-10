@@ -27,6 +27,21 @@ public final class Utilidades {
 		alert.showAndWait();	
 	}
 	
+	
+	/**
+	 * Permite mostrar una alerta de confirmacion
+	 * @param titulo subtitulo de la alerta
+	 * @param mensaje mensaje principal
+	 */
+	public static Alert mensajeConfirmar(String titulo, String mensaje ) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Banco");
+		alert.setHeaderText(titulo);
+		alert.setContentText(mensaje);
+		//alert.showAndWait();
+		return alert;
+	}
+	
 	/**
 	 * permite hacer un casting de localDate a Date
 	 * @param localDate que se quiere cambiar
