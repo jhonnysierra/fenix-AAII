@@ -79,6 +79,7 @@
 		<module>ear-fenix</module>
 		<module>prueba-fenix</module>
 		<module>web-fenix</module>
+		<module>escritorio-fenix</module>
 	</modules>
 </project>
 

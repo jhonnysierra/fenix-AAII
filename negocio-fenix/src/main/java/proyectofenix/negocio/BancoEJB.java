@@ -191,8 +191,6 @@ public class BancoEJB implements BancoEJBRemote {
 
 		if (empleadoBuscar != null) {
 			return empleadoBuscar;
-			// throw new ExcepcionesFenix("Error: ya se ha registrado una persona
-			// con este numero de documento");
 
 		} else if (buscarPersonaPorEmail(empleadoBuscar.getCorreo())) {
 			return empleadoBuscar;
@@ -342,7 +340,6 @@ public class BancoEJB implements BancoEJBRemote {
 	}
 	
 	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix{
-		
 		
 		if(entityManager.find(Prestamo.class, prestamo.getId())!=null) {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
