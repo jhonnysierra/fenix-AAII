@@ -184,7 +184,6 @@ public class ManejadorEscenarios {
 		try {
 			return bancoDelegado.eliminarCliente(cliente.getCedula());
 		} catch (ExcepcionesFenix e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

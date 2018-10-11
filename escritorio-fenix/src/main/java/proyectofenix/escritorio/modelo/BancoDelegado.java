@@ -247,6 +247,7 @@ public class BancoDelegado {
 	 */
 	public ObservableList<ClienteObservable> listarClientesObservables() {
 		List<Cliente> clientes = listarclientes();
+		//System.out.println("Lista telefonos:" + clientes.get(0).getCedula());
 		ObservableList<ClienteObservable> clientesObservables = FXCollections.observableArrayList();
 		for (Cliente c : clientes) {
 			clientesObservables.add(new ClienteObservable(c));

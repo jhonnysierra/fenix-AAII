@@ -61,7 +61,7 @@ public class TestEntidades {
 	public void buscarPersonaTest() {
 
 		Persona personaBuscar = entityManager.find(Persona.class, "123456789");
-		Assert.assertNotNull(personaBuscar);
+		Assert.assertNotNull("No se encontro la persona",personaBuscar);
 		// Probar que la persona tiene 1 telefono asociado
 		Assert.assertEquals(1, personaBuscar.getTelefonos().size());
 	}

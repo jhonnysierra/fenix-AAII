@@ -102,7 +102,7 @@ public class TestEJB {
 		Ciudad ciudad = entityManager.find(Ciudad.class, "02");
 		Date fechaInicio = null;
 		try {
-			fechaInicio = new SimpleDateFormat("yyy-MM-dd").parse("2018-01-01");
+			fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01");
 		} catch (ParseException e1) {
 			Assert.fail(String.format("Error: %s", e1.getMessage()));
 		}
@@ -143,6 +143,21 @@ public class TestEJB {
 
 	}
 
+	/**
+	 * Permite probar el buscar empleado de BancoEJB
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	public void buscarClienteTest() {
+
+		try {
+			Assert.assertNotNull(banco.buscarcliente("1"));
+		} catch (Exception e) {
+			Assert.fail(String.format("Error Metodo: %s", e.getMessage()));
+		}
+
+	}
+	
 	/**
 	 * Permite probar el buscar empleado de BancoEJB
 	 */
@@ -260,7 +275,7 @@ public class TestEJB {
 		consecutivo = (int) query.getSingleResult();
 
 		try {
-			fechaPago = new SimpleDateFormat("yyy-MM-dd").parse("2018-01-01");
+			fechaPago = new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01");
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -303,7 +318,7 @@ public class TestEJB {
 		consecutivo = (int) query.getSingleResult();
 		
 		try {
-			fechaInicio = new SimpleDateFormat("yyy-MM-dd").parse("2018-01-01");
+			fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01");
 			sumaFecha.setTime(fechaInicio);
 			sumaFecha.add(Calendar.MONTH, 48);
 			fechaFin= sumaFecha.getTime();

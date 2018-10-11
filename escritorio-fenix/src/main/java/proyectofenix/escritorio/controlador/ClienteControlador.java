@@ -3,6 +3,8 @@
  */
 package proyectofenix.escritorio.controlador;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
@@ -65,6 +67,34 @@ public class ClienteControlador {
 	 */
 	@FXML
 	private Label txtFechaNacimiento;
+
+	/**
+	 * Etiqueta de genero
+	 */
+	@FXML
+	private Label txtGenero;
+	
+	/**
+	 * Etiqueta de telefono
+	 */
+	@FXML
+	private Label txtTelefono;
+
+	/**
+	 * Etiqueta de direccion
+	 */
+	@FXML
+	private Label txtDireccion;
+	
+	/**
+	 * Etiqueta de numero de cuenta
+	 */
+	@FXML
+	private Label txtNoCuenta;
+	
+	
+	private Format formatoFecha;
+
 	/**
 	 * instancia del manejador de escenario
 	 */
@@ -72,7 +102,11 @@ public class ClienteControlador {
 
 	private ClienteObservable clienteObservable;
 
+	/**
+	 * Metodo constructor
+	 */
 	public ClienteControlador() {
+		formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 	}
 
 	/**
@@ -116,7 +150,9 @@ public class ClienteControlador {
 			txtApellido.setText(cliente.getApellido().getValue());
 			txtEmail.setText(cliente.getEmail().getValue());
 			txtClave.setText(cliente.getClave().getValue());
-			txtFechaNacimiento.setText(cliente.getFechaNacimiento().getValue().toString());
+			txtFechaNacimiento.setText(formatoFecha.format(cliente.getFechaNacimiento().getValue()));
+			txtGenero.setText(cliente.getGenero().getValue());
+			//txtTelefono.setText(cliente.getTelefono().get(0).toString());
 		} else {
 			txtCedula.setText("");
 			txtNombre.setText("");
@@ -124,6 +160,7 @@ public class ClienteControlador {
 			txtEmail.setText("");
 			txtClave.setText("");
 			txtFechaNacimiento.setText("");
+			txtGenero.setText("");
 		}
 
 	}
@@ -147,7 +184,7 @@ public class ClienteControlador {
 				"¿Realmente desea eliminar el cliente?");
 
 		Optional<ButtonType> result = confirmarEliminar.showAndWait();
-		
+
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaClientes.getSelectionModel().getSelectedIndex();
 

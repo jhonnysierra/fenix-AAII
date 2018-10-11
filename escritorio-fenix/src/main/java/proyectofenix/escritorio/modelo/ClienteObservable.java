@@ -1,11 +1,17 @@
 package proyectofenix.escritorio.modelo;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Persona;
 
@@ -41,6 +47,27 @@ public class ClienteObservable {
 	 * fecha de nacimiento observable de un cliente
 	 */
 	private ObjectProperty<Date> fechaNacimiento;
+
+	/**
+	 * Genero observable de un cliente
+	 */
+	private StringProperty genero;
+
+	/**
+	 * telefono observable de un cliente
+	 */
+	private ListProperty<String> telefono;
+	
+	/**
+	 * Direccion observable de un cliente
+	 */
+	private StringProperty direccion;
+
+	/**
+	 * Numero de cuenta observable de un cliente
+	 */
+	private StringProperty numeroCuenta;
+
 	/**
 	 * cliente asociado
 	 */
@@ -77,7 +104,13 @@ public class ClienteObservable {
 		this.email = new SimpleStringProperty(cliente.getCorreo());
 		this.clave = new SimpleStringProperty(cliente.getContrasenia());
 		this.fechaNacimiento = new SimpleObjectProperty<>(cliente.getFecha_nacimiento());
+		this.genero = new SimpleStringProperty(cliente.getGenero().name());
+		this.telefono = new SimpleListProperty<>();
 
+		System.out.println("Telefono cliente:" + cliente.getTelefonos());
+		//telefono.set(FXCollections.observableArrayList(cliente.getTelefonos()));
+		
+		//System.out.println("telefono cliente:" + telefono.get(0));
 	}
 
 	/**
@@ -90,7 +123,8 @@ public class ClienteObservable {
 	 * @param clave
 	 * @param fecha
 	 */
-	public ClienteObservable(String cedula, String nombre, String apellido, String email, String clave, Date fecha) {
+	public ClienteObservable(String cedula, String nombre, String apellido, String email, String clave, Date fecha,
+			String genero) {
 
 		this.cedula = new SimpleStringProperty(cedula);
 		this.nombre = new SimpleStringProperty(nombre);
@@ -98,6 +132,7 @@ public class ClienteObservable {
 		this.email = new SimpleStringProperty(email);
 		this.clave = new SimpleStringProperty(clave);
 		this.fechaNacimiento = new SimpleObjectProperty<>(fecha);
+		this.genero = new SimpleStringProperty(genero);
 
 	}
 
@@ -197,6 +232,62 @@ public class ClienteObservable {
 	 */
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	/**
+	 * @return the genero
+	 */
+	public StringProperty getGenero() {
+		return genero;
+	}
+
+	/**
+	 * @param genero the genero to set
+	 */
+	public void setGenero(StringProperty genero) {
+		this.genero = genero;
+	}
+
+	/**
+	 * @return the telefono
+	 */
+	public ListProperty<String> getTelefono() {
+		return telefono;
+	}
+
+	/**
+	 * @param telefono the telefono to set
+	 */
+	public void setTelefono(ListProperty<String> telefono) {
+		this.telefono = telefono;
+	}
+
+	/**
+	 * @return the direccion
+	 */
+	public StringProperty getDireccion() {
+		return direccion;
+	}
+
+	/**
+	 * @param direccion the direccion to set
+	 */
+	public void setDireccion(StringProperty direccion) {
+		this.direccion = direccion;
+	}
+
+	/**
+	 * @return the numeroCuenta
+	 */
+	public StringProperty getNumeroCuenta() {
+		return numeroCuenta;
+	}
+
+	/**
+	 * @param numeroCuenta the numeroCuenta to set
+	 */
+	public void setNumeroCuenta(StringProperty numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
 	}
 
 }
