@@ -137,6 +137,49 @@ public class ManejadorEscenarios {
 
 	}
 
+	public void cargarEscenarioEditarCliente(Cliente cliente) {
+
+		try {
+			
+			//Se crea un cliente observable
+			ClienteObservable clienteObservableEditar = new ClienteObservable(cliente);
+
+			
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_cliente.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			
+			// se crea el escenario
+			Stage escenarioEditar = new Stage();
+			escenarioEditar.setTitle("Editar Cliente");
+			Scene scene = new Scene(page);
+			escenarioEditar.setScene(scene);
+			
+			//se carga el controlador
+			EdicionClienteControlador clienteControlador = loader.getController();
+			clienteControlador.setEscenarioEditar(escenarioEditar);
+			clienteControlador.setManejador(this);
+			clienteControlador.cargarPersona(clienteObservableEditar);
+		
+			
+			//se crea el escenario
+			escenarioEditar.showAndWait();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	/**
+	 * @param clientesObservables the clientesObservables to set
+	 */
+	public void setClientesObservables(ObservableList<ClienteObservable> clientesObservables) {
+		this.clientesObservables = clientesObservables;
+	}
+
 	/**
 	 * 
 	 * @return clientes observables
@@ -144,6 +187,7 @@ public class ManejadorEscenarios {
 	public ObservableList<ClienteObservable> getClientesObservables() {
 		return clientesObservables;
 	}
+	
 
 	/**
 	 * permite agrega una cliente a la lista obsevable
@@ -185,6 +229,21 @@ public class ManejadorEscenarios {
 			return bancoDelegado.eliminarCliente(cliente.getCedula());
 		} catch (ExcepcionesFenix e) {
 			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * permite editar una persona en la base de datos
+	 * @param cliente a editar
+	 * @return true si quedo registrado
+	 */
+	public boolean editarCliente(Cliente cliente){
+		try {
+			return bancoDelegado.modificarCliente(cliente)!=null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error por: " + e.getMessage());
 		}
 		return false;
 	}
