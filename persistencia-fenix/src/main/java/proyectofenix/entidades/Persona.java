@@ -40,7 +40,7 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Persona.PERSONA_POR_EMAIL, query = "select p from Persona p where p.correo=:email") })
 
 @NamedNativeQueries({
-		@NamedNativeQuery(name = Persona.OBTENER_TELEFONOS_PERSONA, query = "select pt.telefonos persona_telefonos pt where pt.persona_cedula=#persona_cedula") })
+		@NamedNativeQuery(name = Persona.OBTENER_TELEFONOS_PERSONA, query = "select pt.telefonos from persona_telefonos pt where pt.persona_cedula=?1") })
 public class Persona implements Serializable {
 
 	/**

@@ -149,7 +149,7 @@ public class ManejadorEscenarios {
 	 * permite agrega una cliente a la lista obsevable
 	 * @param cliente
 	 */
-	public void agregarALista(Persona cliente) {
+	public void agregarALista(Cliente cliente) {
 		clientesObservables.add(new ClienteObservable(cliente));
 	}
 	

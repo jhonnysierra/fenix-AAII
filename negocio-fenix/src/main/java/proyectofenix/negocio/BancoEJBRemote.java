@@ -159,5 +159,12 @@ public interface BancoEJBRemote {
 	 *                          asociado
 	 */
 	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
+	
+	/**
+	 * Permite consultar los telefonos asociados a una persona
+	 * @param cedula
+	 * @return
+	 */
+	public List<String> listarTelefonosPersona(String cedula);
 
 }

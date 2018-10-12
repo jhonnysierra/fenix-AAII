@@ -7,8 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
@@ -279,7 +279,9 @@ public class BancoEJB implements BancoEJBRemote {
 	/**
 	 * Metodo que permite obtener una lista con todos los prestamos de pendiendo del
 	 * tipo realizados por los clientes del banco
-	 * @param idTipoPrestamo id del tipo de prestamo por el que se quiere filtrar los prestamos
+	 * 
+	 * @param idTipoPrestamo id del tipo de prestamo por el que se quiere filtrar
+	 *                       los prestamos
 	 * @return List<Prestamo> lista de todos los prestamos realizados de tipo
 	 */
 	public List<Prestamo> listarPrestamosPorTipo(int idTipoPrestamo) throws ExcepcionesFenix {
@@ -303,7 +305,7 @@ public class BancoEJB implements BancoEJBRemote {
 	 * @param id del prestamo a buscar
 	 * @return Prestamo, prestamo encontrado o null si no encuentra nada
 	 */
-	public Prestamo listarPrestamoPorId(int id) throws ExcepcionesFenix{
+	public Prestamo listarPrestamoPorId(int id) throws ExcepcionesFenix {
 
 		try {
 			TypedQuery<Prestamo> query = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMO_POR_ID,
@@ -314,22 +316,22 @@ public class BancoEJB implements BancoEJBRemote {
 		} catch (NoResultException e) {
 			throw new ExcepcionesFenix("No se encontró el prestamo " + e.getMessage());
 		}
-		
+
 	}
-	
+
 	/**
 	 * Metodo que permite registrar un pago
+	 * 
 	 * @param pago a realizar
 	 * @return Pago, pago realizado
 	 */
-	public Pago registrarPagoCuota(Pago pago) throws ExcepcionesFenix{
-		if(pago.getPrestamo()==null) {
+	public Pago registrarPagoCuota(Pago pago) throws ExcepcionesFenix {
+		if (pago.getPrestamo() == null) {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque NO se encontró el prestamo");
-		}
-		else if(entityManager.find(Pago.class, pago.getId())!=null) {
+		} else if (entityManager.find(Pago.class, pago.getId()) != null) {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque el id del pago ya existe");
 		}
-		
+
 		try {
 			entityManager.persist(pago);
 			return pago;
@@ -338,17 +340,25 @@ public class BancoEJB implements BancoEJBRemote {
 			return null;
 		}
 	}
-	
-	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix{
-		
-		if(entityManager.find(Prestamo.class, prestamo.getId())!=null) {
+
+	/**
+	 * Metodo para registrar un prestamo
+	 * 
+	 * @param Prestamos a registrar
+	 * @see proyectofenix.negocio.BancoEJBRemote#registrarPrestamo(proyectofenix.entidades.Prestamo)
+	 */
+	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+
+		if (entityManager.find(Prestamo.class, prestamo.getId()) != null) {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
 		}
-		// Si el prestamo es hipotecario(4) y la persona no tiene bien raiz hay una excepcion
-		if(prestamo.getTipoPrestamo().getId()==4 && prestamo.getPersona().getBienRaiz()==null) {
-			throw new ExcepcionesFenix("No se puede realizar el prestamo hipotecario porque el cliente no tiene un bien asociado");
+		// Si el prestamo es hipotecario(4) y la persona no tiene bien raiz hay una
+		// excepcion
+		if (prestamo.getTipoPrestamo().getId() == 4 && prestamo.getPersona().getBienRaiz() == null) {
+			throw new ExcepcionesFenix(
+					"No se puede realizar el prestamo hipotecario porque el cliente no tiene un bien asociado");
 		}
-		
+
 		try {
 			entityManager.persist(prestamo);
 			return prestamo;
@@ -356,5 +366,27 @@ public class BancoEJB implements BancoEJBRemote {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * Metodo que permite listar los telefonos de un clinte
+	 * 
+	 * @param cedula numero de documento del cliente
+	 * @return Lista con los numero de telefono asociados al cliente
+	 */
+	public List<String> listarTelefonosPersona(String cedula) {
+
+		try {
+			Query query = entityManager.createNamedQuery(Persona.OBTENER_TELEFONOS_PERSONA);
+			query.setParameter(1, cedula);
+			System.out.println("Consulta:" + query.toString());
+			List<String> telefonos = query.getResultList();
+			return telefonos;
+		} catch 
+		(Exception e) {
+			return null;
+		}
+		
+
 	}
 }

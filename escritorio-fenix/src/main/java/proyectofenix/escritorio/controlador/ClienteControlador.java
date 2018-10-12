@@ -152,7 +152,9 @@ public class ClienteControlador {
 			txtClave.setText(cliente.getClave().getValue());
 			txtFechaNacimiento.setText(formatoFecha.format(cliente.getFechaNacimiento().getValue()));
 			txtGenero.setText(cliente.getGenero().getValue());
-			//txtTelefono.setText(cliente.getTelefono().get(0).toString());
+			txtTelefono.setText(cliente.getTelefono().getValue().get(0));
+			txtDireccion.setText(cliente.getDireccion().getValue());
+			txtNoCuenta.setText(cliente.getNumeroCuenta().getValue());
 		} else {
 			txtCedula.setText("");
 			txtNombre.setText("");
@@ -161,6 +163,9 @@ public class ClienteControlador {
 			txtClave.setText("");
 			txtFechaNacimiento.setText("");
 			txtGenero.setText("");
+			txtTelefono.setText("");
+			txtDireccion.setText("");
+			txtNoCuenta.setText("");
 		}
 
 	}

@@ -95,9 +95,10 @@ public class ClienteObservable {
 	 * 
 	 * @param cliente que se quiere volver observable
 	 */
-	public ClienteObservable(Persona cliente) {
-
-		this.cliente = (Cliente) cliente;
+	public ClienteObservable(Cliente cliente) {
+		Cliente cliente2 = new Cliente();
+		
+		this.cliente = cliente;
 		this.cedula = new SimpleStringProperty(cliente.getCedula());
 		this.nombre = new SimpleStringProperty(cliente.getNombres());
 		this.apellido = new SimpleStringProperty(cliente.getApellidos());
@@ -105,12 +106,10 @@ public class ClienteObservable {
 		this.clave = new SimpleStringProperty(cliente.getContrasenia());
 		this.fechaNacimiento = new SimpleObjectProperty<>(cliente.getFecha_nacimiento());
 		this.genero = new SimpleStringProperty(cliente.getGenero().name());
-		this.telefono = new SimpleListProperty<>();
-
-		System.out.println("Telefono cliente:" + cliente.getTelefonos());
+		this.telefono = new SimpleListProperty<>(FXCollections.observableArrayList(cliente.getTelefonos()));
 		//telefono.set(FXCollections.observableArrayList(cliente.getTelefonos()));
-		
-		//System.out.println("telefono cliente:" + telefono.get(0));
+		this.direccion = new SimpleStringProperty(cliente.getDireccion());
+		this.numeroCuenta = new SimpleStringProperty(cliente.getNoCuenta());
 	}
 
 	/**

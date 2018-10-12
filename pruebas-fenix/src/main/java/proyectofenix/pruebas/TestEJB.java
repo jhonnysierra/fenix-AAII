@@ -148,6 +148,7 @@ public class TestEJB {
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json" })
 	public void buscarClienteTest() {
 
 		try {
@@ -157,7 +158,7 @@ public class TestEJB {
 		}
 
 	}
-	
+
 	/**
 	 * Permite probar el buscar empleado de BancoEJB
 	 */
@@ -285,47 +286,44 @@ public class TestEJB {
 		pago.setValor(120000);
 		pago.setFecha(fechaPago);
 		pago.setPrestamo(prestamo);
-		
 
 		try {
-			
+
 			banco.registrarPagoCuota(pago);
-			//Assert.assertNotNull(banco.registrarPagoCuota(pago));
-			//System.out.println("COnsecutivo: " + pago.getId());
+			// Assert.assertNotNull(banco.registrarPagoCuota(pago));
+			// System.out.println("COnsecutivo: " + pago.getId());
 		} catch (ExcepcionesFenix e) {
 			Assert.fail(String.format("Error: %s", e.getMessage()));
 		}
 
 	}
-	
+
 	/**
 	 * Permite probar el metodo registrar pago de BancoEJB
 	 */
 	@Test
 	@Transactional(value = TransactionMode.ROLLBACK)
-	@UsingDataSet({"prestamo.json", "persona.json", "bienraiz.json", "tipoprestamo.json" })
+	@UsingDataSet({ "prestamo.json", "persona.json", "bienraiz.json", "tipoprestamo.json" })
 	public void registrarPrestamoTest() {
 		int consecutivo;
-		Date fechaInicio = null, fechaFin=null;
+		Date fechaInicio = null, fechaFin = null;
 		Calendar sumaFecha = Calendar.getInstance();
-		
-		
+
 		TipoPrestamo tipoPrestamo = entityManager.find(TipoPrestamo.class, 4);
 		Persona persona = entityManager.find(Persona.class, "1234");
-		
+
 		Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
-		
+
 		consecutivo = (int) query.getSingleResult();
-		
+
 		try {
 			fechaInicio = new SimpleDateFormat("yyyy-MM-dd").parse("2018-01-01");
 			sumaFecha.setTime(fechaInicio);
 			sumaFecha.add(Calendar.MONTH, 48);
-			fechaFin= sumaFecha.getTime();
+			fechaFin = sumaFecha.getTime();
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
-		
 
 		Prestamo prestamo = new Prestamo();
 		prestamo.setId(consecutivo);
@@ -333,13 +331,33 @@ public class TestEJB {
 		prestamo.setValorPrestamo(2000000);
 		prestamo.setFechaInicio(fechaInicio);
 		prestamo.setTipoPrestamo(tipoPrestamo);
-	
+
 		try {
-			prestamo=banco.registrarPrestamo(prestamo);
-			
-			Assert.assertNotNull("El prestamo es null",prestamo);
+			prestamo = banco.registrarPrestamo(prestamo);
+
+			Assert.assertNotNull("El prestamo es null", prestamo);
 		} catch (ExcepcionesFenix e) {
 			Assert.fail(String.format("Error: %s", e.getMessage()));
+		}
+
+	}
+
+	/**
+	 * Permite probar el metodo listarTelefonosPersona
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "persona_telefonos.json" })
+	public void listarTelefonosPersonaTest() {
+		List<String> telefonos;
+		try {
+			telefonos = banco.listarTelefonosPersona("123456789");
+			Assert.assertNotNull("Lista telefonos es nulo", telefonos);
+			for (String lista : telefonos) {
+				System.out.println(String.format("Telefonos:%s", lista));
+			}
+		} catch (Exception e) {
+			Assert.fail(String.format("Error Metodo: %s", e.getMessage()));
 		}
 
 	}
