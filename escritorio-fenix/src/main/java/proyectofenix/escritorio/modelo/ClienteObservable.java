@@ -95,9 +95,7 @@ public class ClienteObservable {
 	 * 
 	 * @param cliente que se quiere volver observable
 	 */
-	public ClienteObservable(Cliente cliente) {
-		Cliente cliente2 = new Cliente();
-		
+	public ClienteObservable(Cliente cliente) {		
 		this.cliente = cliente;
 		this.cedula = new SimpleStringProperty(cliente.getCedula());
 		this.nombre = new SimpleStringProperty(cliente.getNombres());
