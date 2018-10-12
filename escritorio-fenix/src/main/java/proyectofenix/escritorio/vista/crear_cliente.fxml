@@ -53,12 +53,22 @@
             <TextField fx:id="cmpDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 			</children>
 		</GridPane>
-		<Button layoutX="266.0" layoutY="406.0" mnemonicParsing="false" onAction="#registrarCliente" text="Aceptar" AnchorPane.rightAnchor="104.0" />
-		<Button layoutX="351.0" layoutY="406.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="5.0" layoutY="29.0" text="Por favor Ingrese los datos del cliente">
+		<Button fx:id="btnAceptar" layoutX="268.0" layoutY="406.0" mnemonicParsing="false" onAction="#registrarCliente" text="Aceptar" AnchorPane.rightAnchor="98.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+		<Button layoutX="348.0" layoutY="406.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label fx:id="cmpInfoCrearCliente" layoutX="5.0" layoutY="29.0" text="Por favor Ingrese los datos del cliente">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="btnEditar" layoutX="274.0" layoutY="406.0" mnemonicParsing="false" onAction="#editarCliente" text="Editar">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
 	</children>
 </AnchorPane>
