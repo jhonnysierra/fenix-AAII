@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -36,7 +38,15 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_PERSONA, query = "select prestamos from Persona p,IN(p.prestamo) prestamos where p.cedula=:cedula"),
 		@NamedQuery(name = Persona.OBTENER_PRESTAMOS_TODAS_PERSONAS, query = "select p.cedula,presta from Persona p LEFT JOIN p.prestamo presta"),
 		@NamedQuery(name = Persona.PERSONA_POR_EMAIL, query = "select p from Persona p where p.correo=:email") })
+
+@NamedNativeQueries({
+		@NamedNativeQuery(name = Persona.OBTENER_TELEFONOS_PERSONA, query = "select pt.telefonos persona_telefonos pt where pt.persona_cedula=#persona_cedula") })
 public class Persona implements Serializable {
+
+	/**
+	 * Permite obtener los telefonos de una persona
+	 */
+	public static final String OBTENER_TELEFONOS_PERSONA = "TelefonosPersona";
 
 	/**
 	 * Permite obtener una persona buscandola por email
