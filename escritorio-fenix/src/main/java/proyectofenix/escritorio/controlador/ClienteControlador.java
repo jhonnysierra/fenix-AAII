@@ -73,7 +73,7 @@ public class ClienteControlador {
 	 */
 	@FXML
 	private Label txtGenero;
-	
+
 	/**
 	 * Etiqueta de telefono
 	 */
@@ -85,14 +85,13 @@ public class ClienteControlador {
 	 */
 	@FXML
 	private Label txtDireccion;
-	
+
 	/**
 	 * Etiqueta de numero de cuenta
 	 */
 	@FXML
 	private Label txtNoCuenta;
-	
-	
+
 	private Format formatoFecha;
 
 	/**
@@ -205,6 +204,21 @@ public class ClienteControlador {
 			}
 		}
 
+	}
+
+	/**
+	 * permite mostrar la ventana de editar cliente
+	 */
+	@FXML
+	public void editarCliente() {
+
+		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
+
+		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
+		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+
+		escenarioInicial.cargarEscenarioEditarCliente(cliente);
+		tablaClientes.refresh();
 	}
 
 }
