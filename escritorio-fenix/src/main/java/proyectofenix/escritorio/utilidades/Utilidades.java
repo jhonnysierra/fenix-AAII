@@ -27,6 +27,18 @@ public final class Utilidades {
 		alert.showAndWait();	
 	}
 	
+	/**
+	 * permite mostrar un texto de error informativo en pantalla
+	 * @param titulo subtitulo de la alerta
+	 * @param mensaje mensaje principal
+	 */
+	public static void mostrarMensajeError( String titulo, String mensaje ) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Banco");
+		alert.setHeaderText(titulo);
+		alert.setContentText(mensaje);
+		alert.showAndWait();	
+	}
 	
 	/**
 	 * Permite mostrar una alerta de confirmacion
