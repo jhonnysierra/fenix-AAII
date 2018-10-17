@@ -247,8 +247,8 @@ public class BancoDelegado {
 	 */
 	public ObservableList<ClienteObservable> listarClientesObservables() {
 		List<Cliente> clientes = listarclientes();
-		
-		//System.out.println("Lista telefonos:" + clientes.get(0).getCedula());
+
+		// System.out.println("Lista telefonos:" + clientes.get(0).getCedula());
 		ObservableList<ClienteObservable> clientesObservables = FXCollections.observableArrayList();
 		for (Cliente c : clientes) {
 			c.setTelefonos(bancoEJB.listarTelefonosPersona(c.getCedula()));
@@ -256,7 +256,7 @@ public class BancoDelegado {
 		}
 		return clientesObservables;
 	}
-	
+
 	/**
 	 * Genera una lista de empleados observables
 	 * 
@@ -264,13 +264,29 @@ public class BancoDelegado {
 	 */
 	public ObservableList<EmpleadoObservable> listarEmpleadosObservables() {
 		List<Empleado> empleados = listarEmpleados();
-		
-		//System.out.println("Lista telefonos:" + empleados.get(0).getCedula());
+
+		// System.out.println("Lista telefonos:" + empleados.get(0).getCedula());
 		ObservableList<EmpleadoObservable> empleadosObservables = FXCollections.observableArrayList();
 		for (Empleado e : empleados) {
 			e.setTelefonos(bancoEJB.listarTelefonosPersona(e.getCedula()));
 			empleadosObservables.add(new EmpleadoObservable(e));
 		}
 		return empleadosObservables;
+	}
+
+	/**
+	 * Genera una lista de prestamos observables
+	 * 
+	 * @return todos los prestamos obsevables
+	 */
+	public ObservableList<PrestamoObservable> listarPrestamosObservables() {
+		List<Prestamo> prestamos = listarAllPrestamos();
+
+		ObservableList<PrestamoObservable> prestamosObservables = FXCollections.observableArrayList();
+		for (Prestamo p : prestamos) {
+			p.getPersona().setTelefonos(bancoEJB.listarTelefonosPersona(p.getPersona().getCedula()));
+			prestamosObservables.add(new PrestamoObservable(p));
+		}
+		return prestamosObservables;
 	}
 }

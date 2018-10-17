@@ -37,10 +37,20 @@ public class InicioControlador {
 		escenarioInicial.cargarEscenaDetalleEmpleado();
 	}
 	
+	/**
+	 * Carga la escena detalle prestamos
+	 */
+	@FXML
+	public void cargarListarPrestamos() {
+		escenarioInicial.cargarEscenaDetallePrestamo();
+	}
+	
 	@FXML
 	public void cerrarAplicacion() {
 		escenarioInicial.getEscenario().close();
 	}
+	
+	
 
 	/**
 	 * @return the escenarioInicial

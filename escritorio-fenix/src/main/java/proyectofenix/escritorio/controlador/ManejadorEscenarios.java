@@ -12,10 +12,12 @@ import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.escritorio.main.Main;
 import proyectofenix.escritorio.modelo.BancoDelegado;
 import proyectofenix.escritorio.modelo.ClienteObservable;
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
+import proyectofenix.escritorio.modelo.PrestamoObservable;
 
 /**
  * Permite manejar los escenarios que tiene la aplicacion
@@ -39,9 +41,16 @@ public class ManejadorEscenarios {
 	private ObservableList<ClienteObservable> clientesObservables;
 
 	/**
-	 * Lista de observale de empleados observables
+	 * Lista de empleados observables
 	 */
 	private ObservableList<EmpleadoObservable> empleadosObservables;
+	
+	/**
+	 * Lista de prestamos observables
+	 */
+	private ObservableList<PrestamoObservable> prestamosObservables;
+	
+	
 	/**
 	 * conexion con capa de negocio
 	 */
@@ -111,7 +120,7 @@ public class ManejadorEscenarios {
 	}
 
 	/**
-	 * Carga la escena de detalle empleado escena en el centro del escenario.
+	 * Carga la escena de detalle empleado en el centro del escenario.
 	 */
 	public void cargarEscenaDetalleEmpleado() {
 
@@ -134,6 +143,30 @@ public class ManejadorEscenarios {
 
 	}
 
+	/**
+	 * Carga la escena de detalle prestamo en el centro del escenario.
+	 */
+	public void cargarEscenaDetallePrestamo() {
+
+		try {
+
+			prestamosObservables = bancoDelegado.listarPrestamosObservables();
+			// System.out.println("Prestamos observables:" + prestamosObservables);
+
+			FXMLLoader loader4 = new FXMLLoader();
+			loader4.setLocation(Main.class.getResource("../vista/detalle_prestamo.fxml"));
+			AnchorPane panelAncho = (AnchorPane) loader4.load();
+			bordePanel.setCenter(panelAncho);
+
+			PrestamoControlador controlador = loader4.getController();
+			controlador.setEscenarioInicial(this);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	/**
 	 * muestra el escenario para crear un cliente nuevo
 	 */
@@ -301,6 +334,24 @@ public class ManejadorEscenarios {
 	public void setEmpleadosObservables(ObservableList<EmpleadoObservable> empleadosObservables) {
 		this.empleadosObservables = empleadosObservables;
 	}
+	
+	
+
+	/**
+	 * Metodo get lista prestamos observables
+	 * @return the prestamosObservables
+	 */
+	public ObservableList<PrestamoObservable> getPrestamosObservables() {
+		return prestamosObservables;
+	}
+
+	/**
+	 * Metodo set lista prestamos observables
+	 * @param prestamosObservables the prestamosObservables to set
+	 */
+	public void setPrestamosObservables(ObservableList<PrestamoObservable> prestamosObservables) {
+		this.prestamosObservables = prestamosObservables;
+	}
 
 	/**
 	 * permite agregar una cliente a la lista obsevable
@@ -319,6 +370,16 @@ public class ManejadorEscenarios {
 	public void agregarEmpleadoALista(Empleado empleado) {
 		empleadosObservables.add(new EmpleadoObservable(empleado));
 	}
+	
+	/**
+	 * permite agregar una prestamos a la lista obsevable
+	 * 
+	 * @param empleado
+	 */
+	public void agregarPrestamoALista(Prestamo prestamo) {
+		prestamosObservables.add(new PrestamoObservable(prestamo));
+	}
+	
 
 	/**
 	 * deveulve una instancia del escenario
