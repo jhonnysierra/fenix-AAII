@@ -389,4 +389,42 @@ public class BancoEJB implements BancoEJBRemote {
 		
 
 	}
+	
+	/**
+	 * Metodo que devuelve el consecutivo para el prestamo
+	 * @return
+	 */
+	public int consecutivoPrestamo() throws ExcepcionesFenix {
+		int consecutivo;
+		Long conse;
+		try {
+			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
+			conse=(Long) query.getSingleResult();
+			consecutivo = conse.intValue();
+			return consecutivo;
+		} catch (Exception e) {
+			System.out.println("e.mesage:" + e.getMessage());
+			throw new ExcepcionesFenix("No se puede generar el id del prestamo");
+		}
+	}
+	
+	/**
+	 * Devuelve un tipo de prestamo buscado por su codigo
+	 * @return tipo prestamo
+	 */
+	public TipoPrestamo tipoPrestamoPorCodigo(int idPrestamo) {
+		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager.createNamedQuery(TipoPrestamo.TIPO_PRESTAMO_POR_CODIGO,
+				TipoPrestamo.class);
+		queryTipoPrestamo.setParameter("idPrestamo", idPrestamo);
+		return queryTipoPrestamo.getSingleResult();
+	}
+	/**
+	 * Permite listar todos los tipos de prestamos existentes
+	 * @return Lista con los tipos de prestamos
+	 */
+	public List<TipoPrestamo> listarTodosTipoPrestamo(){
+		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager.createNamedQuery(TipoPrestamo.ALL_TIPO_PRESTAMO,
+				TipoPrestamo.class);
+		return queryTipoPrestamo.getResultList();
+	}
 }

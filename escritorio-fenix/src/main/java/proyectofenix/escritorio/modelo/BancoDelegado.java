@@ -13,6 +13,7 @@ import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Prestamo;
+import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.negocio.BancoEJBRemote;
 
 /**
@@ -289,4 +290,35 @@ public class BancoDelegado {
 		}
 		return prestamosObservables;
 	}
+
+	/**
+	 * Metodo que permite generar el consecutivo del prestamo nuevo 
+	 * @return consecutivo del prestamo nuevo
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.negocio.BancoEJBRemote#consecutivoPrestamo()
+	 */
+	public int consecutivoPrestamo() throws ExcepcionesFenix {
+		return bancoEJB.consecutivoPrestamo();
+	}
+
+	/**
+	 * Permite obtener un tipo de prestamo buscando por id 
+	 * @param idPrestamo id del tipo de prestamo
+	 * @return tipo de prestamo
+	 * @see proyectofenix.negocio.BancoEJBRemote#tipoPrestamoPorCodigo(int)
+	 */
+	public TipoPrestamo tipoPrestamoPorCodigo(int idPrestamo) {
+		return bancoEJB.tipoPrestamoPorCodigo(idPrestamo);
+	}
+
+	/**	 
+	 * Permite listar todos los tipos de prestamos existentes
+	 * @return Lista con los tipos de prestamos
+	 * @see proyectofenix.negocio.BancoEJBRemote#listarTodosTipoPrestamo()
+	 */
+	public List<TipoPrestamo> listarTodosTipoPrestamo() {
+		return bancoEJB.listarTodosTipoPrestamo();
+	}
+	
+	
 }

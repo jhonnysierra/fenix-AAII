@@ -75,9 +75,23 @@
                         <Label fx:id="txtNoCuenta" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 							</children>
 						</GridPane>
-						<Button layoutX="350.0" layoutY="357.0" mnemonicParsing="false" onAction="#editarCliente" text="Editar" AnchorPane.bottomAnchor="14.0" />
-						<Button layoutX="272.0" layoutY="357.0" mnemonicParsing="false" onAction="#elimiarCliente" text="Eliminar" AnchorPane.bottomAnchor="14.0" />
-						<Button layoutX="193.0" layoutY="357.0" mnemonicParsing="false" onAction="#agregarCliente" text="Agregar" AnchorPane.bottomAnchor="14.0" />
+						<Button layoutX="350.0" layoutY="357.0" mnemonicParsing="false" onAction="#editarCliente" text="Editar" AnchorPane.bottomAnchor="14.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+						<Button layoutX="272.0" layoutY="357.0" mnemonicParsing="false" onAction="#elimiarCliente" text="Eliminar" AnchorPane.bottomAnchor="14.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+						<Button layoutX="193.0" layoutY="357.0" mnemonicParsing="false" onAction="#agregarCliente" text="Agregar" AnchorPane.bottomAnchor="14.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Button layoutX="115.0" layoutY="347.0" mnemonicParsing="false" onAction="#crearPrestamo" text="Prestar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
 					</children>
 				</AnchorPane>
 			</items>

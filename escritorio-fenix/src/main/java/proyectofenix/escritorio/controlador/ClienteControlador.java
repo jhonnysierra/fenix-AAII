@@ -221,4 +221,19 @@ public class ClienteControlador {
 		tablaClientes.refresh();
 	}
 
+	/**
+	 * permite mostrar la ventana de crear prestamo cliente
+	 */
+	@FXML
+	public void crearPrestamo() {
+
+		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
+
+		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
+		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+
+		escenarioInicial.cargarEscenarioCrearPrestamo(cliente);
+		tablaClientes.refresh();
+	}
+	
 }

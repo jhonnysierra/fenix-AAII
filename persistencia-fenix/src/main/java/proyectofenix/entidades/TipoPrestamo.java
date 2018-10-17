@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +20,26 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@NamedQuery(name = TipoPrestamo.CONTAR_TIPO_PRESTAMOS, query = "select count(tp) from TipoPrestamo tp")
+@NamedQueries({ @NamedQuery(name = TipoPrestamo.CONTAR_TIPO_PRESTAMOS, query = "select count(tp) from TipoPrestamo tp"),
+		@NamedQuery(name = TipoPrestamo.TIPO_PRESTAMO_POR_CODIGO, query = "select tp from TipoPrestamo tp where tp.id=:idPrestamo"),
+		@NamedQuery(name = TipoPrestamo.ALL_TIPO_PRESTAMO, query = "select tp from TipoPrestamo tp") })
 public class TipoPrestamo implements Serializable {
+
+	/**
+	 * Permite hacer la referencia a la consulta contar tipoprestamo
+	 */
+	public static final String ALL_TIPO_PRESTAMO = "TipoPrestamos";
+
+	/**
+	 * Permite hacer la referencia a la consulta tipo prestamo por codigo
+	 */
+	public static final String TIPO_PRESTAMO_POR_CODIGO = "TipoPrestamosPorCodigo";
+
+	/**
+	 * Permite hacer la referencia a la consulta contar tipoprestamo
+	 */
+	public static final String CONTAR_TIPO_PRESTAMOS = "ContarTipoPrestamos";
 
 	/**
 	 * serialVersionUID clase Prestamo
@@ -56,7 +77,7 @@ public class TipoPrestamo implements Serializable {
 	 */
 	@OneToMany(mappedBy = "tipoPrestamo")
 	private List<Prestamo> prestamo;
-	
+
 	@OneToMany(mappedBy = "tipoPrestamo")
 	private List<PrestamoRenovado> prestamoRenovado;
 
@@ -156,11 +177,10 @@ public class TipoPrestamo implements Serializable {
 	public void setPrestamo(List<Prestamo> prestamo) {
 		this.prestamo = prestamo;
 	}
-	
-	
 
 	/**
 	 * Metodo get lista prestamos renovados clase TipoPrestamo
+	 * 
 	 * @return prestamoRenovado
 	 */
 	public List<PrestamoRenovado> getPrestamoRenovado() {
@@ -169,6 +189,7 @@ public class TipoPrestamo implements Serializable {
 
 	/**
 	 * Metodo set lista prestamos renovados clase TipoPrestamo
+	 * 
 	 * @param prestamoRenovado
 	 */
 	public void setPrestamoRenovado(List<PrestamoRenovado> prestamoRenovado) {

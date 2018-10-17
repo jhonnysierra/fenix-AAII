@@ -1,6 +1,9 @@
 package proyectofenix.escritorio.controlador;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.persistence.TypedQuery;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +15,9 @@ import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
+import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.escritorio.main.Main;
 import proyectofenix.escritorio.modelo.BancoDelegado;
 import proyectofenix.escritorio.modelo.ClienteObservable;
@@ -231,6 +236,40 @@ public class ManejadorEscenarios {
 
 	}
 
+	
+	/**
+	 * Muestra el escenario para crear un empleado nuevo
+	 */
+	public void cargarEscenarioCrearPrestamo(Cliente persona) {
+		//System.out.println("Cliente recibido:"+ persona.getCedula());
+		try {
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_prestamo.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioCrear = new Stage();
+			escenarioCrear.setTitle("Registrar Prestamo");
+			Scene scene = new Scene(page);
+			escenarioCrear.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarPrestamoControlador prestamoControlador = loader.getController();
+			prestamoControlador.setEscenarioPrestamo(escenarioCrear);
+			prestamoControlador.setManejador(this);
+			prestamoControlador.setCliente(persona);
+
+			// se crea el escenario
+			escenarioCrear.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	public void cargarEscenarioEditarCliente(Cliente cliente) {
 
 		try {
@@ -476,6 +515,47 @@ public class ManejadorEscenarios {
 		try {
 			return bancoDelegado.eliminarEmpleado(empleado.getCedula());
 		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Permite obtener el consecutivo del prestamo nuevo
+	 * @return consecutivo del prestamo nuevo 
+	 */
+	public int consecutivoPrestamo() {
+		try {
+			return bancoDelegado.consecutivoPrestamo();
+		} catch (ExcepcionesFenix e) {
+			//System.out.println("Mesaje manejador: " + e.getMessage());
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	/**
+	 * Busca un tipo de prestamo por id
+	 * @param idTipoPrestamo
+	 * @return tipo de prestamo
+	 */
+	public TipoPrestamo tipoPrestamoPorId(int idTipoPrestamo) {
+		return bancoDelegado.tipoPrestamoPorCodigo(idTipoPrestamo);
+	}
+	
+	public List<TipoPrestamo> listarTodosTipoPrestamo(){
+		return bancoDelegado.listarTodosTipoPrestamo();
+	}
+	
+	/**
+	 * Metodo que permite registrar el prestamo
+	 * @param prestamo prestamo a registrar
+	 * @return true si se registro el prestamo, false si no.
+	 */
+	public boolean registrarPrestamo(Prestamo prestamo) {
+		try {
+			return bancoDelegado.registrarPrestamo(prestamo) != null;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;

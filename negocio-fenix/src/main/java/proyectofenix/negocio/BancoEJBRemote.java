@@ -10,6 +10,7 @@ import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Prestamo;
+import proyectofenix.entidades.TipoPrestamo;
 
 /**
  * Permite crear una interfaz para el acceso del delegado a los metodos
@@ -166,5 +167,24 @@ public interface BancoEJBRemote {
 	 * @return
 	 */
 	public List<String> listarTelefonosPersona(String cedula);
+	
+	/**
+	 * Genera el consecutivo del prestamo
+	 * @return consecutivo del prestamo
+	 * @throws ExcepcionesFenix
+	 */
+	public int consecutivoPrestamo() throws ExcepcionesFenix; 
+	
+	/**
+	 * Devuelve el tipo de prestamo buscado por codigo
+	 * @param id del prestamo
+	 * @return tipo de prestamo
+	 */
+	public TipoPrestamo tipoPrestamoPorCodigo(int idPrestamo);
 
+	/**
+	 * Permite listar todos los tipos de prestamos existentes
+	 * @return Lista con los tipos de prestamos
+	 */
+	public List<TipoPrestamo> listarTodosTipoPrestamo();
 }

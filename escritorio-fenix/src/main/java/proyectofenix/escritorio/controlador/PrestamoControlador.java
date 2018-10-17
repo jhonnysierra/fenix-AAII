@@ -170,12 +170,12 @@ public class PrestamoControlador {
 		}
 
 	}
-
+	
 	/**
-	 * permite mostrar la ventana de agregar empleado
+	 * permite mostrar la ventana de agregar prestamo
 	 */
 	@FXML
-	public void agregarEmpleado() {
+	public void agregarPrestamo() {
 		escenarioInicial.cargarEscenarioCrearEmpleado();
 		tablaPrestamos.refresh();
 	}

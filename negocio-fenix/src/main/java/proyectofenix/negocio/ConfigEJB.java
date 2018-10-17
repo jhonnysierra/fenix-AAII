@@ -14,6 +14,8 @@ import javax.persistence.TypedQuery;
 
 import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.Ciudad;
+import proyectofenix.entidades.Persona.Genero;
+import proyectofenix.entidades.TipoPrestamo;
 
 /**
  * Session Bean implementation class ConfigEJB
@@ -40,6 +42,7 @@ public class ConfigEJB {
 	 */
 	@PostConstruct
 	public void init() {
+		TipoPrestamo tiposPrestamo = new TipoPrestamo();
 		TypedQuery<Long> query = entityManager.createNamedQuery(Administrador.CONTAR_ADMIN, Long.class);
 
 		if (query.getSingleResult() == 0) {
@@ -54,7 +57,7 @@ public class ConfigEJB {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
+
 			Administrador administrador = new Administrador();
 			administrador.setCedula("1115187");
 			administrador.setNombres("JhonnyEJBinit");
@@ -66,10 +69,42 @@ public class ConfigEJB {
 			administrador.setFecha_nacimiento(new Date());
 			administrador.setFecha_nacimiento(fechaNacimiento);
 			administrador.setCiudad(entityManager.find(Ciudad.class, "01"));
-			administrador.setGenero(administrador.getGenero().masculino);
-			
+			administrador.getGenero();
+			administrador.setGenero(Genero.masculino);
 
 			entityManager.persist(administrador);
 		}
+
+		TypedQuery<Long> query2 = entityManager.createNamedQuery(TipoPrestamo.CONTAR_TIPO_PRESTAMOS, Long.class);
+		if (query2.getSingleResult() == 0) {
+			tiposPrestamo.setId(1);
+			tiposPrestamo.setDescripcion("Compras tangibles de valor medio o bajo");
+			tiposPrestamo.setNombre("PRESTAMO DE CONSUMO");
+			tiposPrestamo.setTasaInteres(0.02);
+			entityManager.persist(tiposPrestamo);
+			
+			tiposPrestamo = new TipoPrestamo();
+			tiposPrestamo.setId(2);
+			tiposPrestamo.setDescripcion("Compras NO tangibles de valor bajo");
+			tiposPrestamo.setNombre("PRESTAMO PERSONAL");
+			tiposPrestamo.setTasaInteres(0.05);
+			entityManager.persist(tiposPrestamo);
+
+			tiposPrestamo = new TipoPrestamo();
+			tiposPrestamo.setId(3);
+			tiposPrestamo.setDescripcion("Para pagos de estudios de pregrado o posgrado");
+			tiposPrestamo.setNombre("PRESTAMO DE ESTUDIO");
+			tiposPrestamo.setTasaInteres(0.01);
+			entityManager.persist(tiposPrestamo);
+
+			tiposPrestamo = new TipoPrestamo();
+			tiposPrestamo.setId(4);
+			tiposPrestamo.setDescripcion("Para compras de gran valor,regularmente casas o apartamentos");
+			tiposPrestamo.setNombre("PRESTAMO HIPOTECARIO");
+			tiposPrestamo.setTasaInteres(0.04);
+			entityManager.persist(tiposPrestamo);
+			
+		}
+
 	}
 }
