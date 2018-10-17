@@ -406,4 +406,17 @@ public class ManejadorEscenarios {
 		return false;
 	}
 
+	/**
+	 * Permite eliminar un empleado
+	 * @param empleado empleado a eliminar
+	 * @return true si se elimino false si no
+	 */
+	public boolean eliminarEmpleado(Empleado empleado) {
+		try {
+			return bancoDelegado.eliminarEmpleado(empleado.getCedula());
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

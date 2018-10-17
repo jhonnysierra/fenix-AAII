@@ -184,7 +184,12 @@ public class EdicionClienteControlador {
 		cmpEmail.setText(cliente.getEmail().getValue());
 		cmpClave.setText(cliente.getClave().getValue());
 		cmpFechaNacimiento.setValue(Utilidades.pasarALocalDate(cliente.getFechaNacimiento().getValue()));
-		cmpGenero.getSelectionModel().select(cliente.getGenero().getValue());
+		//cmpGenero.getSelectionModel().select(cliente.getGenero().getValue());
+		if (cliente.getGenero().getValue() == "masculino") {
+			cmpGenero.getSelectionModel().select(0);
+		}else {
+			cmpGenero.getSelectionModel().select(1);
+		}
 		cmpTelefono.setText(cliente.getTelefono().getValue().get(0));
 		cmpDireccion.setText(cliente.getDireccion().getValue());
 		cmpNoCuenta.setText(cliente.getNumeroCuenta().getValue());
@@ -223,9 +228,9 @@ public class EdicionClienteControlador {
 		cliente.setEstado("1");
 		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
 		if (seleccionGenero == 0) {
-			cliente.setGenero(genero.masculino);
+			cliente.setGenero(Genero.masculino);
 		} else {
-			cliente.setGenero(genero.femenino);
+			cliente.setGenero(Genero.femenino);
 		}
 
 		if (manejador.registrarCliente(cliente)) {
@@ -259,9 +264,9 @@ public class EdicionClienteControlador {
 		cliente.setEstado("1");
 		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
 		if (seleccionGenero == 0) {
-			cliente.setGenero(genero.masculino);
+			cliente.setGenero(Genero.masculino);
 		} else {
-			cliente.setGenero(genero.femenino);
+			cliente.setGenero(Genero.femenino);
 		}
 
 		if (manejador.editarCliente(cliente)) {

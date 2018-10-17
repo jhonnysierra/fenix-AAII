@@ -2,34 +2,30 @@ package proyectofenix.escritorio.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional.TxType;
-
-import com.sun.jdo.spi.persistence.support.ejb.ejbc.CMPROTemplateFormatter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import proyectofenix.entidades.Cliente;
+
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Persona.Genero;
-import proyectofenix.escritorio.modelo.ClienteObservable;
+
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
- * Permite controlar la vista editar_cliente
+ * Permite controlar la vista crear_editar empleado
  * 
- * @author EinerZG version 1.0
+ * @author JJ
+ * @version 1.0
  */
 public class CrearEditarEmpleadoControlador {
 
@@ -127,7 +123,7 @@ public class CrearEditarEmpleadoControlador {
 	/**
 	 * Genero de tipo enumeracion
 	 */
-	private Genero genero;
+	//private Genero genero;
 
 	/**
 	 * representa el escenario en donde se agrega la vista
@@ -152,7 +148,7 @@ public class CrearEditarEmpleadoControlador {
 	/**
 	 * Empleado que se envia como parametro a esta instancia
 	 */
-	private EmpleadoObservable empleadoEditado;
+	//private EmpleadoObservable empleadoEditado;
 
 	/**
 	 * Indice de la posicion en la lsita de clientes observables del cliente a
@@ -202,7 +198,7 @@ public class CrearEditarEmpleadoControlador {
 		// cmpGenero.getSelectionModel().select(empleado.getGenero().getValue());
 		if (empleado.getGenero().getValue() == "masculino") {
 			cmpGenero.getSelectionModel().select(0);
-		}else {
+		} else {
 			cmpGenero.getSelectionModel().select(1);
 		}
 
@@ -245,9 +241,9 @@ public class CrearEditarEmpleadoControlador {
 		empleado.setEstado("1");
 		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
 		if (seleccionGenero == 0) {
-			empleado.setGenero(genero.masculino);
+			empleado.setGenero(Genero.masculino);
 		} else {
-			empleado.setGenero(genero.femenino);
+			empleado.setGenero(Genero.femenino);
 		}
 		empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
 		empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));
@@ -283,11 +279,11 @@ public class CrearEditarEmpleadoControlador {
 		empleado.setDireccion(cmpDireccion.getText());
 		empleado.setEstado("1");
 		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
-		//System.out.println("Seleccion genero empleado:" + seleccionGenero);
+		// System.out.println("Seleccion genero empleado:" + seleccionGenero);
 		if (seleccionGenero == 0) {
-			empleado.setGenero(genero.masculino);
+			empleado.setGenero(Genero.masculino);
 		} else {
-			empleado.setGenero(genero.femenino);
+			empleado.setGenero(Genero.femenino);
 		}
 		empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
 		empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));

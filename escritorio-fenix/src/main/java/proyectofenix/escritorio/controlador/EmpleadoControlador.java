@@ -122,7 +122,7 @@ public class EmpleadoControlador {
 	/**
 	 * Empleado Observable
 	 */
-	private EmpleadoObservable empleadoObservable;
+	//private EmpleadoObservable empleadoObservable;
 
 	/**
 	 * Metodo constructor
@@ -166,7 +166,7 @@ public class EmpleadoControlador {
 	public void mostrarDetalleEmpleado(EmpleadoObservable empleado) {
 
 		if (empleado != null) {
-			empleadoObservable = empleado;
+			//empleadoObservable = empleado;
 			txtCedula.setText(empleado.getCedula().getValue());
 			txtNombre.setText(empleado.getNombre().getValue());
 			txtApellido.setText(empleado.getApellido().getValue());
@@ -219,17 +219,17 @@ public class EmpleadoControlador {
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaEmpleados.getSelectionModel().getSelectedIndex();
 
-			System.out.println(tablaEmpleados.getItems().size());
+			//System.out.println(tablaEmpleados.getItems().size());
 
 			Empleado empleado = tablaEmpleados.getItems().get(indice).getEmpleado();
 
-			/*
-			 * if (escenarioInicial.eliminarCliente(empleado)) {
-			 * tablaEmpleados.getItems().remove(indice);
-			 * Utilidades.mostrarMensaje("Eliminar",
-			 * "El cliente ha sido eliminado con exito"); } else {
-			 * Utilidades.mostrarMensaje("Error", "El cliente no pudo ser eliminado"); }
-			 */
+			if (escenarioInicial.eliminarEmpleado(empleado)) {
+				tablaEmpleados.getItems().remove(indice);
+				Utilidades.mostrarMensaje("Eliminar", "El cliente ha sido eliminado con éxito");
+			} else {
+				Utilidades.mostrarMensaje("Error", "El cliente no pudo ser eliminado");
+			}
+
 		}
 
 	}
