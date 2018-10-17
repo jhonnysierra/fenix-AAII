@@ -1,8 +1,6 @@
 package proyectofenix.escritorio.modelo;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,9 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import proyectofenix.entidades.Cliente;
-import proyectofenix.entidades.Persona;
 
 /**
  * Permite transformar una persona en formato observable

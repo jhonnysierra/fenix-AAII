@@ -256,4 +256,21 @@ public class BancoDelegado {
 		}
 		return clientesObservables;
 	}
+	
+	/**
+	 * Genera una lista de empleados observables
+	 * 
+	 * @return todos los empleados obsevables
+	 */
+	public ObservableList<EmpleadoObservable> listarEmpleadosObservables() {
+		List<Empleado> empleados = listarEmpleados();
+		
+		//System.out.println("Lista telefonos:" + empleados.get(0).getCedula());
+		ObservableList<EmpleadoObservable> empleadosObservables = FXCollections.observableArrayList();
+		for (Empleado e : empleados) {
+			e.setTelefonos(bancoEJB.listarTelefonosPersona(e.getCedula()));
+			empleadosObservables.add(new EmpleadoObservable(e));
+		}
+		return empleadosObservables;
+	}
 }

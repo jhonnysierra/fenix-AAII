@@ -379,7 +379,7 @@ public class BancoEJB implements BancoEJBRemote {
 		try {
 			Query query = entityManager.createNamedQuery(Persona.OBTENER_TELEFONOS_PERSONA);
 			query.setParameter(1, cedula);
-			System.out.println("Consulta:" + query.toString());
+			//System.out.println("Consulta:" + query.toString());
 			List<String> telefonos = query.getResultList();
 			return telefonos;
 		} catch 

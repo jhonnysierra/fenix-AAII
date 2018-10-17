@@ -33,6 +33,11 @@ public class InicioControlador {
 	}
 
 	@FXML
+	public void cargarGestionarEmpleado() {
+		escenarioInicial.cargarEscenaDetalleEmpleado();
+	}
+	
+	@FXML
 	public void cerrarAplicacion() {
 		escenarioInicial.getEscenario().close();
 	}

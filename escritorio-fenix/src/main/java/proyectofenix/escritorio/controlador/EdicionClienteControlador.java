@@ -87,7 +87,7 @@ public class EdicionClienteControlador {
 	private TextField cmpDireccion;
 
 	/**
-	 * Campo para la cuenta de telefono
+	 * Campo para la cuenta
 	 */
 	@FXML
 	private TextField cmpNoCuenta;
