@@ -124,7 +124,7 @@ public class CrearEditarPrestamoControlador {
 	/**
 	 * Persona asociada al prestamo
 	 */
-	private Cliente cliente;
+	private Persona persona;
 
 	private List<TipoPrestamo> listaTipoPrestamos;
 
@@ -137,11 +137,6 @@ public class CrearEditarPrestamoControlador {
 				"PRESTAMO HIPOTECARIO");
 	}
 
-
-
-	public void cargarDatos() {
-		System.out.println("Persona actual:" + cliente);
-	}
 	/**
 	 * 
 	 */
@@ -150,8 +145,8 @@ public class CrearEditarPrestamoControlador {
 		cmpId.requestFocus();
 		cmpTipo.getItems().addAll(itemsTipoPrestamo);
 		btnEditar.setVisible(false);
-		//cmpPersona.setText(persona.getNombres()+" " + persona.getApellidos());
-		//cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+		// cmpPersona.setText(persona.getNombres()+" " + persona.getApellidos());
+		// cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 	}
 
 	/**
@@ -204,17 +199,17 @@ public class CrearEditarPrestamoControlador {
 	 */
 	@FXML
 	public void registrarPrestamo() {
-
 		int seleccionTipo;
 		Calendar sumaFecha = Calendar.getInstance();
 		Date fechaFin = null;
 
 		TipoPrestamo tipoPrestamo;
+		List<Pago> listaPagos = new ArrayList<Pago>();
 
 		Prestamo prestamo = new Prestamo();
-		System.out.println("Cliente:" + cliente.getCedula());
+
 		prestamo.setId(manejador.consecutivoPrestamo());
-		prestamo.setPersona((Persona)cliente);
+		prestamo.setPersona(persona);
 		prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
 		prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
 		prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
@@ -229,18 +224,15 @@ public class CrearEditarPrestamoControlador {
 		tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
 		prestamo.setTipoPrestamo(tipoPrestamo);
 
-		prestamo.setPagos(null);
-		
-		System.out.println("Fecha fin" +  fechaFin);
-		//System.out.println("Persona actual:" + cliente);
+		prestamo.setPagos(listaPagos);
 
-/*		if (manejador.registrarPrestamo(prestamo)) {
+		if (manejador.registrarPrestamo(prestamo)) {
 			manejador.agregarPrestamoALista(prestamo);
 			Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
 			escenarioPrestamo.close();
 		} else {
 			Utilidades.mostrarMensaje("Registro Prestamo", "Error en registro!!!");
-		}*/
+		}
 
 	}
 
@@ -284,6 +276,11 @@ public class CrearEditarPrestamoControlador {
 		escenarioPrestamo.close();
 	}
 
+	@FXML
+	public void cargarDatos() {
+		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+	}
+
 	/**
 	 * permite cargar el manejador de escenarios
 	 * 
@@ -303,23 +300,50 @@ public class CrearEditarPrestamoControlador {
 		this.escenarioPrestamo = escenarioEditar;
 	}
 
-
-
 	/**
-	 * @return the cliente
+	 * @return the persona
 	 */
-	public Cliente getCliente() {
-		return cliente;
+	public Persona getPersona() {
+		return persona;
 	}
 
-
 	/**
-	 * @param cliente the cliente to set
+	 * @param persona the persona to set
 	 */
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
+	/**
+	 * @return the cmpId
+	 */
+	public TextField getCmpId() {
+		return cmpId;
+	}
 
+	/**
+	 * @param cmpId the cmpId to set
+	 */
+	public void setCmpId(TextField cmpId) {
+		this.cmpId = cmpId;
+	}
+
+	/**
+	 * Metodo get campo persona
+	 * 
+	 * @return the cmpPersona
+	 */
+	public TextField getCmpPersona() {
+		return cmpPersona;
+	}
+
+	/**
+	 * Metodo set campo persona
+	 * 
+	 * @param cmpPersona the cmpPersona to set
+	 */
+	public void setCmpPersona(TextField cmpPersona) {
+		this.cmpPersona = cmpPersona;
+	}
 
 }

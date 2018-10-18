@@ -49,13 +49,12 @@ public class ManejadorEscenarios {
 	 * Lista de empleados observables
 	 */
 	private ObservableList<EmpleadoObservable> empleadosObservables;
-	
+
 	/**
 	 * Lista de prestamos observables
 	 */
 	private ObservableList<PrestamoObservable> prestamosObservables;
-	
-	
+
 	/**
 	 * conexion con capa de negocio
 	 */
@@ -73,6 +72,7 @@ public class ManejadorEscenarios {
 		bancoDelegado = BancoDelegado.bancoDelegado;
 		clientesObservables = FXCollections.observableArrayList();
 		empleadosObservables = FXCollections.observableArrayList();
+		prestamosObservables = FXCollections.observableArrayList();
 
 		try {
 			// se inicializa el escenario
@@ -171,7 +171,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	/**
 	 * muestra el escenario para crear un cliente nuevo
 	 */
@@ -236,12 +236,11 @@ public class ManejadorEscenarios {
 
 	}
 
-	
 	/**
 	 * Muestra el escenario para crear un empleado nuevo
 	 */
-	public void cargarEscenarioCrearPrestamo(Cliente persona) {
-		//System.out.println("Cliente recibido:"+ persona.getCedula());
+	public void cargarEscenarioCrearPrestamo(Persona persona) {
+		// System.out.println("Cliente recibido:"+ persona.getCedula());
 		try {
 
 			// se carga la interfaz
@@ -259,7 +258,10 @@ public class ManejadorEscenarios {
 			CrearEditarPrestamoControlador prestamoControlador = loader.getController();
 			prestamoControlador.setEscenarioPrestamo(escenarioCrear);
 			prestamoControlador.setManejador(this);
-			prestamoControlador.setCliente(persona);
+			prestamoControlador.setPersona(persona);
+			prestamoControlador.getCmpId().setText(String.valueOf(consecutivoPrestamo()));
+			prestamoControlador.getCmpPersona()
+					.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
 
 			// se crea el escenario
 			escenarioCrear.showAndWait();
@@ -269,7 +271,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	public void cargarEscenarioEditarCliente(Cliente cliente) {
 
 		try {
@@ -373,11 +375,10 @@ public class ManejadorEscenarios {
 	public void setEmpleadosObservables(ObservableList<EmpleadoObservable> empleadosObservables) {
 		this.empleadosObservables = empleadosObservables;
 	}
-	
-	
 
 	/**
 	 * Metodo get lista prestamos observables
+	 * 
 	 * @return the prestamosObservables
 	 */
 	public ObservableList<PrestamoObservable> getPrestamosObservables() {
@@ -386,6 +387,7 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Metodo set lista prestamos observables
+	 * 
 	 * @param prestamosObservables the prestamosObservables to set
 	 */
 	public void setPrestamosObservables(ObservableList<PrestamoObservable> prestamosObservables) {
@@ -409,7 +411,7 @@ public class ManejadorEscenarios {
 	public void agregarEmpleadoALista(Empleado empleado) {
 		empleadosObservables.add(new EmpleadoObservable(empleado));
 	}
-	
+
 	/**
 	 * permite agregar una prestamos a la lista obsevable
 	 * 
@@ -418,7 +420,6 @@ public class ManejadorEscenarios {
 	public void agregarPrestamoALista(Prestamo prestamo) {
 		prestamosObservables.add(new PrestamoObservable(prestamo));
 	}
-	
 
 	/**
 	 * deveulve una instancia del escenario
@@ -508,6 +509,7 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Permite eliminar un empleado
+	 * 
 	 * @param empleado empleado a eliminar
 	 * @return true si se elimino false si no
 	 */
@@ -519,36 +521,39 @@ public class ManejadorEscenarios {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Permite obtener el consecutivo del prestamo nuevo
-	 * @return consecutivo del prestamo nuevo 
+	 * 
+	 * @return consecutivo del prestamo nuevo
 	 */
 	public int consecutivoPrestamo() {
 		try {
 			return bancoDelegado.consecutivoPrestamo();
 		} catch (ExcepcionesFenix e) {
-			//System.out.println("Mesaje manejador: " + e.getMessage());
+			// System.out.println("Mesaje manejador: " + e.getMessage());
 			e.printStackTrace();
 			return -1;
 		}
 	}
-	
+
 	/**
 	 * Busca un tipo de prestamo por id
+	 * 
 	 * @param idTipoPrestamo
 	 * @return tipo de prestamo
 	 */
 	public TipoPrestamo tipoPrestamoPorId(int idTipoPrestamo) {
 		return bancoDelegado.tipoPrestamoPorCodigo(idTipoPrestamo);
 	}
-	
-	public List<TipoPrestamo> listarTodosTipoPrestamo(){
+
+	public List<TipoPrestamo> listarTodosTipoPrestamo() {
 		return bancoDelegado.listarTodosTipoPrestamo();
 	}
-	
+
 	/**
 	 * Metodo que permite registrar el prestamo
+	 * 
 	 * @param prestamo prestamo a registrar
 	 * @return true si se registro el prestamo, false si no.
 	 */

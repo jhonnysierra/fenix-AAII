@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-@NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select MAX(p.id)+1 from Pago p") })
+@NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select COUNT(p.id)+1 from Pago p") })
 public class Pago implements Serializable {
 
 	/**

@@ -233,7 +233,6 @@ public class ClienteControlador {
 		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
 
 		escenarioInicial.cargarEscenarioCrearPrestamo(cliente);
-		tablaClientes.refresh();
 	}
 	
 }
