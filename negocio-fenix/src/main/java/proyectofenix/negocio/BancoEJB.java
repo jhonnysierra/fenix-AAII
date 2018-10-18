@@ -425,21 +425,21 @@ public class BancoEJB implements BancoEJBRemote {
 				TipoPrestamo.class);
 		return queryTipoPrestamo.getResultList();
 	}
-	
+
 	/**
-	 * Metodo que permite listar los telefonos de un clinte
-	 * 
-	 * @param cedula numero de documento del cliente
-	 * @return Lista con los numero de telefono asociados al cliente
+	 * Metodo que permite listar los pagos realizados a un prestamo
+	 * @param idPrestamo identificador del prestamo
+	 * @return lista con los pagos asociados a un prestamo
 	 */
-	public List<String> listarPagosPrestamo(int cedula) {
+	public List<Pago> listarPagosPrestamo(int idPrestamo) {
 
 		try {
-			Query query = entityManager.createNamedQuery(Persona.OBTENER_TELEFONOS_PERSONA);
-			query.setParameter(1, cedula);
-			//System.out.println("Consulta:" + query.toString());
-			List<String> telefonos = query.getResultList();
-			return telefonos;
+			TypedQuery<Pago> query = entityManager.createNamedQuery(Prestamo.OBTENER_CUOTAS_PRESTAMO, Pago.class);
+			query.setParameter("id", idPrestamo);
+
+			List<Pago> listaPagos = query.getResultList();
+			//System.out.println("lista pagos- bancoejb:" + listaPagos.size());
+			return listaPagos;
 		} catch 
 		(Exception e) {
 			return null;

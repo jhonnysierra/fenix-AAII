@@ -286,6 +286,7 @@ public class BancoDelegado {
 		ObservableList<PrestamoObservable> prestamosObservables = FXCollections.observableArrayList();
 		for (Prestamo p : prestamos) {
 			p.getPersona().setTelefonos(bancoEJB.listarTelefonosPersona(p.getPersona().getCedula()));
+			p.setPagos(bancoEJB.listarPagosPrestamo(p.getId()));
 			prestamosObservables.add(new PrestamoObservable(p));
 		}
 		return prestamosObservables;

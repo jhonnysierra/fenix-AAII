@@ -187,4 +187,11 @@ public interface BancoEJBRemote {
 	 * @return Lista con los tipos de prestamos
 	 */
 	public List<TipoPrestamo> listarTodosTipoPrestamo();
+	
+	/**
+	 * Permite obtener la lista de pagos asociados a un prestamo
+	 * @param idPrestamo
+	 * @return lista de pagos
+	 */
+	public List<Pago> listarPagosPrestamo(int idPrestamo);
 }
