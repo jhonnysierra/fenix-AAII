@@ -13,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
 import proyectofenix.entidades.Empleado;
 
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
@@ -247,6 +246,20 @@ public class EmpleadoControlador {
 
 		escenarioInicial.cargarEscenarioEditarEmpleado(empleado);
 		tablaEmpleados.refresh();
+	}
+	
+	/**
+	 * permite mostrar la ventana de crear prestamo
+	 */
+	@FXML
+	public void crearPrestamo() {
+
+		int indice = tablaEmpleados.getSelectionModel().getSelectedIndex();
+
+		Empleado empleado = tablaEmpleados.getItems().get(indice).getEmpleado();
+		//System.out.println("Empledo seleccionado:" + cliente.getCedula());
+
+		escenarioInicial.cargarEscenarioCrearPrestamo(empleado);
 	}
 
 }

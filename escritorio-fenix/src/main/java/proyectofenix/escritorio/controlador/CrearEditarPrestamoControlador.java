@@ -7,12 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional.TxType;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,14 +18,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import proyectofenix.entidades.Cliente;
-import proyectofenix.entidades.Empleado;
+
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
-import proyectofenix.entidades.Persona.Genero;
+
 import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
-import proyectofenix.escritorio.modelo.EmpleadoObservable;
+
 import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
 

@@ -3,8 +3,6 @@ package proyectofenix.escritorio.controlador;
 import java.io.IOException;
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
