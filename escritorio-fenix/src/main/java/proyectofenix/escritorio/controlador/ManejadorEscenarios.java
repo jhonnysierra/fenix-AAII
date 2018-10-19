@@ -257,9 +257,10 @@ public class ManejadorEscenarios {
 			prestamoControlador.setEscenarioPrestamo(escenarioCrear);
 			prestamoControlador.setManejador(this);
 			prestamoControlador.setPersona(persona);
-			prestamoControlador.getCmpId().setText(String.valueOf(consecutivoPrestamo()));
+			prestamoControlador.cargarDatosIniciales();
+/*			prestamoControlador.getCmpId().setText(String.valueOf(consecutivoPrestamo()));
 			prestamoControlador.getCmpPersona()
-					.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
+					.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());*/
 
 			// se crea el escenario
 			escenarioCrear.showAndWait();
@@ -341,6 +342,44 @@ public class ManejadorEscenarios {
 
 	}
 
+	/**
+	 * Caraga la escena de editar prestamo
+	 * @param prestamo prestamo a editar
+	 */
+	public void cargarEscenarioEditarPrestamo(Prestamo prestamo) {
+
+		try {
+
+			// Se crea un presatmo observable
+			PrestamoObservable prestamoObservableEditar = new PrestamoObservable(prestamo);
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_prestamo.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioEditar = new Stage();
+			escenarioEditar.setTitle("Editar Prestamo");
+			Scene scene = new Scene(page);
+			escenarioEditar.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarPrestamoControlador prestamoControlador = loader.getController();
+			prestamoControlador.setEscenarioPrestamo(escenarioEditar);
+			prestamoControlador.setManejador(this);
+			prestamoControlador.setPersona(prestamo.getPersona());
+			prestamoControlador.cargarPrestamo(prestamoObservableEditar);
+
+			// se crea el escenario
+			escenarioEditar.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	/**
 	 * @param clientesObservables the clientesObservables to set
 	 */
@@ -563,4 +602,22 @@ public class ManejadorEscenarios {
 		}
 		return false;
 	}
+
+	/**
+	 * Metodo que permite eliminar un prestamo
+	 * @param prestamo prestamo a eliminar
+	 * @return true si se elimino o false si no 
+	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#eliminarPrestamo(proyectofenix.entidades.Prestamo)
+	 */
+	public boolean eliminarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.eliminarPrestamo(prestamo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 }

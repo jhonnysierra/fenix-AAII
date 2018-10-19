@@ -76,6 +76,11 @@ public class PrestamoObservable {
 	 * Pagos asociados al prestamo
 	 */
 	private Pago pagos;
+	
+	/**
+	 * Prestamo 
+	 */
+	private Prestamo prestamo;
 
 	/**
 	 * Constructor
@@ -90,6 +95,9 @@ public class PrestamoObservable {
 	 * @param prestamo que se quiere volver observable
 	 */
 	public PrestamoObservable(Prestamo prestamo) {
+		this.prestamo=prestamo;
+		this.persona=prestamo.getPersona();
+		
 		this.id = new SimpleIntegerProperty(prestamo.getId());
 		this.valor = new SimpleDoubleProperty(prestamo.getValorPrestamo());
 		this.fechaInicio = new SimpleObjectProperty<>(prestamo.getFechaInicio());
@@ -230,6 +238,7 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo get persona prestamo observable
 	 * @return the persona
 	 */
 	public Persona getPersona() {
@@ -237,6 +246,7 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo set persona prestamo observable
 	 * @param persona the persona to set
 	 */
 	public void setPersona(Persona persona) {
@@ -244,6 +254,7 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo get tipo prestamo prestamo observable
 	 * @return the tipoPrestamo
 	 */
 	public TipoPrestamo getTipoPrestamo() {
@@ -251,6 +262,7 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo set tipo prestamo prestamo observable
 	 * @param tipoPrestamo the tipoPrestamo to set
 	 */
 	public void setTipoPrestamo(TipoPrestamo tipoPrestamo) {
@@ -258,6 +270,7 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo get pagos prestamo observable
 	 * @return the pagos
 	 */
 	public Pago getPagos() {
@@ -265,10 +278,29 @@ public class PrestamoObservable {
 	}
 
 	/**
+	 * Metodo set pagos prestamo observable
 	 * @param pagos the pagos to set
 	 */
 	public void setPagos(Pago pagos) {
 		this.pagos = pagos;
 	}
+
+	/**
+	 * Metodo get Prestamo prestamo observable
+	 * @return the prestamo
+	 */
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+
+	/**
+	 * Metodo set Prestamo prestamo observable
+	 * @param prestamo the prestamo to set
+	 */
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
+	}
+	
+	
 
 }

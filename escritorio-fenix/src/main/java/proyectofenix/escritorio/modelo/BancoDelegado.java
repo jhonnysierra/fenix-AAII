@@ -320,6 +320,28 @@ public class BancoDelegado {
 	public List<TipoPrestamo> listarTodosTipoPrestamo() {
 		return bancoEJB.listarTodosTipoPrestamo();
 	}
+
+	/**
+	 * Metodo que permite eliminar un prestamo
+	 * @param prestamo prestamo a eliminar
+	 * @return true si se elimino o false si no 
+	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
+	 * @see proyectofenix.negocio.BancoEJBRemote#eliminarPrestamo(proyectofenix.entidades.Prestamo)
+	 */
+	public boolean eliminarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+		return bancoEJB.eliminarPrestamo(prestamo);
+	}
+
+	/**
+	 * Metodo que permite modificar la informacion de un prestamo
+	 * @param prestamo prestamo a modificar
+	 * @return prestamo modificado
+	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
+	 * @see proyectofenix.negocio.BancoEJBRemote#modificarPrestamo(proyectofenix.entidades.Prestamo)
+	 */
+	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+		return bancoEJB.modificarPrestamo(prestamo);
+	}
 	
 	
 }

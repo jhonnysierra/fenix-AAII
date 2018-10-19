@@ -379,17 +379,17 @@ public class BancoEJB implements BancoEJBRemote {
 		try {
 			Query query = entityManager.createNamedQuery(Persona.OBTENER_TELEFONOS_PERSONA);
 			query.setParameter(1, cedula);
-			//System.out.println("Consulta:" + query.toString());
+			// System.out.println("Consulta:" + query.toString());
 			List<String> telefonos = query.getResultList();
 			return telefonos;
-		} catch 
-		(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Metodo que devuelve el consecutivo para el prestamo
+	 * 
 	 * @return
 	 */
 	public int consecutivoPrestamo() throws ExcepcionesFenix {
@@ -397,7 +397,7 @@ public class BancoEJB implements BancoEJBRemote {
 		Long conse;
 		try {
 			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
-			conse=(Long) query.getSingleResult();
+			conse = (Long) query.getSingleResult();
 			consecutivo = conse.intValue();
 			return consecutivo;
 		} catch (Exception e) {
@@ -405,22 +405,25 @@ public class BancoEJB implements BancoEJBRemote {
 			throw new ExcepcionesFenix("No se puede generar el id del prestamo");
 		}
 	}
-	
+
 	/**
 	 * Devuelve un tipo de prestamo buscado por su codigo
+	 * 
 	 * @return tipo prestamo
 	 */
 	public TipoPrestamo tipoPrestamoPorCodigo(int idPrestamo) {
-		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager.createNamedQuery(TipoPrestamo.TIPO_PRESTAMO_POR_CODIGO,
-				TipoPrestamo.class);
+		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager
+				.createNamedQuery(TipoPrestamo.TIPO_PRESTAMO_POR_CODIGO, TipoPrestamo.class);
 		queryTipoPrestamo.setParameter("idPrestamo", idPrestamo);
 		return queryTipoPrestamo.getSingleResult();
 	}
+
 	/**
 	 * Permite listar todos los tipos de prestamos existentes
+	 * 
 	 * @return Lista con los tipos de prestamos
 	 */
-	public List<TipoPrestamo> listarTodosTipoPrestamo(){
+	public List<TipoPrestamo> listarTodosTipoPrestamo() {
 		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager.createNamedQuery(TipoPrestamo.ALL_TIPO_PRESTAMO,
 				TipoPrestamo.class);
 		return queryTipoPrestamo.getResultList();
@@ -428,6 +431,7 @@ public class BancoEJB implements BancoEJBRemote {
 
 	/**
 	 * Metodo que permite listar los pagos realizados a un prestamo
+	 * 
 	 * @param idPrestamo identificador del prestamo
 	 * @return lista con los pagos asociados a un prestamo
 	 */
@@ -438,12 +442,58 @@ public class BancoEJB implements BancoEJBRemote {
 			query.setParameter("id", idPrestamo);
 
 			List<Pago> listaPagos = query.getResultList();
-			//System.out.println("lista pagos- bancoejb:" + listaPagos.size());
+			// System.out.println("lista pagos- bancoejb:" + listaPagos.size());
 			return listaPagos;
-		} catch 
-		(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Metodo que permite eliminar un prestamo
+	 * 
+	 * @param prestamo prestamo a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix si el prestamo a eliminar no se encuentra
+	 */
+	public boolean eliminarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+		Prestamo prestamoEliminar = listarPrestamoPorId(prestamo.getId());
+		if (prestamoEliminar != null) {
+			try {
+				entityManager.remove(prestamoEliminar);
+				// prestamoEliminar.setEstado("0");
+				return true;
+			} catch (Exception e) {
+				System.out.println("Mensaje error remove:" + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			throw new ExcepcionesFenix("El Prestamo a eliminar es null");
+		}
+
+	}
+
+	/**
+	 * Metodo que permite modificar la informacion de un prestamo
+	 * @param prestamo prestamo a modificar
+	 * @return prestamo modificado
+	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
+	 */
+	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
+
+		if (prestamo != null) {
+			try {
+				entityManager.merge(prestamo);
+				return prestamo;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			throw new ExcepcionesFenix("El prestamo a modificar es null");
+		}
+
+	}
+
 }

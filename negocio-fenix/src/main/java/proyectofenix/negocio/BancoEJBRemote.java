@@ -194,4 +194,21 @@ public interface BancoEJBRemote {
 	 * @return lista de pagos
 	 */
 	public List<Pago> listarPagosPrestamo(int idPrestamo);
+	
+	/**
+	 * Metodo que permite eliminar un prestamo
+	 * @param prestamo prestamo a eliminar
+	 * @return true si se elimino o false si no 
+	 * @throws ExcepcionesFenix si el prestamo a eliminar no se encuentra
+	 * 
+	 */
+	public boolean eliminarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
+	
+	/**
+	 * Metodo que permite modificar la informacion de un prestamo
+	 * @param prestamo prestamo a modificar
+	 * @return prestamo modificado
+	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
+	 */
+	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
 }

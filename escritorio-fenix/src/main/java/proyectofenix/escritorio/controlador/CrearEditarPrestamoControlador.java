@@ -138,54 +138,41 @@ public class CrearEditarPrestamoControlador {
 		cmpId.requestFocus();
 		cmpTipo.getItems().addAll(itemsTipoPrestamo);
 		btnEditar.setVisible(false);
-		// cmpPersona.setText(persona.getNombres()+" " + persona.getApellidos());
-		// cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 	}
 
+
 	/**
-	 * permite cargar la informacion de un persona para realizar una edicion
-	 * 
-	 * @param cliente cliente a editar
+	 * permite cargar la informacion de un prestamo para realizar una edicion
+	 * @param prestamo prestamo observable a modificar
 	 */
-	/*
-	 * public void cargarPersona(EmpleadoObservable empleado) {
-	 * 
-	 * btnAceptar.setVisible(false); btnEditar.setVisible(true);
-	 * cmpInfoEncabezado.setText("Por favor edite la información del empleado");
-	 * cmpCedula.setDisable(true); cmpEmail.setEditable(false);
-	 * cmpNombre.requestFocus();
-	 * 
-	 * cmpCedula.setText(empleado.getCedula().getValue());
-	 * cmpNombre.setText(empleado.getNombre().getValue());
-	 * cmpApellido.setText(empleado.getApellido().getValue());
-	 * cmpEmail.setText(empleado.getEmail().getValue());
-	 * cmpClave.setText(empleado.getClave().getValue());
-	 * cmpFechaNacimiento.setValue(Utilidades.pasarALocalDate(empleado.
-	 * getFechaNacimiento().getValue())); //
-	 * cmpGenero.getSelectionModel().select(empleado.getGenero().getValue()); if
-	 * (empleado.getGenero().getValue() == "masculino") {
-	 * cmpGenero.getSelectionModel().select(0); } else {
-	 * cmpGenero.getSelectionModel().select(1); }
-	 * 
-	 * cmpTelefono.setText(empleado.getTelefono().getValue().get(0));
-	 * cmpDireccion.setText(empleado.getDireccion().getValue());
-	 * cmpFechaInicio.setValue(Utilidades.pasarALocalDate(empleado.getFechaInicio().
-	 * getValue()));
-	 * cmpFechaFin.setValue(Utilidades.pasarALocalDate(empleado.getFechaFin().
-	 * getValue()));
-	 * cmpSalario.setText(empleado.getSalario().getValue().toString());
-	 * 
-	 * empleadosObservablesDetalleCliente = manejador.getEmpleadosObservables();
-	 * 
-	 * for (EmpleadoObservable e : manejador.getEmpleadosObservables()) { if
-	 * (e.getCedula().getValue() == empleado.getCedula().getValue()) {
-	 * indiceListaEmpleadosObservables =
-	 * empleadosObservablesDetalleCliente.indexOf(e); } }
-	 * 
-	 * // System.out.println("Indice: " + indiceListaClientesObservables);
-	 * 
-	 * }
-	 */
+	public void cargarPrestamo(PrestamoObservable prestamo) {
+
+		btnAceptar.setVisible(false);
+		btnEditar.setVisible(true);
+		cmpInfoEncabezado.setText("Por favor edite la información del prestamo");
+		cmpId.setDisable(true);
+		cmpPersona.setEditable(false);
+		cmpValor.requestFocus();
+
+		cmpId.setText(String.valueOf(prestamo.getId().getValue()));
+		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
+		cmpValor.setText(prestamo.getValor().getValue().toString());
+		cmpFechaInicio.setValue(Utilidades.pasarALocalDate(prestamo.getFechaInicio().getValue()));
+		cmpNumeroCuotas.setText(String.valueOf(prestamo.getNumeroCuotas().getValue()));
+		cmpTipo.getSelectionModel().select(prestamo.getPrestamo().getTipoPrestamo().getId()-1);
+
+
+		prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
+
+		for (PrestamoObservable p : prestamosObservablesDetallePrestamo) {
+			if (p.getId().getValue() == prestamo.getId().getValue()) {
+				indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
+			}
+		}
+
+		 //System.out.println("Indice: " + indiceListaPrestamoObservables);
+
+	}
 
 	/**
 	 * permite registrar un prestamo en la base de datos
@@ -269,11 +256,6 @@ public class CrearEditarPrestamoControlador {
 		escenarioPrestamo.close();
 	}
 
-	@FXML
-	public void cargarDatos() {
-		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
-	}
-
 	/**
 	 * permite cargar el manejador de escenarios
 	 * 
@@ -339,4 +321,8 @@ public class CrearEditarPrestamoControlador {
 		this.cmpPersona = cmpPersona;
 	}
 
+	public void cargarDatosIniciales() {
+		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
+	}
 }

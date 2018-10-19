@@ -13,9 +13,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
+import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Empleado;
-
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
@@ -171,57 +171,50 @@ public class PrestamoControlador {
 
 	}
 	
+	
 	/**
-	 * permite mostrar la ventana de agregar prestamo
+	 * permite mostrar la ventana de editar prestamo
 	 */
 	@FXML
-	public void agregarPrestamo() {
-		escenarioInicial.cargarEscenarioCrearEmpleado();
+	public void editarPrestamo() {
+
+		int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
+
+		Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
+		/*System.out.println("Prestamo seleccionado:" + prestamo.getId());
+		System.out.println("Tipo Prestamo seleccionado:" + prestamo.getTipoPrestamo().getId());*/
+
+		escenarioInicial.cargarEscenarioEditarPrestamo(prestamo);
 		tablaPrestamos.refresh();
 	}
-
-/*	*//**
-	 * permite eliminar un cliente seleccionado
-	 *//*
+	
 	@FXML
-	public void elimiarEmpleado() {
+	public void eliminarPrestamo() {
 
-		Alert confirmarEliminar = Utilidades.mensajeConfirmar("Eliminar Empleado",
-				"¿Realmente desea eliminar el empleado?");
+		Alert confirmarEliminar = Utilidades.mensajeConfirmar("Eliminar Prestamo",
+				"¿Realmente desea eliminar el prestamo?");
 
 		Optional<ButtonType> result = confirmarEliminar.showAndWait();
 
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
 
-			// System.out.println(tablaEmpleados.getItems().size());
+			//System.out.println(tablaEmpleados.getItems().size());
 
-			Empleado empleado = tablaPrestamos.getItems().get(indice).getEmpleado();
+			Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
 
-			if (escenarioInicial.eliminarEmpleado(empleado)) {
-				tablaPrestamos.getItems().remove(indice);
-				Utilidades.mostrarMensaje("Eliminar", "El cliente ha sido eliminado con éxito");
-			} else {
-				Utilidades.mostrarMensaje("Error", "El cliente no pudo ser eliminado");
+			try {
+				if (escenarioInicial.eliminarPrestamo(prestamo)) {
+					tablaPrestamos.getItems().remove(indice);
+					Utilidades.mostrarMensaje("Eliminar", "El Prestamo ha sido eliminado con éxito");
+				} else {
+					Utilidades.mostrarMensaje("Error", "El Prestamo no pudo ser eliminado");
+				}
+			} catch (ExcepcionesFenix e) {
+				e.printStackTrace();
 			}
 
 		}
-
 	}
-
-	*//**
-	 * permite mostrar la ventana de editar cliente
-	 *//*
-	@FXML
-	public void editarEmpleado() {
-
-		int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
-
-		Empleado empleado = tablaPrestamos.getItems().get(indice).getEmpleado();
-		// System.out.println("Cliente seleccionado:" + cliente.getCedula());
-
-		escenarioInicial.cargarEscenarioEditarEmpleado(empleado);
-		tablaPrestamos.refresh();
-	}*/
 
 }
