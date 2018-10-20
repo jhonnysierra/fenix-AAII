@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
@@ -211,4 +212,12 @@ public interface BancoEJBRemote {
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
 	 */
 	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
+	
+	/**
+	 * Permite crear un bien raiz asociado a un cliente
+	 * @param bienraiz bien raiz a agregar
+	 * @return bien raiz agregado
+	 * @throws ExcepcionesFenix si el identificador ya existe
+	 */
+	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
 }

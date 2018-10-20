@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
@@ -476,6 +477,7 @@ public class BancoEJB implements BancoEJBRemote {
 
 	/**
 	 * Metodo que permite modificar la informacion de un prestamo
+	 * 
 	 * @param prestamo prestamo a modificar
 	 * @return prestamo modificado
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
@@ -492,6 +494,27 @@ public class BancoEJB implements BancoEJBRemote {
 			}
 		} else {
 			throw new ExcepcionesFenix("El prestamo a modificar es null");
+		}
+
+	}
+
+	/**
+	 * Permite crear un bien raiz asociado a un cliente
+	 * @param bienraiz bien raiz a agregar
+	 * @return bien raiz agregado
+	 * @throws ExcepcionesFenix si el identificador ya existe
+	 */
+	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+		if (entityManager.find(BienRaiz.class, bienraiz.getId()) != null) {
+			throw new ExcepcionesFenix("Error: ya se ha registrado una bien con este identificador");
+		}
+		try {
+			entityManager.persist(bienraiz);
+			return bienraiz;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+
 		}
 
 	}

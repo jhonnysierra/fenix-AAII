@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
@@ -341,6 +342,17 @@ public class BancoDelegado {
 	 */
 	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
 		return bancoEJB.modificarPrestamo(prestamo);
+	}
+
+	/**
+	 * Permite crear un bien raiz asociado a un cliente
+	 * @param bienraiz bien raiz a agregar
+	 * @return bien raiz agregado
+	 * @throws ExcepcionesFenix si el identificador ya existe
+	 * @see proyectofenix.negocio.BancoEJBRemote#agregarBienRaiz(proyectofenix.entidades.BienRaiz)
+	 */
+	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+		return bancoEJB.agregarBienRaiz(bienraiz);
 	}
 	
 	

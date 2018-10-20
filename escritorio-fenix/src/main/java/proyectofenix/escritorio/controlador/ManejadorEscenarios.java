@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Persona;
@@ -18,6 +19,7 @@ import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.escritorio.main.Main;
 import proyectofenix.escritorio.modelo.BancoDelegado;
+import proyectofenix.escritorio.modelo.BienRaizObservable;
 import proyectofenix.escritorio.modelo.ClienteObservable;
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
@@ -52,6 +54,11 @@ public class ManejadorEscenarios {
 	 * Lista de prestamos observables
 	 */
 	private ObservableList<PrestamoObservable> prestamosObservables;
+	
+	/**
+	 * Lista de bienes raices observables
+	 */
+	private ObservableList<BienRaizObservable> bienraizObservables;
 
 	/**
 	 * conexion con capa de negocio
@@ -258,9 +265,11 @@ public class ManejadorEscenarios {
 			prestamoControlador.setManejador(this);
 			prestamoControlador.setPersona(persona);
 			prestamoControlador.cargarDatosIniciales();
-/*			prestamoControlador.getCmpId().setText(String.valueOf(consecutivoPrestamo()));
-			prestamoControlador.getCmpPersona()
-					.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());*/
+			/*
+			 * prestamoControlador.getCmpId().setText(String.valueOf(consecutivoPrestamo()))
+			 * ; prestamoControlador.getCmpPersona() .setText(persona.getCedula() + " - " +
+			 * persona.getNombres() + " " + persona.getApellidos());
+			 */
 
 			// se crea el escenario
 			escenarioCrear.showAndWait();
@@ -271,6 +280,48 @@ public class ManejadorEscenarios {
 
 	}
 
+	/**
+	 * Carga la escena crear bien raiz
+	 * 
+	 * @param persona persona asociada al bien raiz
+	 */
+	public void cargarEscenarioCrearBienRaiz(Persona persona) {
+
+		try {
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_bienraiz.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioCrear = new Stage();
+			escenarioCrear.setTitle("Crear Bien Raiz");
+			Scene scene = new Scene(page);
+			escenarioCrear.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarBienRaizControlador bienraizControlador = loader.getController();
+			bienraizControlador.setEscenarioBienraiz(escenarioCrear);
+			bienraizControlador.setManejador(this);
+			bienraizControlador.setPersona(persona);
+			bienraizControlador.cargarDatosIniciales();
+
+
+			// se crea el escenario
+			escenarioCrear.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Carga la escena de editar cliente
+	 * 
+	 * @param cliente
+	 */
 	public void cargarEscenarioEditarCliente(Cliente cliente) {
 
 		try {
@@ -305,7 +356,7 @@ public class ManejadorEscenarios {
 	}
 
 	/**
-	 * Carga la escena de editar cliente
+	 * Carga la escena de editar empleado
 	 * 
 	 * @param empleado empleado a editar
 	 */
@@ -344,6 +395,7 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Caraga la escena de editar prestamo
+	 * 
 	 * @param prestamo prestamo a editar
 	 */
 	public void cargarEscenarioEditarPrestamo(Prestamo prestamo) {
@@ -370,6 +422,7 @@ public class ManejadorEscenarios {
 			prestamoControlador.setManejador(this);
 			prestamoControlador.setPersona(prestamo.getPersona());
 			prestamoControlador.cargarPrestamo(prestamoObservableEditar);
+			prestamoControlador.setPrestamo(prestamo);
 
 			// se crea el escenario
 			escenarioEditar.showAndWait();
@@ -379,7 +432,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	/**
 	 * @param clientesObservables the clientesObservables to set
 	 */
@@ -430,6 +483,24 @@ public class ManejadorEscenarios {
 	public void setPrestamosObservables(ObservableList<PrestamoObservable> prestamosObservables) {
 		this.prestamosObservables = prestamosObservables;
 	}
+	
+	
+
+	/**
+	 * Metodo get lista bien raiz observables
+	 * @return the bienraizObservables
+	 */
+	public ObservableList<BienRaizObservable> getBienraizObservables() {
+		return bienraizObservables;
+	}
+
+	/**
+	 * Metodo set lista bien raiz observables
+	 * @param bienraizObservables the bienraizObservables to set
+	 */
+	public void setBienraizObservables(ObservableList<BienRaizObservable> bienraizObservables) {
+		this.bienraizObservables = bienraizObservables;
+	}
 
 	/**
 	 * permite agregar una cliente a la lista obsevable
@@ -450,7 +521,7 @@ public class ManejadorEscenarios {
 	}
 
 	/**
-	 * permite agregar una prestamos a la lista obsevable
+	 * permite agregar un prestamos a la lista obsevable
 	 * 
 	 * @param empleado
 	 */
@@ -458,6 +529,15 @@ public class ManejadorEscenarios {
 		prestamosObservables.add(new PrestamoObservable(prestamo));
 	}
 
+
+	/**
+	 *  permite agregar un bien raiz a la lista obsevable
+	 * @param bienraiz bien raiz a agregar
+	 */
+	public void agregarBienRaizALista(BienRaiz bienraiz) {
+		bienraizObservables.add(new BienRaizObservable(bienraiz));
+	}
+	
 	/**
 	 * deveulve una instancia del escenario
 	 * 
@@ -605,8 +685,9 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Metodo que permite eliminar un prestamo
+	 * 
 	 * @param prestamo prestamo a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
 	 * @see proyectofenix.escritorio.modelo.BancoDelegado#eliminarPrestamo(proyectofenix.entidades.Prestamo)
 	 */
@@ -618,6 +699,37 @@ public class ManejadorEscenarios {
 		}
 		return false;
 	}
-	
-	
+
+	/**
+	 * Metodo que permite editar un prestamo
+	 * 
+	 * @param prestamo prestamo a editar
+	 * @return prestamo editado
+	 */
+	public boolean modificarPrestamo(Prestamo prestamo) {
+		try {
+			return bancoDelegado.modificarPrestamo(prestamo) != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * Permite crear un bien raiz asociado a un cliente
+	 * 
+	 * @param bienraiz bien raiz a agregar
+	 * @return bien raiz agregado
+	 * @throws ExcepcionesFenix si el identificador ya existe
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#agregarBienRaiz(proyectofenix.entidades.BienRaiz)
+	 */
+	public boolean agregarBienRaiz(BienRaiz bienraiz) {
+		try {
+			return bancoDelegado.agregarBienRaiz(bienraiz) != null;
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

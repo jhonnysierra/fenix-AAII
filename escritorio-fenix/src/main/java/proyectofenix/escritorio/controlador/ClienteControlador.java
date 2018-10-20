@@ -235,4 +235,18 @@ public class ClienteControlador {
 		escenarioInicial.cargarEscenarioCrearPrestamo(cliente);
 	}
 	
+	/**
+	 * Permite mostrar la ventana de crear bien raiz
+	 * 
+	 */
+	@FXML
+	public void agregarBienRaiz() {
+
+		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
+
+		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
+		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+
+		escenarioInicial.cargarEscenarioCrearBienRaiz(cliente);
+	}
 }

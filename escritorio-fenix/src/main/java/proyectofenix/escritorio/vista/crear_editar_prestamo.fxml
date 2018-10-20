@@ -54,7 +54,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="btnEditar" layoutX="274.0" layoutY="432.0" mnemonicParsing="false" text="Editar">
+      <Button fx:id="btnEditar" layoutX="274.0" layoutY="432.0" mnemonicParsing="false" onAction="#editarPrestamo" text="Editar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

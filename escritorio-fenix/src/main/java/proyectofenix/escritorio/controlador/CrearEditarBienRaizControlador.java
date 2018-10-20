@@ -17,25 +17,26 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 
 import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
+import proyectofenix.escritorio.modelo.BienRaizObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
- * Permite controlar la vista crear_editar prestamo
+ * Permite controlar la vista crear_editar bien raiz
  * 
  * @author JJ
  * @version 1.0
  */
-public class CrearEditarPrestamoControlador {
+public class CrearEditarBienRaizControlador {
 
 	/**
-	 * campo para la cedula
+	 * campo para el id
 	 */
 	@FXML
 	private TextField cmpId;
@@ -45,28 +46,16 @@ public class CrearEditarPrestamoControlador {
 	@FXML
 	private TextField cmpPersona;
 	/**
-	 * campo para el valor
+	 * campo para el avaluo
 	 */
 	@FXML
-	private TextField cmpValor;
+	private TextField cmpAvaluo;
 
 	/**
-	 * campo para la fecha de inicio
+	 * campo para la direccion
 	 */
 	@FXML
-	private DatePicker cmpFechaInicio;
-
-	/**
-	 * campo para el numero de cuotas
-	 */
-	@FXML
-	private TextField cmpNumeroCuotas;
-
-	/**
-	 * Combobox para el tipo de prestamo
-	 */
-	@FXML
-	private ComboBox<String> cmpTipo;
+	private TextField cmpDireccion;
 
 	/**
 	 * Campo para informacion
@@ -89,48 +78,36 @@ public class CrearEditarPrestamoControlador {
 	/**
 	 * representa el escenario en donde se agrega la vista
 	 */
-	private Stage escenarioPrestamo;
+	private Stage escenarioBienraiz;
 
 	/**
 	 * instancia del manejador de los escenario
 	 */
 	private ManejadorEscenarios manejador;
 
-	/**
-	 * Lista observable con las opciones del tipo de prestamo
-	 */
-	private ObservableList<String> itemsTipoPrestamo;
 
 	/**
-	 * para almacenar prestamos observables que se recibe desde detalle prestamo
+	 * para almacenar bien observables que se recibe desde detalle bien raiz
 	 */
-	private ObservableList<PrestamoObservable> prestamosObservablesDetallePrestamo;
+	private ObservableList<BienRaizObservable> bienraizObservablesDetalleBienRaiz;
 
 	/**
-	 * Indice de la posicion en la lista de prestamos observables del prestamo a
+	 * Indice de la posicion en la lista de bien raiz observables del bien raiz a
 	 * editar
 	 */
-	private int indiceListaPrestamoObservables;
+	private int indiceListaBienRaizObservables;
 
 	/**
-	 * Persona asociada al prestamo
+	 * Persona asociada al bien raiz
 	 */
 	private Persona persona;
 	
-	/**
-	 * Prestamo que se envia para editar
-	 */
-	private Prestamo prestamo;
-
-	//private List<TipoPrestamo> listaTipoPrestamos;
 
 	/**
 	 * Metodo constructor
 	 */
-	public CrearEditarPrestamoControlador() {
-		itemsTipoPrestamo = FXCollections.observableArrayList();
-		itemsTipoPrestamo.addAll("PRESTAMO DE CONSUMO", "PRESTAMO PERSONAL", "PRESTAMO DE ESTUDIO",
-				"PRESTAMO HIPOTECARIO");
+	public CrearEditarBienRaizControlador() {
+
 	}
 
 	/**
@@ -139,7 +116,6 @@ public class CrearEditarPrestamoControlador {
 	@FXML
 	private void initialize() {
 		cmpId.requestFocus();
-		cmpTipo.getItems().addAll(itemsTipoPrestamo);
 		btnEditar.setVisible(false);
 	}
 
@@ -148,7 +124,7 @@ public class CrearEditarPrestamoControlador {
 	 * 
 	 * @param prestamo prestamo observable a modificar
 	 */
-	public void cargarPrestamo(PrestamoObservable prestamo) {
+/*	public void cargarPrestamo(PrestamoObservable prestamo) {
 		btnAceptar.setVisible(false);
 		btnEditar.setVisible(true);
 		cmpInfoEncabezado.setText("Por favor edite la información del prestamo");
@@ -173,46 +149,30 @@ public class CrearEditarPrestamoControlador {
 
 		// System.out.println("Indice: " + indiceListaPrestamoObservables);
 
-	}
+	}*/
 
 	/**
-	 * permite registrar un prestamo en la base de datos
+	 * permite registrar un bien raiz en la base de datos
 	 */
 	@FXML
-	public void registrarPrestamo() {
-		int seleccionTipo;
-		Calendar sumaFecha = Calendar.getInstance();
-		Date fechaFin = null;
+	public void registrarBienRaiz() {
+		
+		BienRaiz bienraiz = new BienRaiz();
 
-		TipoPrestamo tipoPrestamo;
-		List<Pago> listaPagos = new ArrayList<Pago>();
+		bienraiz.setId(cmpId.getText());
+		bienraiz.setCiudad(null);
+		bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
+		bienraiz.setDireccion(cmpDireccion.getText());
+		bienraiz.setPersona(persona);
 
-		Prestamo prestamo = new Prestamo();
 
-		prestamo.setId(manejador.consecutivoPrestamo());
-		prestamo.setPersona(persona);
-		prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
-		prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
 
-		sumaFecha.setTime(prestamo.getFechaInicio());
-		sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
-		fechaFin = sumaFecha.getTime();
-
-		prestamo.setFechaFin(fechaFin);
-
-		seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
-		tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
-		prestamo.setTipoPrestamo(tipoPrestamo);
-
-		prestamo.setPagos(listaPagos);
-
-		if (manejador.registrarPrestamo(prestamo)) {
-			manejador.agregarPrestamoALista(prestamo);
-			Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
-			escenarioPrestamo.close();
+		if (manejador.agregarBienRaiz(bienraiz)) {
+			manejador.agregarBienRaizALista(bienraiz);
+			Utilidades.mostrarMensaje("Registro Bien Raiz", "Registro exitoso!!!");
+			escenarioBienraiz.close();
 		} else {
-			Utilidades.mostrarMensaje("Registro Prestamo", "Error en registro!!!");
+			Utilidades.mostrarMensaje("Registro Bien Raiz", "Error en registro!!!");
 		}
 
 	}
@@ -221,7 +181,7 @@ public class CrearEditarPrestamoControlador {
 	 * Permite editar la informacion de un prestamo
 	 */
 
-	@FXML
+/*	@FXML
 	private void editarPrestamo() {
 		int seleccionTipo;
 		Calendar sumaFecha = Calendar.getInstance();
@@ -246,37 +206,38 @@ public class CrearEditarPrestamoControlador {
 		if (manejador.modificarPrestamo(prestamo)) {
 			Utilidades.mostrarMensaje("Edición", "Se editó el prestamo con éxito!");
 			prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new PrestamoObservable(prestamo));
-			escenarioPrestamo.close();
+			escenarioBienriz.close();
 		} else {
 			Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!");
 		}
-	}
+	}*/
 
 	/**
 	 * permite cerrar la ventana de editar y crear
 	 */
 	@FXML
 	private void cancelar() {
-		escenarioPrestamo.close();
+		escenarioBienraiz.close();
 	}
 
+	
+	
 	/**
-	 * permite cargar el manejador de escenarios
-	 * 
+	 * Permite cargar el manejador de escenarios
 	 * @param manejador
 	 */
 	public void setManejador(ManejadorEscenarios manejador) {
 		this.manejador = manejador;
-		this.cmpId.requestFocus();
 	}
+
+
 
 	/**
 	 * permite modificar el escenario
-	 * 
-	 * @param escenarioEditar
+	 * @param escenarioBienraiz the escenarioBienraiz to set
 	 */
-	public void setEscenarioPrestamo(Stage escenarioEditar) {
-		this.escenarioPrestamo = escenarioEditar;
+	public void setEscenarioBienraiz(Stage escenarioBienraiz) {
+		this.escenarioBienraiz = escenarioBienraiz;
 	}
 
 	/**
@@ -293,58 +254,12 @@ public class CrearEditarPrestamoControlador {
 		this.persona = persona;
 	}
 
-	/**
-	 * @return the cmpId
-	 */
-	public TextField getCmpId() {
-		return cmpId;
-	}
-
-	/**
-	 * @param cmpId the cmpId to set
-	 */
-	public void setCmpId(TextField cmpId) {
-		this.cmpId = cmpId;
-	}
-
-	/**
-	 * Metodo get campo persona
-	 * 
-	 * @return the cmpPersona
-	 */
-	public TextField getCmpPersona() {
-		return cmpPersona;
-	}
-
-	/**
-	 * Metodo set campo persona
-	 * 
-	 * @param cmpPersona the cmpPersona to set
-	 */
-	public void setCmpPersona(TextField cmpPersona) {
-		this.cmpPersona = cmpPersona;
-	}
 
 	public void cargarDatosIniciales() {
-		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+		//cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
 	}
 
-	/**
-	 * Metodo get prestamo controlador crear_editar
-	 * @return the prestamo
-	 */
-	public Prestamo getPrestamo() {
-		return prestamo;
-	}
-
-	/**
-	 * Metodo set prestamo controlador crear_editar
-	 * @param prestamo the prestamo to set
-	 */
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
-	}
 	
 	
 }
