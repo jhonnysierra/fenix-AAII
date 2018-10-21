@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 /**
  * Clase encargada de representar la informacion de un Bien Raiz de una persona
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  *
@@ -19,49 +20,55 @@ import javax.persistence.OneToOne;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = BienRaiz.OBTENER_PERSONA_BIENRAIZ, query = "select br.persona from BienRaiz br where br.id=:id") })
-public class BienRaiz implements Serializable{
+		@NamedQuery(name = BienRaiz.OBTENER_PERSONA_BIENRAIZ, query = "select br.persona from BienRaiz br where br.id=:id"),
+		@NamedQuery(name = BienRaiz.OBTENER_ALL_BIENRAIZ, query = "select br from BienRaiz br") })
+public class BienRaiz implements Serializable {
 
 	/**
 	 * Permite obtener el prestamo asociado a un bien raiz
 	 */
-	public static final String OBTENER_PERSONA_BIENRAIZ = "BienRaizPersona";
+	public static final String OBTENER_ALL_BIENRAIZ = "BienRaizAll";
 	
+	/**
+	 * Permite obtener el prestamo asociado a un bien raiz
+	 */
+	public static final String OBTENER_PERSONA_BIENRAIZ = "BienRaizPersona";
+
 	/**
 	 * serialVersionUID clase BienRaiz
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Numero de indentificacion del bien raiz
 	 */
 	@Id
 	@Column(length = 50)
 	private String id;
-	
+
 	/**
 	 * Direccion del bien raiz
 	 */
 	@Column(length = 30)
 	private String direccion;
-	
+
 	/**
 	 * ciudad del bien raiz
 	 */
 	@ManyToOne
 	private Ciudad ciudad;
-	
+
 	/**
 	 * Avaluo del bien raiz
 	 */
 	private double avaluo;
-	
+
 	/**
 	 * Propietario del bien raiz. Es una persona
 	 */
 	@OneToOne
 	private Persona persona;
-	
+
 	/**
 	 * Metodo constructor clase BienRaiz
 	 */
@@ -71,6 +78,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get id clase BienRaiz
+	 * 
 	 * @return id
 	 */
 	public String getId() {
@@ -79,6 +87,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo set id clase BienRaiz
+	 * 
 	 * @param id
 	 */
 	public void setId(String id) {
@@ -87,6 +96,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get direccion clase BienRaiz
+	 * 
 	 * @return direccion
 	 */
 	public String getDireccion() {
@@ -95,6 +105,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo set id clase BienRaiz
+	 * 
 	 * @param direccion
 	 */
 	public void setDireccion(String direccion) {
@@ -103,6 +114,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get ciudad clase BienRaiz
+	 * 
 	 * @return ciudad
 	 */
 	public Ciudad getCiudad() {
@@ -111,6 +123,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo set ciudad clase BienRaiz
+	 * 
 	 * @param ciudad
 	 */
 	public void setCiudad(Ciudad ciudad) {
@@ -119,6 +132,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get avaluo clase BienRaiz
+	 * 
 	 * @return avaluo
 	 */
 	public double getAvaluo() {
@@ -127,6 +141,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo set avaluo clase BienRaiz
+	 * 
 	 * @param avaluo
 	 */
 	public void setAvaluo(double avaluo) {
@@ -135,6 +150,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get persona clase BienRaiz
+	 * 
 	 * @return the persona
 	 */
 	public Persona getPersona() {
@@ -143,6 +159,7 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo set persona clase BienRaiz
+	 * 
 	 * @param persona
 	 */
 	public void setPersona(Persona persona) {
@@ -151,13 +168,14 @@ public class BienRaiz implements Serializable{
 
 	/**
 	 * Metodo get serialversionuid clase BienRaiz
+	 * 
 	 * @return serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase BienRaiz
 	 */
 	@Override
@@ -174,7 +192,7 @@ public class BienRaiz implements Serializable{
 		return result;
 	}
 
-	/* 
+	/*
 	 * Metodo equals clase BienRaiz
 	 */
 	@Override
@@ -210,5 +228,5 @@ public class BienRaiz implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

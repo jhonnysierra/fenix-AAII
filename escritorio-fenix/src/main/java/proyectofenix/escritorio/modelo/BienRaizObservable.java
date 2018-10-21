@@ -40,7 +40,7 @@ public class BienRaizObservable {
 	 */
 	private Persona persona;
 
-
+	private BienRaiz bienraiz;
 
 	/**
 	 * Constructor
@@ -55,6 +55,7 @@ public class BienRaizObservable {
 	 * @param prestamo que se quiere volver observable
 	 */
 	public BienRaizObservable(BienRaiz bienraiz) {
+		this.bienraiz=bienraiz;
 		this.persona=bienraiz.getPersona();
 		
 		this.id = new SimpleStringProperty(bienraiz.getId());
@@ -142,6 +143,22 @@ public class BienRaizObservable {
 	 */
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	/**
+	 * Metodo get bien raiz 
+	 * @return the bienraiz
+	 */
+	public BienRaiz getBienraiz() {
+		return bienraiz;
+	}
+
+	/**
+	 * Metodo set bien raiz
+	 * @param bienraiz the bienraiz to set
+	 */
+	public void setBienraiz(BienRaiz bienraiz) {
+		this.bienraiz = bienraiz;
 	}
 	
 

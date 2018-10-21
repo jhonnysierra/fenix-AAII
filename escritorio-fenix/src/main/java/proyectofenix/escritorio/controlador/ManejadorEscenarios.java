@@ -54,7 +54,7 @@ public class ManejadorEscenarios {
 	 * Lista de prestamos observables
 	 */
 	private ObservableList<PrestamoObservable> prestamosObservables;
-	
+
 	/**
 	 * Lista de bienes raices observables
 	 */
@@ -78,6 +78,7 @@ public class ManejadorEscenarios {
 		clientesObservables = FXCollections.observableArrayList();
 		empleadosObservables = FXCollections.observableArrayList();
 		prestamosObservables = FXCollections.observableArrayList();
+		bienraizObservables = FXCollections.observableArrayList();
 
 		try {
 			// se inicializa el escenario
@@ -169,6 +170,30 @@ public class ManejadorEscenarios {
 			bordePanel.setCenter(panelAncho);
 
 			PrestamoControlador controlador = loader4.getController();
+			controlador.setEscenarioInicial(this);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Carga la escena de detalle prestamo en el centro del escenario.
+	 */
+	public void cargarEscenaDetalleBienRaiz() {
+
+		try {
+
+			bienraizObservables = bancoDelegado.listarBienRaizObservables();
+			// System.out.println("Prestamos observables:" + prestamosObservables);
+
+			FXMLLoader loader5 = new FXMLLoader();
+			loader5.setLocation(Main.class.getResource("../vista/detalle_bienraiz.fxml"));
+			AnchorPane panelAncho = (AnchorPane) loader5.load();
+			bordePanel.setCenter(panelAncho);
+
+			BienRaizControlador controlador = loader5.getController();
 			controlador.setEscenarioInicial(this);
 
 		} catch (IOException e) {
@@ -306,7 +331,6 @@ public class ManejadorEscenarios {
 			bienraizControlador.setManejador(this);
 			bienraizControlador.setPersona(persona);
 			bienraizControlador.cargarDatosIniciales();
-
 
 			// se crea el escenario
 			escenarioCrear.showAndWait();
@@ -483,11 +507,10 @@ public class ManejadorEscenarios {
 	public void setPrestamosObservables(ObservableList<PrestamoObservable> prestamosObservables) {
 		this.prestamosObservables = prestamosObservables;
 	}
-	
-	
 
 	/**
 	 * Metodo get lista bien raiz observables
+	 * 
 	 * @return the bienraizObservables
 	 */
 	public ObservableList<BienRaizObservable> getBienraizObservables() {
@@ -496,6 +519,7 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Metodo set lista bien raiz observables
+	 * 
 	 * @param bienraizObservables the bienraizObservables to set
 	 */
 	public void setBienraizObservables(ObservableList<BienRaizObservable> bienraizObservables) {
@@ -529,15 +553,15 @@ public class ManejadorEscenarios {
 		prestamosObservables.add(new PrestamoObservable(prestamo));
 	}
 
-
 	/**
-	 *  permite agregar un bien raiz a la lista obsevable
+	 * permite agregar un bien raiz a la lista obsevable
+	 * 
 	 * @param bienraiz bien raiz a agregar
 	 */
 	public void agregarBienRaizALista(BienRaiz bienraiz) {
 		bienraizObservables.add(new BienRaizObservable(bienraiz));
 	}
-	
+
 	/**
 	 * deveulve una instancia del escenario
 	 * 
@@ -730,6 +754,23 @@ public class ManejadorEscenarios {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	/**
+	 * Metodo que permite eliminar un bien raiz
+	 * 
+	 * @param bienraiz bien raiz a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#eliminarBienRaiz(proyectofenix.entidades.BienRaiz)
+	 */
+	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.eliminarBienRaiz(bienraiz);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

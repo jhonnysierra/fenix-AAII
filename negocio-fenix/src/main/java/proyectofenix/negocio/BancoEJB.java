@@ -518,5 +518,41 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 
 	}
+	
+	/**
+	 * Metodo que permite obtener una lista con todos los bienes raiz
+	 * @return List<BienRaiz> lista de todos los bienes raiz en el banco
+	 */
+	public List<BienRaiz> listarAllBienRaiz() {
+		TypedQuery<BienRaiz> bienraiz = entityManager.createNamedQuery(BienRaiz.OBTENER_ALL_BIENRAIZ, BienRaiz.class);
 
+		System.out.println("Tamano de lista bien raiz:" +bienraiz.getResultList().size());
+		
+		return bienraiz.getResultList();
+	}
+
+	/**
+	 * Metodo que permite eliminar un bien raiz
+	 * @param bienraiz bien raiz a eliminar
+	 * @return true si se elimino o false si no 
+	 * @throws ExcepcionesFenix
+	 */
+	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+		//BienRaiz bienRaizEliminar = listarPrestamoPorId(prestamo.getId());
+		if (entityManager.find(BienRaiz.class, bienraiz.getId()) != null) {
+			try {
+				entityManager.remove(bienraiz);
+				// prestamoEliminar.setEstado("0");
+				return true;
+			} catch (Exception e) {
+				System.out.println("Mensaje error remove:" + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			throw new ExcepcionesFenix("El Bien Raiz a eliminar es null");
+		}
+
+	}
+	
 }

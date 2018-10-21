@@ -220,4 +220,18 @@ public interface BancoEJBRemote {
 	 * @throws ExcepcionesFenix si el identificador ya existe
 	 */
 	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
+	
+	/**
+	 * Metodo que permite obtener una lista con todos los bienes raiz
+	 * @return List<BienRaiz> lista de todos los bienes raiz en el banco
+	 */
+	public List<BienRaiz> listarAllBienRaiz();
+	
+	/**
+	 * Metodo que permite eliminar un bien raiz
+	 * @param bienraiz bien raiz a eliminar
+	 * @return true si se elimino o false si no 
+	 * @throws ExcepcionesFenix
+	 */
+	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
 }

@@ -188,6 +188,9 @@ public class PrestamoControlador {
 		tablaPrestamos.refresh();
 	}
 	
+	/**
+	 * Permite eliminar un prestamo de la bd
+	 */
 	@FXML
 	public void eliminarPrestamo() {
 

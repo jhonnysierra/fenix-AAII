@@ -45,6 +45,14 @@ public class InicioControlador {
 		escenarioInicial.cargarEscenaDetallePrestamo();
 	}
 	
+	/**
+	 * Carga la escena detalle bien raiz
+	 */
+	@FXML
+	public void cargarListarBienRaiz() {
+		escenarioInicial.cargarEscenaDetalleBienRaiz();
+	}
+	
 	@FXML
 	public void cerrarAplicacion() {
 		escenarioInicial.getEscenario().close();
