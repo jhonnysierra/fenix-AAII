@@ -1,6 +1,5 @@
 package proyectofenix.escritorio.controlador;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,7 +84,6 @@ public class CrearEditarBienRaizControlador {
 	 */
 	private ManejadorEscenarios manejador;
 
-
 	/**
 	 * para almacenar bien observables que se recibe desde detalle bien raiz
 	 */
@@ -101,12 +99,11 @@ public class CrearEditarBienRaizControlador {
 	 * Persona asociada al bien raiz
 	 */
 	private Persona persona;
-	
+
 	/**
 	 * Bien raiz
 	 */
 	private BienRaiz bienraiz;
-	
 
 	/**
 	 * Metodo constructor
@@ -132,26 +129,24 @@ public class CrearEditarBienRaizControlador {
 	public void cargarBienRaiz(BienRaizObservable bienraiz) {
 		btnAceptar.setVisible(false);
 		btnEditar.setVisible(true);
-		cmpInfoEncabezado.setText("Por favor edite la información del prestamo");
+		cmpInfoEncabezado.setText("Por favor edite la información del Bien Raíz");
 		cmpId.setDisable(true);
-		cmpPersona.setEditable(false);
-/*		cmpValor.requestFocus();
+		cmpPersona.setDisable(true);
+		cmpAvaluo.requestFocus();
 
-		cmpId.setText(String.valueOf(prestamo.getId().getValue()));
+		cmpId.setText(String.valueOf(bienraiz.getId().getValue()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
-		cmpValor.setText(prestamo.getValor().getValue().toString());
-		cmpFechaInicio.setValue(Utilidades.pasarALocalDate(prestamo.getFechaInicio().getValue()));
-		cmpNumeroCuotas.setText(String.valueOf(prestamo.getNumeroCuotas().getValue()));
-		cmpTipo.getSelectionModel().select(prestamo.getPrestamo().getTipoPrestamo().getId() - 1);
+		cmpAvaluo.setText(String.format("%.0f", bienraiz.getAvaluo().getValue()));
+		cmpDireccion.setText(bienraiz.getDireccion().getValue());
 
-		prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
+		bienraizObservablesDetalleBienRaiz = manejador.getBienraizObservables();
 
-		for (PrestamoObservable p : prestamosObservablesDetallePrestamo) {
-			if (p.getId().getValue() == prestamo.getId().getValue()) {
-				indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
+		for (BienRaizObservable b : bienraizObservablesDetalleBienRaiz) {
+			if (b.getId().getValue() == bienraiz.getId().getValue()) {
+				indiceListaBienRaizObservables = bienraizObservablesDetalleBienRaiz.indexOf(b);
 			}
 		}
-*/
+
 		// System.out.println("Indice: " + indiceListaPrestamoObservables);
 
 	}
@@ -161,7 +156,7 @@ public class CrearEditarBienRaizControlador {
 	 */
 	@FXML
 	public void registrarBienRaiz() {
-		
+
 		BienRaiz bienraiz = new BienRaiz();
 
 		bienraiz.setId(cmpId.getText());
@@ -181,39 +176,21 @@ public class CrearEditarBienRaizControlador {
 	}
 
 	/**
-	 * Permite editar la informacion de un prestamo
+	 * Permite editar la informacion de un bien raiz
 	 */
+	@FXML
+	private void editarBienRaiz() {
+		bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
+		bienraiz.setDireccion(cmpDireccion.getText());
 
-/*	@FXML
-	private void editarPrestamo() {
-		int seleccionTipo;
-		Calendar sumaFecha = Calendar.getInstance();
-		Date fechaFin = null;
-
-		TipoPrestamo tipoPrestamo;
-
-		prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
-		prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
-
-		sumaFecha.setTime(prestamo.getFechaInicio());
-		sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
-		fechaFin = sumaFecha.getTime();
-
-		prestamo.setFechaFin(fechaFin);
-
-		seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
-		tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
-		prestamo.setTipoPrestamo(tipoPrestamo);
-
-		if (manejador.modificarPrestamo(prestamo)) {
-			Utilidades.mostrarMensaje("Edición", "Se editó el prestamo con éxito!");
-			prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new PrestamoObservable(prestamo));
-			escenarioBienriz.close();
+		if (manejador.modificarBienRaiz(bienraiz)) {
+			Utilidades.mostrarMensaje("Edición", "Se editó el bien raíz con éxito!");
+			bienraizObservablesDetalleBienRaiz.set(indiceListaBienRaizObservables, new BienRaizObservable(bienraiz));
+			escenarioBienraiz.close();
 		} else {
-			Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!");
+			Utilidades.mostrarMensajeError("Edición", "Error en edición de bien raíz!");
 		}
-	}*/
+	}
 
 	/**
 	 * permite cerrar la ventana de editar y crear
@@ -223,20 +200,18 @@ public class CrearEditarBienRaizControlador {
 		escenarioBienraiz.close();
 	}
 
-	
-	
 	/**
 	 * Permite cargar el manejador de escenarios
+	 * 
 	 * @param manejador
 	 */
 	public void setManejador(ManejadorEscenarios manejador) {
 		this.manejador = manejador;
 	}
 
-
-
 	/**
 	 * permite modificar el escenario
+	 * 
 	 * @param escenarioBienraiz the escenarioBienraiz to set
 	 */
 	public void setEscenarioBienraiz(Stage escenarioBienraiz) {
@@ -257,9 +232,8 @@ public class CrearEditarBienRaizControlador {
 		this.persona = persona;
 	}
 
-
 	public void cargarDatosIniciales() {
-		//cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+		// cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
 	}
 
@@ -277,6 +251,4 @@ public class CrearEditarBienRaizControlador {
 		this.bienraiz = bienraiz;
 	}
 
-	
-	
 }

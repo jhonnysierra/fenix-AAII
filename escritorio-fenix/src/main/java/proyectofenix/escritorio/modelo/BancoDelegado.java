@@ -404,4 +404,16 @@ public class BancoDelegado {
 		return bancoEJB.eliminarBienRaiz(bienraiz);
 	}
 
+	/**
+	 * Metodo que permite modificar un bien raiz
+	 * 
+	 * @param bienraiz bien raiz a modificar
+	 * @return bien raiz modificado
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.negocio.BancoEJBRemote#modificarBienRaiz(proyectofenix.entidades.BienRaiz)
+	 */
+	public BienRaiz modificarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+		return bancoEJB.modificarBienRaiz(bienraiz);
+	}
+
 }

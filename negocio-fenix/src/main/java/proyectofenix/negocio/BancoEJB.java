@@ -596,5 +596,28 @@ public class BancoEJB implements BancoEJBRemote {
 		return query.getResultList();
 
 	}
+	
+	/**
+	 * Metodo que permite modificar un bien raiz
+	 * 
+	 * @param bienraiz bien raiz a modificar
+	 * @return bien raiz modificado
+	 * @throws ExcepcionesFenix
+	 */
+	public BienRaiz modificarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+
+		if (bienraiz != null) {
+			try {
+				entityManager.merge(bienraiz);
+				return bienraiz;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			throw new ExcepcionesFenix("El bien raiz a modificar es null");
+		}
+
+	}
 
 }

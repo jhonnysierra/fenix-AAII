@@ -262,4 +262,13 @@ public interface BancoEJBRemote {
 	 */
 	public List<Prestamo> listarPrestamosPersona(String cedula);
 
+	/**
+	 * Metodo que permite modificar un bien raiz
+	 * 
+	 * @param bienraiz bien raiz a modificar
+	 * @return bien raiz modificado
+	 * @throws ExcepcionesFenix
+	 */
+	public BienRaiz modificarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
+
 }

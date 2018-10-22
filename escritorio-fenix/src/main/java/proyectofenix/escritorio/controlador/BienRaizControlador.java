@@ -44,13 +44,13 @@ public class BienRaizControlador {
 	 */
 	@FXML
 	private Label txtId;
-	
+
 	/**
 	 * etiqueta de avaluo
 	 */
 	@FXML
 	private Label txtAvaluo;
-	
+
 	/**
 	 * etiqueta de persona
 	 */
@@ -66,7 +66,6 @@ public class BienRaizControlador {
 	 * instancia del manejador de escenario
 	 */
 	private ManejadorEscenarios escenarioInicial;
-
 
 	/**
 	 * Metodo constructor
@@ -102,9 +101,9 @@ public class BienRaizControlador {
 		tablaBienRaiz.setItems(escenarioInicial.getBienraizObservables());
 	}
 
-
 	/**
 	 * Permite mostrar la informacion del bien raiz seleccionado
+	 * 
 	 * @param bienraiz bien raiz observable
 	 */
 	public void mostrarDetalleBienRaiz(BienRaizObservable bienraiz) {
@@ -123,22 +122,21 @@ public class BienRaizControlador {
 		}
 
 	}
-	
-	
+
 	/**
 	 * permite mostrar la ventana de editar bien raiz
 	 */
-/*	@FXML
-	public void editarPrestamo() {
+	@FXML
+	public void editarBienRaiz() {
 
-			int indice = tablaBienRaiz.getSelectionModel().getSelectedIndex();
-			
-			BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
+		int indice = tablaBienRaiz.getSelectionModel().getSelectedIndex();
 
-		escenarioInicial.cargarEscenarioEditarBienRaiz(prestamo);
-		tablaPrestamos.refresh();
-	}*/
-	
+		BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
+
+		escenarioInicial.cargarEscenarioEditarBienRaiz(bienraiz);
+		tablaBienRaiz.refresh();
+	}
+
 	@FXML
 	public void eliminarBienRaiz() {
 
@@ -149,20 +147,19 @@ public class BienRaizControlador {
 
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaBienRaiz.getSelectionModel().getSelectedIndex();
-			
-			BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
-			
 
-		try {
-			if (escenarioInicial.eliminarBienRaiz(bienraiz)) {
+			BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
+
+			try {
+				if (escenarioInicial.eliminarBienRaiz(bienraiz)) {
 					tablaBienRaiz.getItems().remove(indice);
 					Utilidades.mostrarMensaje("Eliminar", "El Bien raíz ha sido eliminado con éxito");
 				} else {
 					Utilidades.mostrarMensaje("Error", "El bien raíz no pudo ser eliminado");
 				}
-		} catch (ExcepcionesFenix e) {
-			e.printStackTrace();
-		}
+			} catch (ExcepcionesFenix e) {
+				e.printStackTrace();
+			}
 
 		}
 	}

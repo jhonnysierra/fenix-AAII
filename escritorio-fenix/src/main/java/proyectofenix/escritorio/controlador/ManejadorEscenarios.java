@@ -460,7 +460,7 @@ public class ManejadorEscenarios {
 	/**
 	 * Caraga la escena de editar bien raiz
 	 * 
-	 *@param bienraiz bien raiz a editar
+	 * @param bienraiz bien raiz a editar
 	 */
 	public void cargarEscenarioEditarBienRaiz(BienRaiz bienraiz) {
 
@@ -486,13 +486,9 @@ public class ManejadorEscenarios {
 			bienraizControlador.setManejador(this);
 			bienraizControlador.setPersona(bienraiz.getPersona());
 			bienraizControlador.cargarBienRaiz(bienRaizObservableEditar);
-
-			
-			// se carga el controlador
-
-			
+			bienraizControlador.setBienraiz(bienraiz);
 			bienraizControlador.cargarDatosIniciales();
-			
+
 			// se crea el escenario
 			escenarioEditar.showAndWait();
 
@@ -501,7 +497,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	/**
 	 * @param clientesObservables the clientesObservables to set
 	 */
@@ -809,7 +805,7 @@ public class ManejadorEscenarios {
 	 * @throws ExcepcionesFenix
 	 * @see proyectofenix.escritorio.modelo.BancoDelegado#eliminarBienRaiz(proyectofenix.entidades.BienRaiz)
 	 */
-	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix{
+	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
 		try {
 			return bancoDelegado.eliminarBienRaiz(bienraiz);
 		} catch (ExcepcionesFenix e) {
@@ -817,7 +813,22 @@ public class ManejadorEscenarios {
 			e.printStackTrace();
 			return false;
 		}
-		
+
+	}
+
+	/**
+	 * Metodo qeu permite modificar un bien raiz
+	 * 
+	 * @param bienraiz bien raiz a modificar
+	 * @return true si se modifico o false si no
+	 */
+	public boolean modificarBienRaiz(BienRaiz bienraiz) {
+		try {
+			return bancoDelegado.modificarBienRaiz(bienraiz) != null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
