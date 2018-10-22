@@ -186,11 +186,10 @@ public class BancoDelegado {
 	public List<Prestamo> listarAllPrestamos() {
 		return bancoEJB.listarAllPrestamos();
 	}
-	
-	
 
 	/**
 	 * Metodo que permite obtener una lista con todos los bienes raiz
+	 * 
 	 * @return List<BienRaiz> lista de todos los bienes raiz en el banco
 	 * @see proyectofenix.negocio.BancoEJBRemote#listarAllBienRaiz()
 	 */
@@ -303,23 +302,31 @@ public class BancoDelegado {
 		}
 		return prestamosObservables;
 	}
-	
+
 	/**
 	 * Genera una lista de bien raiz observable
+	 * 
 	 * @return lista de bien raiz observables
 	 */
 	public ObservableList<BienRaizObservable> listarBienRaizObservables() {
 		List<BienRaiz> bienraiz = listarAllBienRaiz();
+		// System.out.println("Persona del bien raiz observable:" +
+		// bienraiz.get(0).getPersona().getCedula());
+		// System.out.println("prestamos Persona del bien raiz observable" +
+		// bienraiz.get(0).getPersona().getPrestamo().size());
 
 		ObservableList<BienRaizObservable> bienRaizObservables = FXCollections.observableArrayList();
 		for (BienRaiz br : bienraiz) {
+			br.getPersona().setTelefonos(bancoEJB.listarTelefonosPersona(br.getPersona().getCedula()));
+			br.getPersona().setPrestamo(bancoEJB.listarPrestamosPersona(br.getPersona().getCedula()));
 			bienRaizObservables.add(new BienRaizObservable(br));
 		}
 		return bienRaizObservables;
 	}
-	
+
 	/**
-	 * Metodo que permite generar el consecutivo del prestamo nuevo 
+	 * Metodo que permite generar el consecutivo del prestamo nuevo
+	 * 
 	 * @return consecutivo del prestamo nuevo
 	 * @throws ExcepcionesFenix
 	 * @see proyectofenix.negocio.BancoEJBRemote#consecutivoPrestamo()
@@ -329,7 +336,8 @@ public class BancoDelegado {
 	}
 
 	/**
-	 * Permite obtener un tipo de prestamo buscando por id 
+	 * Permite obtener un tipo de prestamo buscando por id
+	 * 
 	 * @param idPrestamo id del tipo de prestamo
 	 * @return tipo de prestamo
 	 * @see proyectofenix.negocio.BancoEJBRemote#tipoPrestamoPorCodigo(int)
@@ -338,8 +346,9 @@ public class BancoDelegado {
 		return bancoEJB.tipoPrestamoPorCodigo(idPrestamo);
 	}
 
-	/**	 
+	/**
 	 * Permite listar todos los tipos de prestamos existentes
+	 * 
 	 * @return Lista con los tipos de prestamos
 	 * @see proyectofenix.negocio.BancoEJBRemote#listarTodosTipoPrestamo()
 	 */
@@ -349,8 +358,9 @@ public class BancoDelegado {
 
 	/**
 	 * Metodo que permite eliminar un prestamo
+	 * 
 	 * @param prestamo prestamo a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
 	 * @see proyectofenix.negocio.BancoEJBRemote#eliminarPrestamo(proyectofenix.entidades.Prestamo)
 	 */
@@ -360,6 +370,7 @@ public class BancoDelegado {
 
 	/**
 	 * Metodo que permite modificar la informacion de un prestamo
+	 * 
 	 * @param prestamo prestamo a modificar
 	 * @return prestamo modificado
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
@@ -371,6 +382,7 @@ public class BancoDelegado {
 
 	/**
 	 * Permite crear un bien raiz asociado a un cliente
+	 * 
 	 * @param bienraiz bien raiz a agregar
 	 * @return bien raiz agregado
 	 * @throws ExcepcionesFenix si el identificador ya existe
@@ -382,14 +394,14 @@ public class BancoDelegado {
 
 	/**
 	 * Metodo que permite eliminar un bien raiz
+	 * 
 	 * @param bienraiz bien raiz a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix
 	 * @see proyectofenix.negocio.BancoEJBRemote#eliminarBienRaiz(proyectofenix.entidades.BienRaiz)
 	 */
 	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
 		return bancoEJB.eliminarBienRaiz(bienraiz);
 	}
-	
-	
+
 }

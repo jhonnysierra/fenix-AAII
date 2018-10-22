@@ -102,6 +102,11 @@ public class CrearEditarBienRaizControlador {
 	 */
 	private Persona persona;
 	
+	/**
+	 * Bien raiz
+	 */
+	private BienRaiz bienraiz;
+	
 
 	/**
 	 * Metodo constructor
@@ -124,13 +129,13 @@ public class CrearEditarBienRaizControlador {
 	 * 
 	 * @param prestamo prestamo observable a modificar
 	 */
-/*	public void cargarPrestamo(PrestamoObservable prestamo) {
+	public void cargarBienRaiz(BienRaizObservable bienraiz) {
 		btnAceptar.setVisible(false);
 		btnEditar.setVisible(true);
 		cmpInfoEncabezado.setText("Por favor edite la información del prestamo");
 		cmpId.setDisable(true);
 		cmpPersona.setEditable(false);
-		cmpValor.requestFocus();
+/*		cmpValor.requestFocus();
 
 		cmpId.setText(String.valueOf(prestamo.getId().getValue()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
@@ -146,10 +151,10 @@ public class CrearEditarBienRaizControlador {
 				indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
 			}
 		}
-
+*/
 		// System.out.println("Indice: " + indiceListaPrestamoObservables);
 
-	}*/
+	}
 
 	/**
 	 * permite registrar un bien raiz en la base de datos
@@ -164,8 +169,6 @@ public class CrearEditarBienRaizControlador {
 		bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
 		bienraiz.setDireccion(cmpDireccion.getText());
 		bienraiz.setPersona(persona);
-
-
 
 		if (manejador.agregarBienRaiz(bienraiz)) {
 			manejador.agregarBienRaizALista(bienraiz);
@@ -258,6 +261,20 @@ public class CrearEditarBienRaizControlador {
 	public void cargarDatosIniciales() {
 		//cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
+	}
+
+	/**
+	 * @return the bienraiz
+	 */
+	public BienRaiz getBienraiz() {
+		return bienraiz;
+	}
+
+	/**
+	 * @param bienraiz the bienraiz to set
+	 */
+	public void setBienraiz(BienRaiz bienraiz) {
+		this.bienraiz = bienraiz;
 	}
 
 	

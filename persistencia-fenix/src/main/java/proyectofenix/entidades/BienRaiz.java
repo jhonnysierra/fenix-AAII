@@ -21,9 +21,23 @@ import javax.persistence.OneToOne;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = BienRaiz.OBTENER_PERSONA_BIENRAIZ, query = "select br.persona from BienRaiz br where br.id=:id"),
-		@NamedQuery(name = BienRaiz.OBTENER_ALL_BIENRAIZ, query = "select br from BienRaiz br") })
+		@NamedQuery(name = BienRaiz.OBTENER_ALL_BIENRAIZ, query = "select br from BienRaiz br"),
+		@NamedQuery(name = BienRaiz.OBTENER_PERSONA_CONIDPERSONA, query = "select br.persona from BienRaiz br where br.persona=:persona"),
+		@NamedQuery(name = BienRaiz.OBTENER_BIENRAIZ_POR_ID, query = "select br from BienRaiz br where br.id=:id")})
 public class BienRaiz implements Serializable {
 
+	
+	/**
+	 * Permite obtener el prestamo asociado a un bien raiz
+	 */
+	public static final String OBTENER_BIENRAIZ_POR_ID = "BienRaizPorId";
+	
+	
+	/**
+	 * Permite obtener la persona asociada a un bien raiz
+	 */
+	public static final String OBTENER_PERSONA_CONIDPERSONA = "BienRaizPersonaConCedPerson";
+	
 	/**
 	 * Permite obtener el prestamo asociado a un bien raiz
 	 */
@@ -32,7 +46,7 @@ public class BienRaiz implements Serializable {
 	/**
 	 * Permite obtener el prestamo asociado a un bien raiz
 	 */
-	public static final String OBTENER_PERSONA_BIENRAIZ = "BienRaizPersona";
+	public static final String OBTENER_PERSONA_BIENRAIZ = "BienRaizPersonaConIdBien";
 
 	/**
 	 * serialVersionUID clase BienRaiz

@@ -161,23 +161,26 @@ public interface BancoEJBRemote {
 	 *                          asociado
 	 */
 	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
-	
+
 	/**
 	 * Permite consultar los telefonos asociados a una persona
+	 * 
 	 * @param cedula
 	 * @return
 	 */
 	public List<String> listarTelefonosPersona(String cedula);
-	
+
 	/**
 	 * Genera el consecutivo del prestamo
+	 * 
 	 * @return consecutivo del prestamo
 	 * @throws ExcepcionesFenix
 	 */
-	public int consecutivoPrestamo() throws ExcepcionesFenix; 
-	
+	public int consecutivoPrestamo() throws ExcepcionesFenix;
+
 	/**
 	 * Devuelve el tipo de prestamo buscado por codigo
+	 * 
 	 * @param id del prestamo
 	 * @return tipo de prestamo
 	 */
@@ -185,53 +188,78 @@ public interface BancoEJBRemote {
 
 	/**
 	 * Permite listar todos los tipos de prestamos existentes
+	 * 
 	 * @return Lista con los tipos de prestamos
 	 */
 	public List<TipoPrestamo> listarTodosTipoPrestamo();
-	
+
 	/**
 	 * Permite obtener la lista de pagos asociados a un prestamo
+	 * 
 	 * @param idPrestamo
 	 * @return lista de pagos
 	 */
 	public List<Pago> listarPagosPrestamo(int idPrestamo);
-	
+
 	/**
 	 * Metodo que permite eliminar un prestamo
+	 * 
 	 * @param prestamo prestamo a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix si el prestamo a eliminar no se encuentra
 	 * 
 	 */
 	public boolean eliminarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
-	
+
 	/**
 	 * Metodo que permite modificar la informacion de un prestamo
+	 * 
 	 * @param prestamo prestamo a modificar
 	 * @return prestamo modificado
 	 * @throws ExcepcionesFenix si el prestamo a eliminar es null
 	 */
 	public Prestamo modificarPrestamo(Prestamo prestamo) throws ExcepcionesFenix;
-	
+
 	/**
 	 * Permite crear un bien raiz asociado a un cliente
+	 * 
 	 * @param bienraiz bien raiz a agregar
 	 * @return bien raiz agregado
 	 * @throws ExcepcionesFenix si el identificador ya existe
 	 */
 	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
-	
+
 	/**
 	 * Metodo que permite obtener una lista con todos los bienes raiz
+	 * 
 	 * @return List<BienRaiz> lista de todos los bienes raiz en el banco
 	 */
 	public List<BienRaiz> listarAllBienRaiz();
-	
+
 	/**
 	 * Metodo que permite eliminar un bien raiz
+	 * 
 	 * @param bienraiz bien raiz a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix
 	 */
 	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
+
+	/**
+	 * Permite listar un bien raiz buscando por id
+	 * 
+	 * @param id identificador bien raiz
+	 * @return bien raiz encontrado
+	 * @throws ExcepcionesFenix
+	 */
+	public BienRaiz listarBienRaizPorId(String id) throws ExcepcionesFenix;
+
+	/**
+	 * Permite lista los prestamo que ha realizado una persona
+	 * 
+	 * @param cedula cedula de la persona
+	 * @return lista de los prestamos de una persona
+	 */
+	public List<Prestamo> listarPrestamosPersona(String cedula);
+
 }

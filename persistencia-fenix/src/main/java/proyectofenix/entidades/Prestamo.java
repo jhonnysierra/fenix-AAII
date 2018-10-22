@@ -41,12 +41,19 @@ import javax.validation.constraints.NotNull;
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_ALL, query = "select p from Prestamo p"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMOS_POR_TIPO, query = "select p from Prestamo p where p.tipoPrestamo=:tipoPrestamo"),
 		@NamedQuery(name = Prestamo.OBTENER_PRESTAMO_POR_ID, query = "select p from Prestamo p where p.id=:id"),
-		@NamedQuery(name = Prestamo.OBTENER_CONSECUTIVO_PRESTAMO, query = "select (COUNT(p.id)+1) from Prestamo p") })
+		@NamedQuery(name = Prestamo.OBTENER_CONSECUTIVO_PRESTAMO, query = "select (COUNT(p.id)+1) from Prestamo p"),
+		@NamedQuery(name = Prestamo.OBTENER_LISTA_PRESTAMOS_PERSONA, query = "select p from Prestamo p where p.persona.cedula=:cedula")})
 
 @NamedNativeQueries({
 		@NamedNativeQuery(name = Prestamo.OBTENER_PAGOS_PRESTAMO, query = "select pt.telefonos from persona_telefonos pt where pt.persona_cedula=?1") })
 public class Prestamo implements Serializable {
-
+	
+	/**
+	 * Permite obtener los pagos asociados a un prestamo
+	 */
+	public static final String OBTENER_LISTA_PRESTAMOS_PERSONA = "PrestamosPersonaPorCed";
+	
+	
 	/**
 	 * Permite obtener los pagos asociados a un prestamo
 	 */

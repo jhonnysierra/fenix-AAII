@@ -458,6 +458,51 @@ public class ManejadorEscenarios {
 	}
 
 	/**
+	 * Caraga la escena de editar bien raiz
+	 * 
+	 *@param bienraiz bien raiz a editar
+	 */
+	public void cargarEscenarioEditarBienRaiz(BienRaiz bienraiz) {
+
+		try {
+
+			// Se crea un presatmo observable
+			BienRaizObservable bienRaizObservableEditar = new BienRaizObservable(bienraiz);
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_bienraiz.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioEditar = new Stage();
+			escenarioEditar.setTitle("Editar Bien Raiz");
+			Scene scene = new Scene(page);
+			escenarioEditar.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarBienRaizControlador bienraizControlador = loader.getController();
+			bienraizControlador.setEscenarioBienraiz(escenarioEditar);
+			bienraizControlador.setManejador(this);
+			bienraizControlador.setPersona(bienraiz.getPersona());
+			bienraizControlador.cargarBienRaiz(bienRaizObservableEditar);
+
+			
+			// se carga el controlador
+
+			
+			bienraizControlador.cargarDatosIniciales();
+			
+			// se crea el escenario
+			escenarioEditar.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
 	 * @param clientesObservables the clientesObservables to set
 	 */
 	public void setClientesObservables(ObservableList<ClienteObservable> clientesObservables) {
@@ -764,13 +809,15 @@ public class ManejadorEscenarios {
 	 * @throws ExcepcionesFenix
 	 * @see proyectofenix.escritorio.modelo.BancoDelegado#eliminarBienRaiz(proyectofenix.entidades.BienRaiz)
 	 */
-	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
+	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix{
 		try {
 			return bancoDelegado.eliminarBienRaiz(bienraiz);
-		} catch (Exception e) {
+		} catch (ExcepcionesFenix e) {
+			System.out.println("Error manejador:" + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
+		
 	}
 
 }

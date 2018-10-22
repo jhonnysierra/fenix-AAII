@@ -475,6 +475,8 @@ public class BancoEJB implements BancoEJBRemote {
 
 	}
 
+
+
 	/**
 	 * Metodo que permite modificar la informacion de un prestamo
 	 * 
@@ -500,6 +502,7 @@ public class BancoEJB implements BancoEJBRemote {
 
 	/**
 	 * Permite crear un bien raiz asociado a un cliente
+	 * 
 	 * @param bienraiz bien raiz a agregar
 	 * @return bien raiz agregado
 	 * @throws ExcepcionesFenix si el identificador ya existe
@@ -518,41 +521,80 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 
 	}
-	
+
 	/**
 	 * Metodo que permite obtener una lista con todos los bienes raiz
+	 * 
 	 * @return List<BienRaiz> lista de todos los bienes raiz en el banco
 	 */
 	public List<BienRaiz> listarAllBienRaiz() {
 		TypedQuery<BienRaiz> bienraiz = entityManager.createNamedQuery(BienRaiz.OBTENER_ALL_BIENRAIZ, BienRaiz.class);
 
-		System.out.println("Tamano de lista bien raiz:" +bienraiz.getResultList().size());
-		
+		System.out.println("Tamano de lista bien raiz:" + bienraiz.getResultList().size());
+
 		return bienraiz.getResultList();
 	}
 
 	/**
 	 * Metodo que permite eliminar un bien raiz
+	 * 
 	 * @param bienraiz bien raiz a eliminar
-	 * @return true si se elimino o false si no 
+	 * @return true si se elimino o false si no
 	 * @throws ExcepcionesFenix
 	 */
 	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
-		//BienRaiz bienRaizEliminar = listarPrestamoPorId(prestamo.getId());
-		if (entityManager.find(BienRaiz.class, bienraiz.getId()) != null) {
+		BienRaiz bienRaizEliminar = listarBienRaizPorId(bienraiz.getId());
+		
+		if (bienRaizEliminar!=null) {
 			try {
-				entityManager.remove(bienraiz);
-				// prestamoEliminar.setEstado("0");
+				entityManager.remove(bienRaizEliminar);
+				System.out.println("Bien raiz Banco EJB:" + bienRaizEliminar.getId());
 				return true;
 			} catch (Exception e) {
 				System.out.println("Mensaje error remove:" + e.getMessage());
 				e.printStackTrace();
 				return false;
 			}
-		} else {
-			throw new ExcepcionesFenix("El Bien Raiz a eliminar es null");
+		}else {
+			throw new ExcepcionesFenix("El Bien raiz a eliminar es null");
 		}
+		
+		
 
 	}
 	
+	/**
+	 * Permite listar un bien raiz buscando por id
+	 * 
+	 * @param id identificador bien raiz
+	 * @return bien raiz encontrado
+	 * @throws ExcepcionesFenix
+	 */
+	public BienRaiz listarBienRaizPorId(String id) throws ExcepcionesFenix{
+		try {
+			TypedQuery<BienRaiz> query = entityManager.createNamedQuery(BienRaiz.OBTENER_BIENRAIZ_POR_ID,
+					BienRaiz.class);
+			query.setParameter("id", id);
+			
+			BienRaiz bienraiz = query.getSingleResult();
+			return bienraiz;
+		} catch (NoResultException e) {
+			throw new ExcepcionesFenix("No se encontró el bien raíz " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Permite lista los prestamo que ha realizado una persona
+	 * 
+	 * @param cedula cedula de la persona
+	 * @return lista de los prestamos de una persona
+	 */
+	public List<Prestamo> listarPrestamosPersona(String cedula) {
+		TypedQuery<Prestamo> query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_PERSONA, Prestamo.class);
+		query.setParameter("cedula", cedula);
+
+		return query.getResultList();
+
+	}
+
 }

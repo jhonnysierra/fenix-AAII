@@ -113,7 +113,7 @@ public class BienRaizControlador {
 			// empleadoObservable = empleado;
 			txtId.setText(bienraiz.getId().getValue());
 			txtPersona.setText(bienraiz.getCedNombpersona().getValue());
-			txtAvaluo.setText(String.valueOf(bienraiz.getAvaluo().getValue()));
+			txtAvaluo.setText(String.format("%.0f", bienraiz.getAvaluo().getValue()));
 			txtDireccion.setText(bienraiz.getDireccion().getValue());
 		} else {
 			txtId.setText("");
@@ -131,13 +131,11 @@ public class BienRaizControlador {
 /*	@FXML
 	public void editarPrestamo() {
 
-		int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
+			int indice = tablaBienRaiz.getSelectionModel().getSelectedIndex();
+			
+			BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
 
-		Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
-		System.out.println("Prestamo seleccionado:" + prestamo.getId());
-		System.out.println("Tipo Prestamo seleccionado:" + prestamo.getTipoPrestamo().getId());
-
-		escenarioInicial.cargarEscenarioEditarPrestamo(prestamo);
+		escenarioInicial.cargarEscenarioEditarBienRaiz(prestamo);
 		tablaPrestamos.refresh();
 	}*/
 	
@@ -151,21 +149,20 @@ public class BienRaizControlador {
 
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaBienRaiz.getSelectionModel().getSelectedIndex();
-
-			//System.out.println(tablaEmpleados.getItems().size());
-
+			
 			BienRaiz bienraiz = tablaBienRaiz.getItems().get(indice).getBienraiz();
+			
 
-			try {
-				if (escenarioInicial.eliminarBienRaiz(bienraiz)) {
+		try {
+			if (escenarioInicial.eliminarBienRaiz(bienraiz)) {
 					tablaBienRaiz.getItems().remove(indice);
-					Utilidades.mostrarMensaje("Eliminar", "El Prestamo ha sido eliminado con éxito");
+					Utilidades.mostrarMensaje("Eliminar", "El Bien raíz ha sido eliminado con éxito");
 				} else {
-					Utilidades.mostrarMensaje("Error", "El Prestamo no pudo ser eliminado");
+					Utilidades.mostrarMensaje("Error", "El bien raíz no pudo ser eliminado");
 				}
-			} catch (ExcepcionesFenix e) {
-				e.printStackTrace();
-			}
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
 
 		}
 	}

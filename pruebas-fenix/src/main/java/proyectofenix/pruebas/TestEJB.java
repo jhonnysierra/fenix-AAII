@@ -29,6 +29,7 @@ import org.junit.runner.RunWith;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -360,5 +361,27 @@ public class TestEJB {
 			Assert.fail(String.format("Error Metodo: %s", e.getMessage()));
 		}
 
+	}
+	
+	/**
+	 * Permite probar el metodo eliminar bien raiz
+	 */
+	@Test
+	@Transactional(value = TransactionMode.ROLLBACK)
+	@UsingDataSet({ "persona.json", "bienraiz.json" })
+	public void eliminarBienRaiz() {
+		BienRaiz bienRailEliminar=entityManager.find(BienRaiz.class,"001");
+	
+		System.out.println("Bien raiz a eliminar:" + bienRailEliminar.getPersona().getCedula());
+		
+		try {
+			banco.eliminarBienRaiz(bienRailEliminar);
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
+		
+		BienRaiz bien=entityManager.find(BienRaiz.class,"001");
+		
+		Assert.assertNull("Bien es diferente de null", bien);
 	}
 }
