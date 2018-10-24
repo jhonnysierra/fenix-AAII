@@ -21,8 +21,14 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-@NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select COUNT(p.id)+1 from Pago p") })
+@NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select MAX(p.id) from Pago p"),
+		@NamedQuery(name = Pago.OBTENER_PAGOS_ALL, query = "select p from Pago p") })
 public class Pago implements Serializable {
+
+	/**
+	 * Permite obtener todos los pagos
+	 */
+	public static final String OBTENER_PAGOS_ALL = "TodosLosPagos";
 
 	/**
 	 * Permite obtener el maximo id de un pago y sumarle 1 para generar el

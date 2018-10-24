@@ -17,7 +17,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 
@@ -207,12 +207,14 @@ public class CrearEditarPrestamoControlador {
 
 		prestamo.setPagos(listaPagos);
 
-		if (manejador.registrarPrestamo(prestamo)) {
-			manejador.agregarPrestamoALista(prestamo);
-			Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
-			escenarioPrestamo.close();
-		} else {
-			Utilidades.mostrarMensaje("Registro Prestamo", "Error en registro!!!");
+		try {
+			if (manejador.registrarPrestamo(prestamo)) {
+				manejador.agregarPrestamoALista(prestamo);
+				Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
+				escenarioPrestamo.close();
+			}
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
 		}
 
 	}

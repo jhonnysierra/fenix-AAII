@@ -97,6 +97,11 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
+                  <Button layoutX="39.0" layoutY="357.0" mnemonicParsing="false" onAction="#agregarBienRaiz" text="Bien Raiz" AnchorPane.bottomAnchor="16.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
 					</children>
 				</AnchorPane>
 			</items>

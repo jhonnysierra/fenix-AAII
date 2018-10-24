@@ -99,7 +99,7 @@ public class ClienteControlador {
 	 */
 	private ManejadorEscenarios escenarioInicial;
 
-	private ClienteObservable clienteObservable;
+	//private ClienteObservable clienteObservable;
 
 	/**
 	 * Metodo constructor
@@ -143,7 +143,7 @@ public class ClienteControlador {
 	public void mostrarDetalleCliente(ClienteObservable cliente) {
 
 		if (cliente != null) {
-			clienteObservable = cliente;
+			//clienteObservable = cliente;
 			txtCedula.setText(cliente.getCedula().getValue());
 			txtNombre.setText(cliente.getNombre().getValue());
 			txtApellido.setText(cliente.getApellido().getValue());

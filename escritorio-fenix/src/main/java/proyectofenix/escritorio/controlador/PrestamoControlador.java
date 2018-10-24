@@ -219,5 +219,14 @@ public class PrestamoControlador {
 
 		}
 	}
+	
+	@FXML
+	public void agregarPago() {
 
+		int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
+
+		Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
+
+		escenarioInicial.cargarEscenarioCrearPago(prestamo);
+	}
 }

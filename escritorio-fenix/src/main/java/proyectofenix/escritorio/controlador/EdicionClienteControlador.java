@@ -2,18 +2,10 @@ package proyectofenix.escritorio.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional.TxType;
-
-import com.sun.jdo.spi.persistence.support.ejb.ejbc.CMPROTemplateFormatter;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;

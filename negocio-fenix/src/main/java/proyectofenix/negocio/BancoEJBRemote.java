@@ -271,4 +271,19 @@ public interface BancoEJBRemote {
 	 */
 	public BienRaiz modificarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix;
 
+	/**
+	 * Metodo que devuelve el consecutivo para el pago
+	 * 
+	 * @return consecutivo del pago
+	 * @throws ExcepcionesFenix si no se genera el id del pago
+	 */
+	public int consecutivoPago() throws ExcepcionesFenix;
+
+	/**
+	 * Permite listar todos los pagos
+	 * 
+	 * @return lista con los todos los pagos
+	 */
+	public List<Pago> listarAllPagos();
+
 }

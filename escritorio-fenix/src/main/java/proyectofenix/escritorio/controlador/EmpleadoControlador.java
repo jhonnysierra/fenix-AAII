@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
@@ -121,7 +122,7 @@ public class EmpleadoControlador {
 	/**
 	 * Empleado Observable
 	 */
-	//private EmpleadoObservable empleadoObservable;
+	// private EmpleadoObservable empleadoObservable;
 
 	/**
 	 * Metodo constructor
@@ -165,7 +166,7 @@ public class EmpleadoControlador {
 	public void mostrarDetalleEmpleado(EmpleadoObservable empleado) {
 
 		if (empleado != null) {
-			//empleadoObservable = empleado;
+			// empleadoObservable = empleado;
 			txtCedula.setText(empleado.getCedula().getValue());
 			txtNombre.setText(empleado.getNombre().getValue());
 			txtApellido.setText(empleado.getApellido().getValue());
@@ -218,7 +219,7 @@ public class EmpleadoControlador {
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaEmpleados.getSelectionModel().getSelectedIndex();
 
-			//System.out.println(tablaEmpleados.getItems().size());
+			// System.out.println(tablaEmpleados.getItems().size());
 
 			Empleado empleado = tablaEmpleados.getItems().get(indice).getEmpleado();
 
@@ -247,7 +248,7 @@ public class EmpleadoControlador {
 		escenarioInicial.cargarEscenarioEditarEmpleado(empleado);
 		tablaEmpleados.refresh();
 	}
-	
+
 	/**
 	 * permite mostrar la ventana de crear prestamo
 	 */
@@ -257,9 +258,23 @@ public class EmpleadoControlador {
 		int indice = tablaEmpleados.getSelectionModel().getSelectedIndex();
 
 		Empleado empleado = tablaEmpleados.getItems().get(indice).getEmpleado();
-		//System.out.println("Empledo seleccionado:" + cliente.getCedula());
+		// System.out.println("Empledo seleccionado:" + cliente.getCedula());
 
 		escenarioInicial.cargarEscenarioCrearPrestamo(empleado);
+	}
+
+	/**
+	 * Permite mostrar la ventana de crear bien raiz
+	 * 
+	 */
+	@FXML
+	public void agregarBienRaiz() {
+
+		int indice = tablaEmpleados.getSelectionModel().getSelectedIndex();
+
+		Empleado empleado = tablaEmpleados.getItems().get(indice).getEmpleado();
+
+		escenarioInicial.cargarEscenarioCrearBienRaiz(empleado);
 	}
 
 }

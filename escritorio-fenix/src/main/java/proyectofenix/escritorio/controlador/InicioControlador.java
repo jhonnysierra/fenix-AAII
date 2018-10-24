@@ -6,18 +6,28 @@ package proyectofenix.escritorio.controlador;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
+import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
- * Permite controlas la vista inicio
+ * Permite controlar la vista inicio
  * @author JJ
  */
 public class InicioControlador {
 
+	/**
+	 * Barra menu
+	 */
 	@FXML
 	private MenuBar menuBar;
 	
+	/**
+	 * Escenario inicial
+	 */
 	private ManejadorEscenarios escenarioInicial;
 	
+	/**
+	 * Constructor
+	 */
 	public InicioControlador() {
 		
 	}
@@ -27,11 +37,17 @@ public class InicioControlador {
 
 	}
 
+	/**
+	 * Permite mostrar la escena de detalle cliente
+	 */
 	@FXML
 	public void cargarGestionarCliente() {
 		escenarioInicial.cargarEscenaDetalleCliente();
 	}
 
+	/**
+	 * Permite mostrar la escena de detalle empleado
+	 */
 	@FXML
 	public void cargarGestionarEmpleado() {
 		escenarioInicial.cargarEscenaDetalleEmpleado();
@@ -53,9 +69,28 @@ public class InicioControlador {
 		escenarioInicial.cargarEscenaDetalleBienRaiz();
 	}
 	
+	/**
+	 * Carga la escena detalle pagos
+	 */
+	@FXML
+	public void cargarListarPagos() {
+		escenarioInicial.cargarEscenaDetallePago();
+	}
+	
+	/**
+	 * Permite cerrar la aplicacación
+	 */
 	@FXML
 	public void cerrarAplicacion() {
 		escenarioInicial.getEscenario().close();
+	}
+	
+	/**
+	 * Muestra el mensaje de acerca de 
+	 */
+	@FXML
+	public void acercade() {
+		Utilidades.mostrarMensaje("Acerca de te lo prestamos fenix", "Esta aplicación fue creada por:\nJHONNY SIERRA PARRA\nJORGE ALEXANDER MESA CASTAÑO");
 	}
 	
 	

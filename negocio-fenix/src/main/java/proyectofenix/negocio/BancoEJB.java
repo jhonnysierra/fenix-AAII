@@ -402,7 +402,7 @@ public class BancoEJB implements BancoEJBRemote {
 			consecutivo = conse.intValue();
 			return consecutivo;
 		} catch (Exception e) {
-			System.out.println("e.mesage:" + e.getMessage());
+			//System.out.println("e.mesage:" + e.getMessage());
 			throw new ExcepcionesFenix("No se puede generar el id del prestamo");
 		}
 	}
@@ -465,7 +465,7 @@ public class BancoEJB implements BancoEJBRemote {
 				// prestamoEliminar.setEstado("0");
 				return true;
 			} catch (Exception e) {
-				System.out.println("Mensaje error remove:" + e.getMessage());
+				//System.out.println("Mensaje error remove:" + e.getMessage());
 				e.printStackTrace();
 				return false;
 			}
@@ -530,7 +530,7 @@ public class BancoEJB implements BancoEJBRemote {
 	public List<BienRaiz> listarAllBienRaiz() {
 		TypedQuery<BienRaiz> bienraiz = entityManager.createNamedQuery(BienRaiz.OBTENER_ALL_BIENRAIZ, BienRaiz.class);
 
-		System.out.println("Tamano de lista bien raiz:" + bienraiz.getResultList().size());
+		//System.out.println("Tamano de lista bien raiz:" + bienraiz.getResultList().size());
 
 		return bienraiz.getResultList();
 	}
@@ -548,10 +548,10 @@ public class BancoEJB implements BancoEJBRemote {
 		if (bienRaizEliminar!=null) {
 			try {
 				entityManager.remove(bienRaizEliminar);
-				System.out.println("Bien raiz Banco EJB:" + bienRaizEliminar.getId());
+				//System.out.println("Bien raiz Banco EJB:" + bienRaizEliminar.getId());
 				return true;
 			} catch (Exception e) {
-				System.out.println("Mensaje error remove:" + e.getMessage());
+				//System.out.println("Mensaje error remove:" + e.getMessage());
 				e.printStackTrace();
 				return false;
 			}
@@ -619,5 +619,36 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 
 	}
+	
 
+	/**
+	 * Metodo que devuelve el consecutivo para el pago
+	 * 
+	 * @return consecutivo del pago
+	 * @throws ExcepcionesFenix si no se genera el id del pago
+	 */
+	public int consecutivoPago() throws ExcepcionesFenix {
+		int consecutivo;
+		Long conse;
+		try {
+			Query query = entityManager.createNamedQuery(Pago.OBTENER_CONSECUTIVO_PAGO);
+			//conse = (Long) query.getSingleResult();
+			consecutivo = (int) query.getSingleResult() + 1;
+			return consecutivo;
+		} catch (Exception e) {
+			//System.out.println("e.mesage:" + e.getMessage());
+			throw new ExcepcionesFenix("No se puede generar el id del pago");
+		}
+	}
+	
+	/**
+	 * Permite listar todos los pagos
+	 * 
+	 * @return lista con los todos los pagos
+	 */
+	public List<Pago> listarAllPagos() {
+		TypedQuery<Pago> pagos = entityManager.createNamedQuery(Pago.OBTENER_PAGOS_ALL, Pago.class);
+		
+		return pagos.getResultList();
+	}
 }

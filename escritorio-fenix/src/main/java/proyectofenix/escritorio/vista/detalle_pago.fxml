@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectofenix.escritorio.controlador.PagoControlador">
+	<children>
+		<SplitPane dividerPositions="0.29797979797979796" layoutX="6.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<items>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+					<children>
+						<TableView fx:id="tablaPagos" prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<columns>
+								<TableColumn fx:id="idColumna" prefWidth="75.0" text="ID Pago" />
+								<TableColumn fx:id="prestamoColumna" prefWidth="75.0" text="Id Prestamo" />
+							</columns>
+							<columnResizePolicy>
+								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+							</columnResizePolicy>
+						</TableView>
+					</children>
+				</AnchorPane>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+					<children>
+						<Label layoutX="7.0" layoutY="14.0" text="Detalle Cuota" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+							<font>
+								<Font name="Arial Bold" size="13.0" />
+							</font>
+						</Label>
+						<GridPane layoutX="14.0" layoutY="21.0" prefHeight="272.0" prefWidth="406.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="25.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" maxWidth="199.0" minWidth="10.0" prefWidth="144.0" />
+								<ColumnConstraints hgrow="SOMETIMES" maxWidth="268.0" minWidth="10.0" prefWidth="262.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+							</rowConstraints>
+							<children>
+								<Label text="Id Pago:" />
+								<Label text="Id Prestamo:" GridPane.rowIndex="1" />
+								<Label text="Fecha Pago:" GridPane.rowIndex="2" />
+								<Label fx:id="txtId" text="Label" GridPane.columnIndex="1" />
+								<Label fx:id="txtIdPrestamo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+								<Label fx:id="txtFechaPago" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Valor Pago:" GridPane.rowIndex="3" />
+                        <Label fx:id="txtValorPago" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+							</children>
+						</GridPane>
+                  <Button layoutX="267.0" layoutY="343.0" mnemonicParsing="false" text="Eliminar" AnchorPane.bottomAnchor="30.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="351.0" layoutY="343.0" mnemonicParsing="false" text="Editar" AnchorPane.bottomAnchor="30.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+					</children>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+	</children>
+</AnchorPane>

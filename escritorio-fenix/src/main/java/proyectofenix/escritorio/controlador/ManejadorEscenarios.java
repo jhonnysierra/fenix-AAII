@@ -14,6 +14,7 @@ import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
@@ -22,7 +23,9 @@ import proyectofenix.escritorio.modelo.BancoDelegado;
 import proyectofenix.escritorio.modelo.BienRaizObservable;
 import proyectofenix.escritorio.modelo.ClienteObservable;
 import proyectofenix.escritorio.modelo.EmpleadoObservable;
+import proyectofenix.escritorio.modelo.PagoObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
+import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
  * Permite manejar los escenarios que tiene la aplicacion
@@ -61,6 +64,11 @@ public class ManejadorEscenarios {
 	private ObservableList<BienRaizObservable> bienraizObservables;
 
 	/**
+	 * Lista de pagos observables
+	 */
+	private ObservableList<PagoObservable> pagosObservables;
+
+	/**
 	 * conexion con capa de negocio
 	 */
 	private BancoDelegado bancoDelegado;
@@ -79,6 +87,7 @@ public class ManejadorEscenarios {
 		empleadosObservables = FXCollections.observableArrayList();
 		prestamosObservables = FXCollections.observableArrayList();
 		bienraizObservables = FXCollections.observableArrayList();
+		pagosObservables = FXCollections.observableArrayList();
 
 		try {
 			// se inicializa el escenario
@@ -194,6 +203,27 @@ public class ManejadorEscenarios {
 			bordePanel.setCenter(panelAncho);
 
 			BienRaizControlador controlador = loader5.getController();
+			controlador.setEscenarioInicial(this);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void cargarEscenaDetallePago() {
+
+		try {
+
+			pagosObservables = bancoDelegado.listarPagosObservables();
+			//System.out.println("Pagos observables:" + pagosObservables.size());
+
+			FXMLLoader loader5 = new FXMLLoader();
+			loader5.setLocation(Main.class.getResource("../vista/detalle_pago.fxml"));
+			AnchorPane panelAncho = (AnchorPane) loader5.load();
+			bordePanel.setCenter(panelAncho);
+
+			PagoControlador controlador = loader5.getController();
 			controlador.setEscenarioInicial(this);
 
 		} catch (IOException e) {
@@ -340,6 +370,37 @@ public class ManejadorEscenarios {
 		}
 
 	}
+	
+	public void cargarEscenarioCrearPago(Prestamo prestamo) {
+		// System.out.println("Cliente recibido:"+ persona.getCedula());
+		try {
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_pago.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioCrear = new Stage();
+			escenarioCrear.setTitle("Registrar Pago");
+			Scene scene = new Scene(page);
+			escenarioCrear.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarPagoControlador pagoControlador = loader.getController();
+			pagoControlador.setEscenarioPago(escenarioCrear);
+			pagoControlador.setManejador(this);
+			pagoControlador.setPrestamo(prestamo);
+			pagoControlador.cargarDatosIniciales();
+
+			// se crea el escenario
+			escenarioCrear.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}	
 
 	/**
 	 * Carga la escena de editar cliente
@@ -568,6 +629,24 @@ public class ManejadorEscenarios {
 	}
 
 	/**
+	 * Metodo get lista pagos observables
+	 * 
+	 * @return the pagosObservables
+	 */
+	public ObservableList<PagoObservable> getPagosObservables() {
+		return pagosObservables;
+	}
+
+	/**
+	 * Metodo set lista pagos observables
+	 * 
+	 * @param pagosObservables the pagosObservables to set
+	 */
+	public void setPagosObservables(ObservableList<PagoObservable> pagosObservables) {
+		this.pagosObservables = pagosObservables;
+	}
+
+	/**
 	 * permite agregar una cliente a la lista obsevable
 	 * 
 	 * @param cliente
@@ -603,6 +682,13 @@ public class ManejadorEscenarios {
 		bienraizObservables.add(new BienRaizObservable(bienraiz));
 	}
 
+	/**
+	 * Permite agregar un pago a la lista obsevable
+	 * @param pago pago a agregar a la lista
+	 */
+	public void agregarPagoALista(Pago pago) {
+		pagosObservables.add(new PagoObservable(pago));
+	}
 	/**
 	 * deveulve una instancia del escenario
 	 * 
@@ -738,11 +824,14 @@ public class ManejadorEscenarios {
 	 * 
 	 * @param prestamo prestamo a registrar
 	 * @return true si se registro el prestamo, false si no.
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#registrarPrestamo(proyectofenix.entidades.Prestamo)
 	 */
-	public boolean registrarPrestamo(Prestamo prestamo) {
+	public boolean registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
 		try {
 			return bancoDelegado.registrarPrestamo(prestamo) != null;
-		} catch (Exception e) {
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Registro Prestamo", "Error en registro de prestamo: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -788,10 +877,11 @@ public class ManejadorEscenarios {
 	 * @throws ExcepcionesFenix si el identificador ya existe
 	 * @see proyectofenix.escritorio.modelo.BancoDelegado#agregarBienRaiz(proyectofenix.entidades.BienRaiz)
 	 */
-	public boolean agregarBienRaiz(BienRaiz bienraiz) {
+	public boolean agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
 		try {
 			return bancoDelegado.agregarBienRaiz(bienraiz) != null;
 		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Registro Bien Raiz", "Error en registro: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -831,4 +921,43 @@ public class ManejadorEscenarios {
 		return false;
 	}
 
+	/**
+	 * Permite generar el consecutivo de un pago
+	 * 
+	 * @return consecutivo con del pago
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#consecutivoPago()
+	 */
+	public int consecutivoPago() {
+		try {
+			return bancoDelegado.consecutivoPago();
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
+			return -1;
+		}
+		
+	}
+
+	/**
+	 * Permite realizar el pago de un prestamo
+	 * 
+	 * @param pago pago a realizar
+	 * @return Pago realizado
+	 * @throws ExcepcionesFenix Si el pago no tiene asociado un prestamo, si el id
+	 *                          del pago ya existe o si no se ejecuta el registro
+	 *                          del pago
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#registrarPagoCuota(proyectofenix.entidades.Pago)
+	 */
+	public boolean registrarPagoCuota(Pago pago) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.registrarPagoCuota(pago)!= null;
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+
+	
 }

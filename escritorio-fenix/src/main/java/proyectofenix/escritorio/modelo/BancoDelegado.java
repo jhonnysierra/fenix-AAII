@@ -310,10 +310,6 @@ public class BancoDelegado {
 	 */
 	public ObservableList<BienRaizObservable> listarBienRaizObservables() {
 		List<BienRaiz> bienraiz = listarAllBienRaiz();
-		// System.out.println("Persona del bien raiz observable:" +
-		// bienraiz.get(0).getPersona().getCedula());
-		// System.out.println("prestamos Persona del bien raiz observable" +
-		// bienraiz.get(0).getPersona().getPrestamo().size());
 
 		ObservableList<BienRaizObservable> bienRaizObservables = FXCollections.observableArrayList();
 		for (BienRaiz br : bienraiz) {
@@ -322,6 +318,16 @@ public class BancoDelegado {
 			bienRaizObservables.add(new BienRaizObservable(br));
 		}
 		return bienRaizObservables;
+	}
+	
+	public ObservableList<PagoObservable> listarPagosObservables() {
+		List<Pago> listaPagos=listarAllPagos();
+		
+		ObservableList<PagoObservable> pagosObservables = FXCollections.observableArrayList();
+		for (Pago p : listaPagos) {
+			pagosObservables.add(new PagoObservable(p));
+		}
+		return pagosObservables;
 	}
 
 	/**
@@ -416,4 +422,26 @@ public class BancoDelegado {
 		return bancoEJB.modificarBienRaiz(bienraiz);
 	}
 
+	/**
+	 * Metodo que devuelve el consecutivo para el pago
+	 * 
+	 * @return consecutivo del pago
+	 * @throws ExcepcionesFenix si no se genera el id del pago
+	 * @see proyectofenix.negocio.BancoEJBRemote#consecutivoPago()
+	 */
+	public int consecutivoPago() throws ExcepcionesFenix {
+		return bancoEJB.consecutivoPago();
+	}
+
+	/**
+	 * Permite listar todos los pagos
+	 * 
+	 * @return lista con los todos los pagos
+	 * @see proyectofenix.negocio.BancoEJBRemote#listarAllPagos()
+	 */
+	public List<Pago> listarAllPagos() {
+		return bancoEJB.listarAllPagos();
+	}
+
+	
 }
