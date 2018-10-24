@@ -294,7 +294,7 @@ public class BancoEJB implements BancoEJBRemote {
 
 		TypedQuery<Prestamo> prestamos = entityManager.createNamedQuery(Prestamo.OBTENER_PRESTAMOS_POR_TIPO,
 				Prestamo.class);
-		prestamos.setParameter("tipoPrestamo", tipoPrestamo);
+		prestamos.setParameter("idtipoPrestamo", tipoPrestamo.getId());
 
 		return prestamos.getResultList();
 
