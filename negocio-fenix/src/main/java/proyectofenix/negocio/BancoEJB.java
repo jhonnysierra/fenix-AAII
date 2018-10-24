@@ -278,8 +278,8 @@ public class BancoEJB implements BancoEJBRemote {
 	}
 
 	/**
-	 * Metodo que permite obtener una lista con todos los prestamos de pendiendo del
-	 * tipo realizados por los clientes del banco
+	 * Metodo que permite obtener una lista con todos los prestamos dependiendo del
+	 * tipo de prestamo realizados por los clientes del banco
 	 * 
 	 * @param idTipoPrestamo id del tipo de prestamo por el que se quiere filtrar
 	 *                       los prestamos

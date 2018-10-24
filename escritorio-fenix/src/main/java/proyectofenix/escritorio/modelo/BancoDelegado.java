@@ -319,15 +319,44 @@ public class BancoDelegado {
 		}
 		return bienRaizObservables;
 	}
-	
+
+	/**
+	 * Genera una lista de pagos observables
+	 * 
+	 * @return lista de pagos observables
+	 */
 	public ObservableList<PagoObservable> listarPagosObservables() {
-		List<Pago> listaPagos=listarAllPagos();
-		
+		List<Pago> listaPagos = listarAllPagos();
+
 		ObservableList<PagoObservable> pagosObservables = FXCollections.observableArrayList();
 		for (Pago p : listaPagos) {
 			pagosObservables.add(new PagoObservable(p));
 		}
 		return pagosObservables;
+	}
+
+	/**
+	 * Genera una lista de prestamos observables
+	 * 
+	 * @param idtipoprestamo identificador del prestamo por que el que se quiere filtrar los prestamos
+	 * @return lista de prestamos de un tipo determinado
+	 */
+	public ObservableList<PrestamoObservable> listarPorTipoPrestamosObservables(int idtipoprestamo) {
+		List<Prestamo> prestamos;
+		try {
+			prestamos = listarPrestamosPorTipo(idtipoprestamo);
+			ObservableList<PrestamoObservable> prestamosObservables = FXCollections.observableArrayList();
+			for (Prestamo p : prestamos) {
+				p.getPersona().setTelefonos(bancoEJB.listarTelefonosPersona(p.getPersona().getCedula()));
+				p.setPagos(bancoEJB.listarPagosPrestamo(p.getId()));
+				prestamosObservables.add(new PrestamoObservable(p));
+			}
+			return prestamosObservables;
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	/**
@@ -467,6 +496,4 @@ public class BancoDelegado {
 		return bancoEJB.modificarPago(pago);
 	}
 
-	
-	
 }
