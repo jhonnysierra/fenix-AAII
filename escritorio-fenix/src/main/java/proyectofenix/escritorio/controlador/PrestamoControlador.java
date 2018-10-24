@@ -14,9 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
-import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Prestamo;
-import proyectofenix.escritorio.modelo.EmpleadoObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
 
@@ -210,10 +208,9 @@ public class PrestamoControlador {
 				if (escenarioInicial.eliminarPrestamo(prestamo)) {
 					tablaPrestamos.getItems().remove(indice);
 					Utilidades.mostrarMensaje("Eliminar", "El Prestamo ha sido eliminado con éxito");
-				} else {
-					Utilidades.mostrarMensaje("Error", "El Prestamo no pudo ser eliminado");
 				}
 			} catch (ExcepcionesFenix e) {
+				Utilidades.mostrarMensajeError("Eliminar Prestamo", "Error en eliminar prestamo: " + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -228,5 +225,7 @@ public class PrestamoControlador {
 		Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
 
 		escenarioInicial.cargarEscenarioCrearPago(prestamo);
+		
+		tablaPrestamos.refresh();
 	}
 }

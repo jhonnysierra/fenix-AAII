@@ -105,7 +105,7 @@ public class EdicionClienteControlador {
 	/**
 	 * Genero de tipo enumeracion
 	 */
-	private Genero genero;
+	//private Genero genero;
 
 	/**
 	 * representa el escenario en donde se agrega la vista
@@ -130,7 +130,7 @@ public class EdicionClienteControlador {
 	/**
 	 * Cliente que se envia como parametro a esta instancia
 	 */
-	private ClienteObservable clienteEditado;
+	//private ClienteObservable clienteEditado;
 	
 	/**
 	 * Indice de la posicion en la lsita de clientes observables del cliente a editar

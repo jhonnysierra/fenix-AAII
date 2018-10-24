@@ -22,9 +22,15 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = Pago.OBTENER_CONSECUTIVO_PAGO, query = "select MAX(p.id) from Pago p"),
-		@NamedQuery(name = Pago.OBTENER_PAGOS_ALL, query = "select p from Pago p") })
+		@NamedQuery(name = Pago.OBTENER_PAGOS_ALL, query = "select p from Pago p"),
+		@NamedQuery(name = Pago.OBTENER_PAGO_POR_ID, query = "select p from Pago p where p.id=:id")})
 public class Pago implements Serializable {
 
+	/**
+	 * Permite obtener un pago por su id
+	 */
+	public static final String OBTENER_PAGO_POR_ID = "ListarPagoPorId";
+	
 	/**
 	 * Permite obtener todos los pagos
 	 */

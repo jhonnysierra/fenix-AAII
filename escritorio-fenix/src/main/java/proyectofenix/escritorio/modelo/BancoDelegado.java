@@ -443,5 +443,30 @@ public class BancoDelegado {
 		return bancoEJB.listarAllPagos();
 	}
 
+	/**
+	 * Permite eliminar un pago
+	 * 
+	 * @param pago pago a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix si el pago es null o no se puede eliminar
+	 * @see proyectofenix.negocio.BancoEJBRemote#eliminarPago(proyectofenix.entidades.Pago)
+	 */
+	public boolean eliminarPago(Pago pago) throws ExcepcionesFenix {
+		return bancoEJB.eliminarPago(pago);
+	}
+
+	/**
+	 * Permite modificar un pago
+	 * 
+	 * @param pago pago a modificar
+	 * @return pago modificado
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.negocio.BancoEJBRemote#modificarPago(proyectofenix.entidades.Pago)
+	 */
+	public Pago modificarPago(Pago pago) throws ExcepcionesFenix {
+		return bancoEJB.modificarPago(pago);
+	}
+
+	
 	
 }

@@ -14,11 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
-import proyectofenix.entidades.Empleado;
-import proyectofenix.entidades.Prestamo;
-import proyectofenix.escritorio.modelo.EmpleadoObservable;
+import proyectofenix.entidades.Pago;
 import proyectofenix.escritorio.modelo.PagoObservable;
-import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
@@ -154,35 +151,33 @@ public class PagoControlador {
 	}*/
 
 	/**
-	 * Permite eliminar un prestamo de la bd
+	 * Permite eliminar un pago de la bd
 	 */
-/*	@FXML
-	public void eliminarPrestamo() {
+	@FXML
+	public void eliminarPago() {
 
-		Alert confirmarEliminar = Utilidades.mensajeConfirmar("Eliminar Prestamo",
-				"¿Realmente desea eliminar el prestamo?");
+		Alert confirmarEliminar = Utilidades.mensajeConfirmar("Eliminar Pago",
+				"¿Realmente desea eliminar el pago?");
 
 		Optional<ButtonType> result = confirmarEliminar.showAndWait();
 
 		if (result.get() == ButtonType.OK) {
-			int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
-
-			// System.out.println(tablaEmpleados.getItems().size());
-
-			Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
+			int indice = tablaPagos.getSelectionModel().getSelectedIndex();
+			
+			Pago pago = tablaPagos.getItems().get(indice).getPago();
 
 			try {
-				if (escenarioInicial.eliminarPrestamo(prestamo)) {
-					tablaPrestamos.getItems().remove(indice);
-					Utilidades.mostrarMensaje("Eliminar", "El Prestamo ha sido eliminado con éxito");
+				if (escenarioInicial.eliminarPago(pago)) {
+					tablaPagos.getItems().remove(indice);
+					Utilidades.mostrarMensaje("Eliminar", "El Pago ha sido eliminado con éxito");
 				} else {
-					Utilidades.mostrarMensaje("Error", "El Prestamo no pudo ser eliminado");
+					Utilidades.mostrarMensaje("Error", "El Pago no pudo ser eliminado");
 				}
 			} catch (ExcepcionesFenix e) {
 				e.printStackTrace();
 			}
 
 		}
-	}*/
+	}
 
 }

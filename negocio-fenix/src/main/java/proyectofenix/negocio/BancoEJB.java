@@ -395,13 +395,14 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public int consecutivoPrestamo() throws ExcepcionesFenix {
 		int consecutivo;
-		//Long conse;
+		// Long conse;
 		try {
 			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
-			/*conse = (Long) query.getSingleResult();
-			consecutivo = conse.intValue();*/
-			consecutivo=(int) query.getSingleResult();
-			//System.out.println("Ide prestmo EJB:" + consecutivo);
+			/*
+			 * conse = (Long) query.getSingleResult(); consecutivo = conse.intValue();
+			 */
+			consecutivo = (int) query.getSingleResult() + 1;
+			// System.out.println("Ide prestmo EJB:" + consecutivo);
 			return consecutivo;
 		} catch (Exception e) {
 			throw new ExcepcionesFenix("No se puede generar el id del prestamo");
@@ -466,7 +467,6 @@ public class BancoEJB implements BancoEJBRemote {
 				// prestamoEliminar.setEstado("0");
 				return true;
 			} catch (Exception e) {
-				//System.out.println("Mensaje error remove:" + e.getMessage());
 				e.printStackTrace();
 				return false;
 			}
@@ -475,8 +475,6 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 
 	}
-
-
 
 	/**
 	 * Metodo que permite modificar la informacion de un prestamo
@@ -531,7 +529,8 @@ public class BancoEJB implements BancoEJBRemote {
 	public List<BienRaiz> listarAllBienRaiz() {
 		TypedQuery<BienRaiz> bienraiz = entityManager.createNamedQuery(BienRaiz.OBTENER_ALL_BIENRAIZ, BienRaiz.class);
 
-		//System.out.println("Tamano de lista bien raiz:" + bienraiz.getResultList().size());
+		// System.out.println("Tamano de lista bien raiz:" +
+		// bienraiz.getResultList().size());
 
 		return bienraiz.getResultList();
 	}
@@ -545,25 +544,23 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public boolean eliminarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
 		BienRaiz bienRaizEliminar = listarBienRaizPorId(bienraiz.getId());
-		
-		if (bienRaizEliminar!=null) {
+
+		if (bienRaizEliminar != null) {
 			try {
 				entityManager.remove(bienRaizEliminar);
-				//System.out.println("Bien raiz Banco EJB:" + bienRaizEliminar.getId());
+				// System.out.println("Bien raiz Banco EJB:" + bienRaizEliminar.getId());
 				return true;
 			} catch (Exception e) {
-				//System.out.println("Mensaje error remove:" + e.getMessage());
+				// System.out.println("Mensaje error remove:" + e.getMessage());
 				e.printStackTrace();
 				return false;
 			}
-		}else {
+		} else {
 			throw new ExcepcionesFenix("El Bien raiz a eliminar es null");
 		}
-		
-		
 
 	}
-	
+
 	/**
 	 * Permite listar un bien raiz buscando por id
 	 * 
@@ -571,12 +568,12 @@ public class BancoEJB implements BancoEJBRemote {
 	 * @return bien raiz encontrado
 	 * @throws ExcepcionesFenix
 	 */
-	public BienRaiz listarBienRaizPorId(String id) throws ExcepcionesFenix{
+	public BienRaiz listarBienRaizPorId(String id) throws ExcepcionesFenix {
 		try {
 			TypedQuery<BienRaiz> query = entityManager.createNamedQuery(BienRaiz.OBTENER_BIENRAIZ_POR_ID,
 					BienRaiz.class);
 			query.setParameter("id", id);
-			
+
 			BienRaiz bienraiz = query.getSingleResult();
 			return bienraiz;
 		} catch (NoResultException e) {
@@ -597,7 +594,7 @@ public class BancoEJB implements BancoEJBRemote {
 		return query.getResultList();
 
 	}
-	
+
 	/**
 	 * Metodo que permite modificar un bien raiz
 	 * 
@@ -620,7 +617,6 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 
 	}
-	
 
 	/**
 	 * Metodo que devuelve el consecutivo para el pago
@@ -635,11 +631,11 @@ public class BancoEJB implements BancoEJBRemote {
 			consecutivo = (int) query.getSingleResult() + 1;
 			return consecutivo;
 		} catch (Exception e) {
-			//System.out.println("e.mesage:" + e.getMessage());
+			// System.out.println("e.mesage:" + e.getMessage());
 			throw new ExcepcionesFenix("No se puede generar el id del pago");
 		}
 	}
-	
+
 	/**
 	 * Permite listar todos los pagos
 	 * 
@@ -647,7 +643,75 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public List<Pago> listarAllPagos() {
 		TypedQuery<Pago> pagos = entityManager.createNamedQuery(Pago.OBTENER_PAGOS_ALL, Pago.class);
-		
+
 		return pagos.getResultList();
 	}
+
+	/**
+	 * Permite lista un pago buscando por el id
+	 * 
+	 * @param id identificador del pago
+	 * @return pago encontrado
+	 * @throws ExcepcionesFenix
+	 */
+	public Pago listarPagoPorId(int id) throws ExcepcionesFenix {
+		try {
+			TypedQuery<Pago> query = entityManager.createNamedQuery(Pago.OBTENER_PAGO_POR_ID, Pago.class);
+			query.setParameter("id", id);
+
+			Pago pago = query.getSingleResult();
+			return pago;
+		} catch (NoResultException e) {
+			throw new ExcepcionesFenix("No se encontró el pago: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Permite eliminar un pago
+	 * 
+	 * @param pago pago a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix si el pago es null o no se puede eliminar
+	 */
+	public boolean eliminarPago(Pago pago) throws ExcepcionesFenix {
+		Pago pagoEliminar = listarPagoPorId(pago.getId());
+
+		if (pagoEliminar != null) {
+			try {
+				entityManager.remove(pagoEliminar);
+				return true;
+			} catch (Exception e) {
+				// System.out.println("Mensaje error remove:" + e.getMessage());
+				e.printStackTrace();
+				throw new ExcepcionesFenix("El pago no se pudo eliminar");
+			}
+		} else {
+			throw new ExcepcionesFenix("El pago a eliminar es null");
+		}
+
+	}
+
+	/**
+	 * Permite modificar un pago
+	 * 
+	 * @param pago pago a modificar
+	 * @return pago modificado
+	 * @throws ExcepcionesFenix
+	 */
+	public Pago modificarPago(Pago pago) throws ExcepcionesFenix {
+
+		if (pago != null) {
+			try {
+				entityManager.merge(pago);
+				return pago;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			throw new ExcepcionesFenix("El bien raiz a modificar es null");
+		}
+
+	}
+
 }

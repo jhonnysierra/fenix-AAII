@@ -13,7 +13,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 
 import proyectofenix.escritorio.modelo.EmpleadoObservable;

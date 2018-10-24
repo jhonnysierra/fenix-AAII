@@ -286,4 +286,22 @@ public interface BancoEJBRemote {
 	 */
 	public List<Pago> listarAllPagos();
 
+	/**
+	 * Permite eliminar un pago
+	 * 
+	 * @param pago pago a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix si el pago es null o no se puede eliminar
+	 */
+	public boolean eliminarPago(Pago pago) throws ExcepcionesFenix;
+
+	/**
+	 * Permite modificar un pago
+	 * 
+	 * @param pago pago a modificar
+	 * @return pago modificado
+	 * @throws ExcepcionesFenix
+	 */
+	public Pago modificarPago(Pago pago) throws ExcepcionesFenix;
+
 }

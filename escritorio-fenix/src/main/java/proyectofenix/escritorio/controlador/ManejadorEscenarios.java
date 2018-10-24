@@ -849,6 +849,7 @@ public class ManejadorEscenarios {
 		try {
 			return bancoDelegado.eliminarPrestamo(prestamo);
 		} catch (Exception e) {
+			Utilidades.mostrarMensajeError("Eliminar Prestamo", "Error en eliminar prestamo");
 			e.printStackTrace();
 		}
 		return false;
@@ -959,5 +960,21 @@ public class ManejadorEscenarios {
 		
 	}
 
+	
+	/**
+	 * Permite eliminar un pago
+	 * 
+	 * @param pago pago a eliminar
+	 * @return true si se elimino o false si no
+	 * @throws ExcepcionesFenix si el pago es null o no se puede eliminar
+	 */
+	public boolean eliminarPago(Pago pago) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.eliminarPago(pago);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 }

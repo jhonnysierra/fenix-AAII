@@ -85,7 +85,7 @@ public class CrearEditarPagoControlador {
 	private ManejadorEscenarios manejador;
 
 	/**
-	 * para almacenar prestamos observables que se recibe desde detalle prestamo
+	 * para almacenar prestamos observables que se recibe desde detalle pago
 	 */
 	private ObservableList<PagoObservable> pagosObservablesDetallePago;
 
@@ -94,6 +94,17 @@ public class CrearEditarPagoControlador {
 	 * editar
 	 */
 	private int indiceListaPagoObservables;
+
+	/**
+	 * para almacenar prestamos observables que se recibe desde detalle prestamo
+	 */
+	private ObservableList<PrestamoObservable> prestamosObservablesDetallePrestamo;
+
+	/**
+	 * Indice de la posicion en la lista de prestamos observables del prestamo a
+	 * editar
+	 */
+	private int indiceListaPrestamoObservables;
 
 	/**
 	 * Pago que se envia para editar
@@ -167,15 +178,27 @@ public class CrearEditarPagoControlador {
 		pago.setPrestamo(prestamo);
 		pago.setFecha(Utilidades.pasarADate(cmpFecha.getValue()));
 		pago.setValor(Double.parseDouble(cmpValor.getText()));
-		
+
 		try {
 			if (manejador.registrarPagoCuota(pago)) {
 				manejador.agregarPagoALista(pago);
+				
+				prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
+
+				for (PrestamoObservable p : prestamosObservablesDetallePrestamo) {
+					if (p.getId().getValue() == prestamo.getId()) {
+						indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
+					}
+				}
+				prestamo.getPagos().add(pago);
+				prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new PrestamoObservable(prestamo));
+
 				Utilidades.mostrarMensaje("Registro Pago", "Registro exitoso!!!");
 				escenarioPago.close();
 			}
 		} catch (ExcepcionesFenix e) {
-			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());}
+			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
+		}
 
 	}
 
