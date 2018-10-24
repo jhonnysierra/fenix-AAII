@@ -395,14 +395,15 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public int consecutivoPrestamo() throws ExcepcionesFenix {
 		int consecutivo;
-		Long conse;
+		//Long conse;
 		try {
 			Query query = entityManager.createNamedQuery(Prestamo.OBTENER_CONSECUTIVO_PRESTAMO);
-			conse = (Long) query.getSingleResult();
-			consecutivo = conse.intValue();
+			/*conse = (Long) query.getSingleResult();
+			consecutivo = conse.intValue();*/
+			consecutivo=(int) query.getSingleResult();
+			//System.out.println("Ide prestmo EJB:" + consecutivo);
 			return consecutivo;
 		} catch (Exception e) {
-			//System.out.println("e.mesage:" + e.getMessage());
 			throw new ExcepcionesFenix("No se puede generar el id del prestamo");
 		}
 	}
@@ -629,10 +630,8 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public int consecutivoPago() throws ExcepcionesFenix {
 		int consecutivo;
-		Long conse;
 		try {
 			Query query = entityManager.createNamedQuery(Pago.OBTENER_CONSECUTIVO_PAGO);
-			//conse = (Long) query.getSingleResult();
 			consecutivo = (int) query.getSingleResult() + 1;
 			return consecutivo;
 		} catch (Exception e) {
