@@ -82,15 +82,15 @@ public class ManejadorEscenarios {
 	public ManejadorEscenarios(Stage escenario) {
 
 		this.escenario = escenario;
-		
+
 		bancoDelegado = BancoDelegado.bancoDelegado;
 		clientesObservables = FXCollections.observableArrayList();
 		empleadosObservables = FXCollections.observableArrayList();
 		prestamosObservables = FXCollections.observableArrayList();
 		bienraizObservables = FXCollections.observableArrayList();
 		pagosObservables = FXCollections.observableArrayList();
-		
-		
+
+
 		/*
 		 * bancoDelegado = BancoDelegado.bancoDelegado; clientesObservables =
 		 * FXCollections.observableArrayList(); empleadosObservables =
@@ -116,13 +116,14 @@ public class ManejadorEscenarios {
 		 * 
 		 * } catch (IOException e) { e.printStackTrace(); }
 		 */
+		cargarEscenaLogin(this);
 		
-		cargarEscenaInicio(this);
+		//cargarEscenaInicio(this);
 	}
 
-	
 	/**
 	 * Permite cargar la escena de inicio
+	 * 
 	 * @param manejador manejador de escenarios
 	 */
 	public void cargarEscenaLogin(ManejadorEscenarios manejador) {
@@ -132,35 +133,32 @@ public class ManejadorEscenarios {
 			escenario.setTitle("Te lo prestamos");
 
 			// se carga la vista
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../vista/inicio.fxml"));
+			FXMLLoader loader8 = new FXMLLoader();
+			loader8.setLocation(Main.class.getResource("../vista/login.fxml"));
 
-			bordePanel = (BorderPane) loader.load();
-
+			bordePanel = (BorderPane) loader8.load();
 			// se carga la escena
 			Scene scene = new Scene(bordePanel);
+			escenario.centerOnScreen();
 			escenario.setScene(scene);
 			escenario.show();
+			
 
 			// se carga el controlador del inicio
-			InicioControlador inicioControlador = loader.getController();
-			inicioControlador.setEscenarioInicial(this);
-
-			// cargarEscenaDetalleCliente();
+			LoginControlador loginControlador = loader8.getController();
+			loginControlador.setEscenarioInicial(this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * Permite cargar la escena de inicio
 	 * 
 	 * @param manejador manejador de escenarios
 	 */
 	public void cargarEscenaInicio(ManejadorEscenarios manejador) {
-
 
 		try {
 			// se inicializa el escenario
@@ -175,11 +173,12 @@ public class ManejadorEscenarios {
 			// se carga la escena
 			Scene scene = new Scene(bordePanel);
 			escenario.setScene(scene);
+			escenario.centerOnScreen();
 			escenario.show();
 
 			// se carga el controlador del inicio
 			InicioControlador inicioControlador = loader.getController();
-			inicioControlador.setEscenarioInicial(this);
+			inicioControlador.setEscenarioInicial(manejador);
 
 			// cargarEscenaDetalleCliente();
 
@@ -1113,7 +1112,5 @@ public class ManejadorEscenarios {
 			return null;
 		}
 	}
-	
-	
 
 }

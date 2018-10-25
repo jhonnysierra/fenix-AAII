@@ -748,11 +748,11 @@ public class BancoEJB implements BancoEJBRemote {
 		Administrador administrador = listarAdministradorPorId(cedula);
 
 		if (administrador != null) {
-			if (administrador.getEstado() == "1") {
-				if (administrador.getCedula() == cedula && administrador.getContrasenia() == contrasenia) {
+			if (administrador.getEstado().equals("1")) {
+				if (administrador.getCedula().equals(cedula) && administrador.getContrasenia().equals(contrasenia)) {
 					return true;
 				} else {
-					return false;
+					throw new ExcepcionesFenix("Los datos no son correctos");
 				}
 			} else {
 				throw new ExcepcionesFenix("El administrador se encuentra INACTIVO");
