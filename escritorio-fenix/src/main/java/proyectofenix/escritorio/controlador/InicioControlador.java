@@ -62,6 +62,14 @@ public class InicioControlador {
 	}
 	
 	/**
+	 * Carga la escena detalle prestamos consumo
+	 */
+	@FXML
+	public void cargarListarPrestamosConsumo() {
+		escenarioInicial.cargarEscenaDetallePrestamoPorTipo(1);
+	}
+	
+	/**
 	 * Carga la escena detalle bien raiz
 	 */
 	@FXML

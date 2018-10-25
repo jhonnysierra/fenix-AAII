@@ -188,6 +188,31 @@ public class ManejadorEscenarios {
 	}
 
 	/**
+	 * Carga la escena de detalle prestamo por tipo en el centro del escenario.
+	 */
+	public void cargarEscenaDetallePrestamoPorTipo(int idTipoPrestamo) {
+
+		try {
+
+			prestamosObservables = bancoDelegado.listarPorTipoPrestamosObservables(idTipoPrestamo);
+			// System.out.println("Prestamos observables:" + prestamosObservables);
+
+			FXMLLoader loader7 = new FXMLLoader();
+			loader7.setLocation(Main.class.getResource("../vista/detalle_prestamo.fxml"));
+			AnchorPane panelAncho = (AnchorPane) loader7.load();
+			bordePanel.setCenter(panelAncho);
+
+			PrestamoControlador controlador = loader7.getController();
+			controlador.setEscenarioInicial(this);
+			controlador.cargarDatosInicialesPrestamosPorTipo(tipoPrestamoPorId(idTipoPrestamo).getNombre());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
 	 * Carga la escena de detalle prestamo en el centro del escenario.
 	 */
 	public void cargarEscenaDetalleBienRaiz() {
@@ -218,12 +243,12 @@ public class ManejadorEscenarios {
 			pagosObservables = bancoDelegado.listarPagosObservables();
 			//System.out.println("Pagos observables:" + pagosObservables.size());
 
-			FXMLLoader loader5 = new FXMLLoader();
-			loader5.setLocation(Main.class.getResource("../vista/detalle_pago.fxml"));
-			AnchorPane panelAncho = (AnchorPane) loader5.load();
+			FXMLLoader loader6 = new FXMLLoader();
+			loader6.setLocation(Main.class.getResource("../vista/detalle_pago.fxml"));
+			AnchorPane panelAncho = (AnchorPane) loader6.load();
 			bordePanel.setCenter(panelAncho);
 
-			PagoControlador controlador = loader5.getController();
+			PagoControlador controlador = loader6.getController();
 			controlador.setEscenarioInicial(this);
 
 		} catch (IOException e) {

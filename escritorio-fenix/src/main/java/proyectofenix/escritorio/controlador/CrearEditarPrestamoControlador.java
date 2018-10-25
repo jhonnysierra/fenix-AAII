@@ -327,10 +327,7 @@ public class CrearEditarPrestamoControlador {
 		this.cmpPersona = cmpPersona;
 	}
 
-	public void cargarDatosIniciales() {
-		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
-		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
-	}
+
 
 	/**
 	 * Metodo get prestamo controlador crear_editar
@@ -348,5 +345,12 @@ public class CrearEditarPrestamoControlador {
 		this.prestamo = prestamo;
 	}
 	
+	/**
+	 * Carga datos iniciales en el escenario
+	 */
+	public void cargarDatosIniciales() {
+		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
+		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
+	}
 	
 }

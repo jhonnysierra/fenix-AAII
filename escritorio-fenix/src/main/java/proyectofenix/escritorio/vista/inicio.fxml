@@ -21,8 +21,8 @@
 						<MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamos" text="Lista Prestamos" />
                   <Menu mnemonicParsing="false" text="Listar Por Tipo">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamosConsumo" text="Consumo" />
                       <MenuItem mnemonicParsing="false" text="Personal" />
-                        <MenuItem mnemonicParsing="false" text="Consumo" />
                         <MenuItem mnemonicParsing="false" text="Estudio" />
                         <MenuItem mnemonicParsing="false" text="Hipotecario" />
                     </items>

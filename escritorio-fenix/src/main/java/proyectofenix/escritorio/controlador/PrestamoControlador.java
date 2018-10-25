@@ -87,6 +87,12 @@ public class PrestamoControlador {
 	 */
 	@FXML
 	private Label txtNombrePersona;
+	
+	/**
+	 * Campo para informacion
+	 */
+	@FXML
+	private Label cmpInfoEncabezado;
 
 	
 	/**
@@ -227,5 +233,12 @@ public class PrestamoControlador {
 		escenarioInicial.cargarEscenarioCrearPago(prestamo);
 		
 		tablaPrestamos.refresh();
+	}
+	
+	/**
+	 * Carga datos iniciales en el escenario
+	 */
+	public void cargarDatosInicialesPrestamosPorTipo(String titulo) {
+		cmpInfoEncabezado.setText("Detalle " + titulo);
 	}
 }
