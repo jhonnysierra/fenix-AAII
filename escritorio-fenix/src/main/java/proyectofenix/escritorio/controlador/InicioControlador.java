@@ -70,6 +70,30 @@ public class InicioControlador {
 	}
 	
 	/**
+	 * Carga la escena detalle prestamos personal
+	 */
+	@FXML
+	public void cargarListarPrestamosPersonal() {
+		escenarioInicial.cargarEscenaDetallePrestamoPorTipo(2);
+	}
+	
+	/**
+	 * Carga la escena detalle prestamos estudio
+	 */
+	@FXML
+	public void cargarListarPrestamosEstudio() {
+		escenarioInicial.cargarEscenaDetallePrestamoPorTipo(3);
+	}
+	
+	/**
+	 * Carga la escena detalle prestamos hipotecario
+	 */
+	@FXML
+	public void cargarListarPrestamosHipotecario() {
+		escenarioInicial.cargarEscenaDetallePrestamoPorTipo(4);
+	}
+	
+	/**
 	 * Carga la escena detalle bien raiz
 	 */
 	@FXML

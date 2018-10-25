@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -338,7 +339,8 @@ public class BancoDelegado {
 	/**
 	 * Genera una lista de prestamos observables
 	 * 
-	 * @param idtipoprestamo identificador del prestamo por que el que se quiere filtrar los prestamos
+	 * @param idtipoprestamo identificador del prestamo por que el que se quiere
+	 *                       filtrar los prestamos
 	 * @return lista de prestamos de un tipo determinado
 	 */
 	public ObservableList<PrestamoObservable> listarPorTipoPrestamosObservables(int idtipoprestamo) {
@@ -495,5 +497,33 @@ public class BancoDelegado {
 	public Pago modificarPago(Pago pago) throws ExcepcionesFenix {
 		return bancoEJB.modificarPago(pago);
 	}
+
+	/**
+	 * Permite validar un adminstrador en el sistema
+	 * 
+	 * @param cedula      cedula del administrador
+	 * @param contrasenia contrasenia del administrador
+	 * @return true si es valido o false si no
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.negocio.BancoEJBRemote#login(java.lang.String,
+	 *      java.lang.String)
+	 */
+	public boolean login(String cedula, String contrasenia) throws ExcepcionesFenix {
+		return bancoEJB.login(cedula, contrasenia);
+	}
+
+	/**
+	 * Permite buscar un administrador por cedula
+	 * 
+	 * @param cedula cedula del administrador
+	 * @return Administrador encontrado
+	 * @throws ExcepcionesFenix si no encuentra un administrador
+	 * @see proyectofenix.negocio.BancoEJBRemote#listarAdministradorPorId(java.lang.String)
+	 */
+	public Administrador listarAdministradorPorId(String cedula) throws ExcepcionesFenix {
+		return bancoEJB.listarAdministradorPorId(cedula);
+	}
+	
+	
 
 }

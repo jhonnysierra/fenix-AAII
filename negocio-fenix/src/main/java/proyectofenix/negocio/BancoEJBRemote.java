@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -303,5 +304,24 @@ public interface BancoEJBRemote {
 	 * @throws ExcepcionesFenix
 	 */
 	public Pago modificarPago(Pago pago) throws ExcepcionesFenix;
+
+	/**
+	 * Permite buscar un administrador por cedula
+	 * 
+	 * @param cedula cedula del administrador
+	 * @return Administrador encontrado
+	 * @throws ExcepcionesFenix si no encuentra un administrador
+	 */
+	public Administrador listarAdministradorPorId(String cedula) throws ExcepcionesFenix;
+
+	/**
+	 * Permite validar un adminstrador en el sistema
+	 * 
+	 * @param cedula      cedula del administrador
+	 * @param contrasenia contrasenia del administrador
+	 * @return true si es valido o false si no
+	 * @throws ExcepcionesFenix
+	 */
+	public boolean login(String cedula, String contrasenia) throws ExcepcionesFenix;
 
 }

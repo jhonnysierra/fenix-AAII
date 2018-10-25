@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -81,13 +82,50 @@ public class ManejadorEscenarios {
 	public ManejadorEscenarios(Stage escenario) {
 
 		this.escenario = escenario;
-
+		
 		bancoDelegado = BancoDelegado.bancoDelegado;
 		clientesObservables = FXCollections.observableArrayList();
 		empleadosObservables = FXCollections.observableArrayList();
 		prestamosObservables = FXCollections.observableArrayList();
 		bienraizObservables = FXCollections.observableArrayList();
 		pagosObservables = FXCollections.observableArrayList();
+		
+		
+		/*
+		 * bancoDelegado = BancoDelegado.bancoDelegado; clientesObservables =
+		 * FXCollections.observableArrayList(); empleadosObservables =
+		 * FXCollections.observableArrayList(); prestamosObservables =
+		 * FXCollections.observableArrayList(); bienraizObservables =
+		 * FXCollections.observableArrayList(); pagosObservables =
+		 * FXCollections.observableArrayList();
+		 * 
+		 * try { // se inicializa el escenario escenario.setTitle("Te lo prestamos");
+		 * 
+		 * // se carga la vista FXMLLoader loader = new FXMLLoader();
+		 * loader.setLocation(Main.class.getResource("../vista/inicio.fxml"));
+		 * 
+		 * bordePanel = (BorderPane) loader.load();
+		 * 
+		 * // se carga la escena Scene scene = new Scene(bordePanel);
+		 * escenario.setScene(scene); escenario.show();
+		 * 
+		 * // se carga el controlador del inicio InicioControlador inicioControlador =
+		 * loader.getController(); inicioControlador.setEscenarioInicial(this);
+		 * 
+		 * // cargarEscenaDetalleCliente();
+		 * 
+		 * } catch (IOException e) { e.printStackTrace(); }
+		 */
+		
+		cargarEscenaInicio(this);
+	}
+
+	
+	/**
+	 * Permite cargar la escena de inicio
+	 * @param manejador manejador de escenarios
+	 */
+	public void cargarEscenaLogin(ManejadorEscenarios manejador) {
 
 		try {
 			// se inicializa el escenario
@@ -113,7 +151,41 @@ public class ManejadorEscenarios {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * Permite cargar la escena de inicio
+	 * 
+	 * @param manejador manejador de escenarios
+	 */
+	public void cargarEscenaInicio(ManejadorEscenarios manejador) {
 
+
+		try {
+			// se inicializa el escenario
+			escenario.setTitle("Te lo prestamos");
+
+			// se carga la vista
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/inicio.fxml"));
+
+			bordePanel = (BorderPane) loader.load();
+
+			// se carga la escena
+			Scene scene = new Scene(bordePanel);
+			escenario.setScene(scene);
+			escenario.show();
+
+			// se carga el controlador del inicio
+			InicioControlador inicioControlador = loader.getController();
+			inicioControlador.setEscenarioInicial(this);
+
+			// cargarEscenaDetalleCliente();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -211,7 +283,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	/**
 	 * Carga la escena de detalle prestamo en el centro del escenario.
 	 */
@@ -241,7 +313,7 @@ public class ManejadorEscenarios {
 		try {
 
 			pagosObservables = bancoDelegado.listarPagosObservables();
-			//System.out.println("Pagos observables:" + pagosObservables.size());
+			// System.out.println("Pagos observables:" + pagosObservables.size());
 
 			FXMLLoader loader6 = new FXMLLoader();
 			loader6.setLocation(Main.class.getResource("../vista/detalle_pago.fxml"));
@@ -395,7 +467,7 @@ public class ManejadorEscenarios {
 		}
 
 	}
-	
+
 	public void cargarEscenarioCrearPago(Prestamo prestamo) {
 		// System.out.println("Cliente recibido:"+ persona.getCedula());
 		try {
@@ -425,7 +497,7 @@ public class ManejadorEscenarios {
 			e.printStackTrace();
 		}
 
-	}	
+	}
 
 	/**
 	 * Carga la escena de editar cliente
@@ -709,11 +781,13 @@ public class ManejadorEscenarios {
 
 	/**
 	 * Permite agregar un pago a la lista obsevable
+	 * 
 	 * @param pago pago a agregar a la lista
 	 */
 	public void agregarPagoALista(Pago pago) {
 		pagosObservables.add(new PagoObservable(pago));
 	}
+
 	/**
 	 * deveulve una instancia del escenario
 	 * 
@@ -961,7 +1035,7 @@ public class ManejadorEscenarios {
 			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
 			return -1;
 		}
-		
+
 	}
 
 	/**
@@ -976,16 +1050,15 @@ public class ManejadorEscenarios {
 	 */
 	public boolean registrarPagoCuota(Pago pago) throws ExcepcionesFenix {
 		try {
-			return bancoDelegado.registrarPagoCuota(pago)!= null;
+			return bancoDelegado.registrarPagoCuota(pago) != null;
 		} catch (ExcepcionesFenix e) {
 			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
-		
+
 	}
 
-	
 	/**
 	 * Permite eliminar un pago
 	 * 
@@ -1001,5 +1074,46 @@ public class ManejadorEscenarios {
 		}
 		return false;
 	}
+
+	/**
+	 * Permite validar un adminstrador en el sistema
+	 * 
+	 * @param cedula      cedula del administrador
+	 * @param contrasenia contrasenia del administrador
+	 * @return true si es valido o false si no
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#login(java.lang.String,
+	 *      java.lang.String)
+	 */
+	public boolean login(String cedula, String contrasenia) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.login(cedula, contrasenia);
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Login", "Error: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	/**
+	 * Permite buscar un administrador por cedula
+	 * 
+	 * @param cedula cedula del administrador
+	 * @return Administrador encontrado
+	 * @throws ExcepcionesFenix si no encuentra un administrador
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#listarAdministradorPorId(java.lang.String)
+	 */
+	public Administrador listarAdministradorPorId(String cedula) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.listarAdministradorPorId(cedula);
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Login", "Error: " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
+	
+
 }

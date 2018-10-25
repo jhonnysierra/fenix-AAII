@@ -99,7 +99,7 @@ public class ClienteControlador {
 	 */
 	private ManejadorEscenarios escenarioInicial;
 
-	//private ClienteObservable clienteObservable;
+	// private ClienteObservable clienteObservable;
 
 	/**
 	 * Metodo constructor
@@ -143,7 +143,7 @@ public class ClienteControlador {
 	public void mostrarDetalleCliente(ClienteObservable cliente) {
 
 		if (cliente != null) {
-			//clienteObservable = cliente;
+			// clienteObservable = cliente;
 			txtCedula.setText(cliente.getCedula().getValue());
 			txtNombre.setText(cliente.getNombre().getValue());
 			txtApellido.setText(cliente.getApellido().getValue());
@@ -192,7 +192,7 @@ public class ClienteControlador {
 		if (result.get() == ButtonType.OK) {
 			int indice = tablaClientes.getSelectionModel().getSelectedIndex();
 
-			System.out.println(tablaClientes.getItems().size());
+			// System.out.println(tablaClientes.getItems().size());
 
 			Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
 
@@ -215,7 +215,7 @@ public class ClienteControlador {
 		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
 
 		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
-		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+		// System.out.println("Cliente seleccionado:" + cliente.getCedula());
 
 		escenarioInicial.cargarEscenarioEditarCliente(cliente);
 		tablaClientes.refresh();
@@ -230,11 +230,11 @@ public class ClienteControlador {
 		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
 
 		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
-		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+		// System.out.println("Cliente seleccionado:" + cliente.getBienRaiz().getId());
 
 		escenarioInicial.cargarEscenarioCrearPrestamo(cliente);
 	}
-	
+
 	/**
 	 * Permite mostrar la ventana de crear bien raiz
 	 * 
@@ -245,8 +245,10 @@ public class ClienteControlador {
 		int indice = tablaClientes.getSelectionModel().getSelectedIndex();
 
 		Cliente cliente = tablaClientes.getItems().get(indice).getCliente();
-		//System.out.println("Cliente seleccionado:" + cliente.getCedula());
+		// System.out.println("Cliente seleccionado:" + cliente.getCedula());
 
 		escenarioInicial.cargarEscenarioCrearBienRaiz(cliente);
+		
+		tablaClientes.refresh();
 	}
 }

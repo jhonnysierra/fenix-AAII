@@ -22,9 +22,9 @@
                   <Menu mnemonicParsing="false" text="Listar Por Tipo">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamosConsumo" text="Consumo" />
-                      <MenuItem mnemonicParsing="false" text="Personal" />
-                        <MenuItem mnemonicParsing="false" text="Estudio" />
-                        <MenuItem mnemonicParsing="false" text="Hipotecario" />
+                      <MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamosPersonal" text="Personal" />
+                        <MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamosEstudio" text="Estudio" />
+                        <MenuItem mnemonicParsing="false" onAction="#cargarListarPrestamosHipotecario" text="Hipotecario" />
                     </items>
                   </Menu>
 					</items>

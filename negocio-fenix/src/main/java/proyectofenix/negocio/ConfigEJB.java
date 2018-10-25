@@ -62,7 +62,7 @@ public class ConfigEJB {
 			administrador.setCedula("1115187");
 			administrador.setNombres("JhonnyEJBinit");
 			administrador.setApellidos("Sierra Parra");
-			administrador.setCorreo("configejbuser@gmail.com");
+			administrador.setCorreo("jhonnysierrap@gmail.com");
 			administrador.setDireccion("Cra 8 # 13-06");
 			administrador.setContrasenia("45678");
 			administrador.setEstado("1");

@@ -1,5 +1,6 @@
 package proyectofenix.negocio;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -12,6 +13,7 @@ import javax.persistence.TypedQuery;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -349,7 +351,8 @@ public class BancoEJB implements BancoEJBRemote {
 	 * @see proyectofenix.negocio.BancoEJBRemote#registrarPrestamo(proyectofenix.entidades.Prestamo)
 	 */
 	public Prestamo registrarPrestamo(Prestamo prestamo) throws ExcepcionesFenix {
-
+		// System.out.println("Bien raiz de persona:" +
+		// prestamo.getPersona().getBienRaiz().getId()!=null);
 		if (entityManager.find(Prestamo.class, prestamo.getId()) != null) {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
 		}
@@ -510,6 +513,7 @@ public class BancoEJB implements BancoEJBRemote {
 		if (entityManager.find(BienRaiz.class, bienraiz.getId()) != null) {
 			throw new ExcepcionesFenix("Error: ya se ha registrado una bien con este identificador");
 		}
+
 		try {
 			entityManager.persist(bienraiz);
 			return bienraiz;
@@ -710,6 +714,51 @@ public class BancoEJB implements BancoEJBRemote {
 			}
 		} else {
 			throw new ExcepcionesFenix("El bien raiz a modificar es null");
+		}
+
+	}
+
+	/**
+	 * Permite buscar un administrador por cedula
+	 * 
+	 * @param cedula cedula del administrador
+	 * @return Administrador encontrado
+	 * @throws ExcepcionesFenix si no encuentra un administrador
+	 */
+	public Administrador listarAdministradorPorId(String cedula) throws ExcepcionesFenix {
+		try {
+			TypedQuery<Administrador> query = entityManager.createNamedQuery(Administrador.ADMIN_POR_ID,
+					Administrador.class);
+			query.setParameter("cedula", cedula);
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			throw new ExcepcionesFenix("No se encontró el Administrador");
+		}
+	}
+
+	/**
+	 * Permite validar un adminstrador en el sistema
+	 * 
+	 * @param cedula      cedula del administrador
+	 * @param contrasenia contrasenia del administrador
+	 * @return true si es valido o false si no
+	 * @throws ExcepcionesFenix
+	 */
+	public boolean login(String cedula, String contrasenia) throws ExcepcionesFenix {
+		Administrador administrador = listarAdministradorPorId(cedula);
+
+		if (administrador != null) {
+			if (administrador.getEstado() == "1") {
+				if (administrador.getCedula() == cedula && administrador.getContrasenia() == contrasenia) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				throw new ExcepcionesFenix("El administrador se encuentra INACTIVO");
+			}
+		} else {
+			throw new ExcepcionesFenix("Ocurrió un error!!! No se pudo validar la información");
 		}
 
 	}

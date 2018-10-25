@@ -156,6 +156,7 @@ public class CrearEditarBienRaizControlador {
 		try {
 			if (manejador.agregarBienRaiz(bienraiz)) {
 				manejador.agregarBienRaizALista(bienraiz);
+				persona.setBienRaiz(bienraiz);
 				Utilidades.mostrarMensaje("Registro Bien Raiz", "Registro exitoso!!!");
 				escenarioBienraiz.close();
 			}

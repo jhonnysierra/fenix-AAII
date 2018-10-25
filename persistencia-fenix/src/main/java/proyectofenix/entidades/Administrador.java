@@ -18,11 +18,19 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = Administrador.OBTENER_DATOS_ADMINISTRADOR, query = "select a from Administrador a"),
-		@NamedQuery(name = Administrador.CONTAR_ADMIN, query = "select count(a) from Administrador a") })
+		@NamedQuery(name = Administrador.CONTAR_ADMIN, query = "select count(a) from Administrador a"),
+		@NamedQuery(name = Administrador.ADMIN_POR_ID, query = "select a from Administrador a where a.cedula=:cedula") })
 public class Administrador extends Persona implements Serializable {
 
+
 	/**
-	 * Permite hacer la referencia a la consulta contar administradores 
+	 * Permite hacer la referencia a la consulta consultar admin por id
+	 */
+	public static final String ADMIN_POR_ID = "AdminPorId";
+	
+	
+	/**
+	 * Permite hacer la referencia a la consulta contar administradores
 	 */
 	public static final String CONTAR_ADMIN = "ContarAdmin";
 

@@ -1,27 +1,17 @@
 package proyectofenix.escritorio.controlador;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
-import proyectofenix.entidades.Persona;
-
 import proyectofenix.entidades.Prestamo;
-import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.escritorio.modelo.PagoObservable;
 import proyectofenix.escritorio.modelo.PrestamoObservable;
 import proyectofenix.escritorio.utilidades.Utilidades;
