@@ -12,8 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.JOptionPane;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -169,7 +167,7 @@ public class LoginControlador {
 			message.setText(mensaje);
 
 			Transport.send(message);
-			JOptionPane.showMessageDialog(null, "Su contraseña ha sido enviado al correo electrónico registrado");
+			Utilidades.mostrarMensaje("Recuperar contraseña", "Su contraseña ha sido enviado al correo electrónico registrado.");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
@@ -186,17 +184,15 @@ public class LoginControlador {
 	}
 
 	/**
-	 * Permite cerrar la aplicacación
+	 * Permite validar que el texto ingresado solo sean numeros
 	 */
 	@FXML
 	public void validarSoloNumeros(KeyEvent ke) {
 		caracter = ke.getCharacter().charAt(0);
-
 		if (!Character.isDigit(caracter)) {
 			ke.consume();
 		}
 		// ke.consume();
-
 	}
 
 	/**

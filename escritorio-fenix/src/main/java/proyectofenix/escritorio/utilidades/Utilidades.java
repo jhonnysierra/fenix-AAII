@@ -7,7 +7,6 @@ import java.util.Date;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextField;
 /**
  * Permite manejar las operaciones generales de la capa de presentacion
  * @author EinerZG
@@ -73,7 +72,4 @@ public final class Utilidades {
 		 return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 	
-	public static void validarSoloNumero(TextField campo) {
-		
-	}
 }

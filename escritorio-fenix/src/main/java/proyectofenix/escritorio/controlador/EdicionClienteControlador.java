@@ -2,6 +2,9 @@ package proyectofenix.escritorio.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Persona.Genero;
@@ -105,7 +109,7 @@ public class EdicionClienteControlador {
 	/**
 	 * Genero de tipo enumeracion
 	 */
-	//private Genero genero;
+	// private Genero genero;
 
 	/**
 	 * representa el escenario en donde se agrega la vista
@@ -130,12 +134,18 @@ public class EdicionClienteControlador {
 	/**
 	 * Cliente que se envia como parametro a esta instancia
 	 */
-	//private ClienteObservable clienteEditado;
-	
+	// private ClienteObservable clienteEditado;
+
 	/**
-	 * Indice de la posicion en la lsita de clientes observables del cliente a editar
+	 * Indice de la posicion en la lsita de clientes observables del cliente a
+	 * editar
 	 */
 	private int indiceListaClientesObservables;
+
+	/**
+	 * Caracter ingresado
+	 */
+	private char caracter;
 
 	/**
 	 * Metodo constructor
@@ -154,6 +164,11 @@ public class EdicionClienteControlador {
 		cmpCedula.requestFocus();
 		cmpGenero.getItems().addAll(itemsGenero);
 		btnEditar.setVisible(false);
+		/*
+		 * cmpEmail.focusedProperty().addListener((obs, oldVal, newVal) ->
+		 * System.out.println(newVal ? "Focused" : "Unfocused"));
+		 */
+
 	}
 
 	/**
@@ -162,7 +177,7 @@ public class EdicionClienteControlador {
 	 * @param cliente cliente a editar
 	 */
 	public void cargarPersona(ClienteObservable cliente) {
-		
+
 		btnAceptar.setVisible(false);
 		btnEditar.setVisible(true);
 		cmpInfoCrearCliente.setText("Por favor edite la información del cliente");
@@ -176,10 +191,10 @@ public class EdicionClienteControlador {
 		cmpEmail.setText(cliente.getEmail().getValue());
 		cmpClave.setText(cliente.getClave().getValue());
 		cmpFechaNacimiento.setValue(Utilidades.pasarALocalDate(cliente.getFechaNacimiento().getValue()));
-		//cmpGenero.getSelectionModel().select(cliente.getGenero().getValue());
+		// cmpGenero.getSelectionModel().select(cliente.getGenero().getValue());
 		if (cliente.getGenero().getValue() == "masculino") {
 			cmpGenero.getSelectionModel().select(0);
-		}else {
+		} else {
 			cmpGenero.getSelectionModel().select(1);
 		}
 		cmpTelefono.setText(cliente.getTelefono().getValue().get(0));
@@ -205,33 +220,43 @@ public class EdicionClienteControlador {
 	public void registrarCliente() {
 		int seleccionGenero;
 
-		Cliente cliente = new Cliente();
-		cliente.setCedula(cmpCedula.getText());
-		cliente.setNombres(cmpNombre.getText());
-		cliente.setApellidos(cmpApellido.getText());
-		cliente.setContrasenia(cmpClave.getText());
-		cliente.setCorreo(cmpEmail.getText());
-		cliente.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
-		cliente.setCiudad(null);
-		cliente.setNoCuenta(cmpNoCuenta.getText());
-		telefonos.add(cmpTelefono.getText());
-		cliente.setTelefonos(telefonos);
-		cliente.setDireccion(cmpDireccion.getText());
-		cliente.setEstado("1");
-		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
-		if (seleccionGenero == 0) {
-			cliente.setGenero(Genero.masculino);
+		if (validarFormulario()) {
+			if (validarEmail()) {
+				Cliente cliente = new Cliente();
+				cliente.setCedula(cmpCedula.getText());
+				cliente.setNombres(cmpNombre.getText());
+				cliente.setApellidos(cmpApellido.getText());
+				cliente.setContrasenia(cmpClave.getText());
+				cliente.setCorreo(cmpEmail.getText());
+				cliente.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
+				cliente.setCiudad(null);
+				cliente.setNoCuenta(cmpNoCuenta.getText());
+				telefonos.add(cmpTelefono.getText());
+				cliente.setTelefonos(telefonos);
+				cliente.setDireccion(cmpDireccion.getText());
+				cliente.setEstado("1");
+				seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
+				if (seleccionGenero == 0) {
+					cliente.setGenero(Genero.masculino);
+				} else {
+					cliente.setGenero(Genero.femenino);
+				}
+
+				if (manejador.registrarCliente(cliente)) {
+					manejador.agregarALista(cliente);
+					Utilidades.mostrarMensaje("Registro", "Registro exitoso!!");
+					escenarioEditar.close();
+				} else {
+					Utilidades.mostrarMensajeError("Registro", "Error en registro!!");
+				}
+			} else {
+				Utilidades.mostrarMensajeError("Email invalido", "El email no es valido");
+			}
 		} else {
-			cliente.setGenero(Genero.femenino);
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
 
-		if (manejador.registrarCliente(cliente)) {
-			manejador.agregarALista(cliente);
-			Utilidades.mostrarMensaje("Registro", "Registro exitoso!!");
-			escenarioEditar.close();
-		} else {
-			Utilidades.mostrarMensaje("Registro", "Error en registro!!");
-		}
 	}
 
 	/**
@@ -240,6 +265,17 @@ public class EdicionClienteControlador {
 	@FXML
 	private void editarCliente() {
 		int seleccionGenero;
+
+		if (validarFormulario()) {
+			if (validarEmail()) {
+
+			} else {
+				Utilidades.mostrarMensajeError("Email invalido", "El email no es valido");
+			}
+		} else {
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
+		}
 
 		Cliente cliente = new Cliente();
 		cliente.setCedula(cmpCedula.getText());
@@ -264,7 +300,7 @@ public class EdicionClienteControlador {
 		if (manejador.editarCliente(cliente)) {
 			Utilidades.mostrarMensaje("Edición", "Se editó el cliente con éxito!");
 			clientesObservablesDetalleCliente.set(indiceListaClientesObservables, new ClienteObservable(cliente));
-			
+
 			escenarioEditar.close();
 		} else {
 			Utilidades.mostrarMensajeError("Edición", "Error en edición de cliente!");
@@ -277,6 +313,62 @@ public class EdicionClienteControlador {
 	@FXML
 	private void cancelar() {
 		escenarioEditar.close();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean numeros
+	 */
+	@FXML
+	public void validarSoloNumeros(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter)) {
+			ke.consume();
+		}
+		// ke.consume();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean letras
+	 */
+	@FXML
+	public void validarSoloLetrasConEspacio(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isAlphabetic(caracter) && !Character.isWhitespace(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Permite validar el email
+	 * 
+	 * @return true si el email es valido false si no
+	 */
+	@FXML
+	public boolean validarEmail() {
+		Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+		Matcher m = p.matcher(cmpEmail.getText());
+
+		if (m.find() && m.group().equals(cmpEmail.getText())) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public boolean validarFormulario() {
+		if (!cmpCedula.getText().equals("") && (!cmpNombre.getText().isEmpty() || cmpNombre.getText().startsWith(" "))
+				&& (!cmpApellido.getText().isEmpty() || cmpApellido.getText().startsWith(" "))
+				&& !cmpEmail.getText().isEmpty() && !cmpClave.getText().isEmpty()
+				&& !(cmpFechaNacimiento.getValue() == null) && !cmpGenero.getSelectionModel().isEmpty()
+				&& !cmpTelefono.getText().isEmpty() && !cmpDireccion.getText().isEmpty()
+				&& !cmpNoCuenta.getText().isEmpty()) {
+
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	/**

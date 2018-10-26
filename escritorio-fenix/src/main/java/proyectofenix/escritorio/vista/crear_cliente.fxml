@@ -38,17 +38,17 @@
 				<Label text="Contrasenia:" GridPane.rowIndex="4" />
 				<Label text="Fecha Nacimiento:" GridPane.rowIndex="5" />
 				<DatePicker fx:id="cmpFechaNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-				<TextField fx:id="cmpCedula" GridPane.columnIndex="1" />
-				<TextField fx:id="cmpNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="cmpApellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<TextField fx:id="cmpCedula" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" />
+				<TextField fx:id="cmpNombre" onKeyTyped="#validarSoloLetrasConEspacio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<TextField fx:id="cmpApellido" onKeyTyped="#validarSoloLetrasConEspacio" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				<TextField fx:id="cmpEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<TextField fx:id="cmpClave" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Genero:" GridPane.rowIndex="6" />
             <ComboBox fx:id="cmpGenero" prefHeight="25.0" prefWidth="173.0" promptText="&lt;Seleccione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Teléfono:" GridPane.rowIndex="7" />
-            <TextField fx:id="cmpTelefono" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="cmpTelefono" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Número cuenta" GridPane.rowIndex="9" />
-            <TextField fx:id="cmpNoCuenta" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField fx:id="cmpNoCuenta" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="Dirección:" GridPane.rowIndex="8" />
             <TextField fx:id="cmpDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 			</children>
