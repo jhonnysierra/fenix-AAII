@@ -133,44 +133,50 @@ public class LoginControlador {
 	 * Permite enviar un correo electronico al usuario para recordar su contrasenia
 	 */
 	public void olvideContrasenia() {
-		try {
-			Administrador admin = escenarioInicial.listarAdministradorPorId(cmpUsuario.getText());
-			para = admin.getCorreo();
-			asunto = "OLVIDE CONTRASEÑA TE LO PRESTAMOS FENIX";
-			mensaje = "Su contraseña de acceso al sistemas es: " + admin.getContrasenia();
-		} catch (ExcepcionesFenix e1) {
-			Utilidades.mostrarMensajeError("Login", "Error: " + e1.getMessage());
-			e1.printStackTrace();
-		}
-
-		Properties props = new Properties();
-
-		props = System.getProperties();
-		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(usuario, password);
+		if (!cmpUsuario.getText().isEmpty()) {
+			try {
+				Administrador admin = escenarioInicial.listarAdministradorPorId(cmpUsuario.getText());
+				para = admin.getCorreo();
+				asunto = "OLVIDE CONTRASEÑA TE LO PRESTAMOS FENIX";
+				mensaje = "Su contraseña de acceso al sistemas es: " + admin.getContrasenia();
+			} catch (ExcepcionesFenix e1) {
+				Utilidades.mostrarMensajeError("Login", "Error: " + e1.getMessage());
+				e1.printStackTrace();
 			}
-		});
 
-		try {
+			Properties props = new Properties();
 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(usuario));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
-			message.setSubject(asunto);
-			message.setText(mensaje);
+			props = System.getProperties();
+			props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
 
-			Transport.send(message);
-			Utilidades.mostrarMensaje("Recuperar contraseña", "Su contraseña ha sido enviado al correo electrónico registrado.");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(usuario, password);
+				}
+			});
 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			try {
+
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(usuario));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
+				message.setSubject(asunto);
+				message.setText(mensaje);
+
+				Transport.send(message);
+				Utilidades.mostrarMensaje("Recuperar contraseña",
+						"Su contraseña ha sido enviado al correo electrónico registrado.");
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			Utilidades.mostrarMensajeError("Recuperar contraseña",
+					"Debe ingresar el usuario para recuperar la contraseña");
 		}
 
 	}

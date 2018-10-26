@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.BienRaiz;
@@ -94,6 +95,11 @@ public class CrearEditarBienRaizControlador {
 	private BienRaiz bienraiz;
 
 	/**
+	 * Caracter para la validacion
+	 */
+	private char caracter;
+
+	/**
 	 * Metodo constructor
 	 */
 	public CrearEditarBienRaizControlador() {
@@ -145,23 +151,28 @@ public class CrearEditarBienRaizControlador {
 	@FXML
 	public void registrarBienRaiz() {
 
-		BienRaiz bienraiz = new BienRaiz();
+		if (validarFormulario()) {
+			BienRaiz bienraiz = new BienRaiz();
 
-		bienraiz.setId(cmpId.getText());
-		bienraiz.setCiudad(null);
-		bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
-		bienraiz.setDireccion(cmpDireccion.getText());
-		bienraiz.setPersona(persona);
+			bienraiz.setId(cmpId.getText());
+			bienraiz.setCiudad(null);
+			bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
+			bienraiz.setDireccion(cmpDireccion.getText());
+			bienraiz.setPersona(persona);
 
-		try {
-			if (manejador.agregarBienRaiz(bienraiz)) {
-				manejador.agregarBienRaizALista(bienraiz);
-				persona.setBienRaiz(bienraiz);
-				Utilidades.mostrarMensaje("Registro Bien Raiz", "Registro exitoso!!!");
-				escenarioBienraiz.close();
+			try {
+				if (manejador.agregarBienRaiz(bienraiz)) {
+					manejador.agregarBienRaizALista(bienraiz);
+					persona.setBienRaiz(bienraiz);
+					Utilidades.mostrarMensaje("Registro Bien Raiz", "Registro exitoso!!!");
+					escenarioBienraiz.close();
+				}
+			} catch (ExcepcionesFenix e) {
+				e.printStackTrace();
 			}
-		} catch (ExcepcionesFenix e) {
-			e.printStackTrace();
+		} else {
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
 
 	}
@@ -189,6 +200,55 @@ public class CrearEditarBienRaizControlador {
 	@FXML
 	private void cancelar() {
 		escenarioBienraiz.close();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean numeros
+	 */
+	@FXML
+	public void validarSoloNumeros(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean letras, numeros, # o -
+	 */
+	@FXML
+	public void validarDireccion(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isAlphabetic(caracter) && !Character.isDigit(caracter) && !Character.isWhitespace(caracter)
+				&& !(caracter == '#') && !(caracter == '-')) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Permite validar el id
+	 */
+	@FXML
+	public void validarId(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter) && !Character.isAlphabetic(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Valida que los campos sean diferentes de vacio
+	 * 
+	 * @return si todos los campos tienen algo
+	 */
+	public boolean validarFormulario() {
+		if (!cmpId.getText().isEmpty() && !cmpPersona.getText().isEmpty() && !cmpAvaluo.getText().isEmpty()
+				&& !cmpDireccion.getText().isEmpty()) {
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	/**

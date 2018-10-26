@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
@@ -107,6 +108,11 @@ public class CrearEditarPagoControlador {
 	private Prestamo prestamo;
 
 	/**
+	 * Caracter a validar
+	 */
+	private char caracter;
+
+	/**
 	 * Metodo constructor
 	 */
 	public CrearEditarPagoControlador() {
@@ -162,32 +168,40 @@ public class CrearEditarPagoControlador {
 	 */
 	@FXML
 	public void registrarPago() {
-		Pago pago = new Pago();
 
-		pago.setId(manejador.consecutivoPago());
-		pago.setPrestamo(prestamo);
-		pago.setFecha(Utilidades.pasarADate(cmpFecha.getValue()));
-		pago.setValor(Double.parseDouble(cmpValor.getText()));
+		if (validarFormulario()) {
+			Pago pago = new Pago();
 
-		try {
-			if (manejador.registrarPagoCuota(pago)) {
-				manejador.agregarPagoALista(pago);
-				
-				prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
+			pago.setId(manejador.consecutivoPago());
+			pago.setPrestamo(prestamo);
+			pago.setFecha(Utilidades.pasarADate(cmpFecha.getValue()));
+			pago.setValor(Double.parseDouble(cmpValor.getText()));
 
-				for (PrestamoObservable p : prestamosObservablesDetallePrestamo) {
-					if (p.getId().getValue() == prestamo.getId()) {
-						indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
+			try {
+				if (manejador.registrarPagoCuota(pago)) {
+					manejador.agregarPagoALista(pago);
+
+					prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
+
+					for (PrestamoObservable p : prestamosObservablesDetallePrestamo) {
+						if (p.getId().getValue() == prestamo.getId()) {
+							indiceListaPrestamoObservables = prestamosObservablesDetallePrestamo.indexOf(p);
+						}
 					}
-				}
-				prestamo.getPagos().add(pago);
-				prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new PrestamoObservable(prestamo));
+					prestamo.getPagos().add(pago);
+					prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,
+							new PrestamoObservable(prestamo));
 
-				Utilidades.mostrarMensaje("Registro Pago", "Registro exitoso!!!");
-				escenarioPago.close();
+					Utilidades.mostrarMensaje("Registro Pago", "Registro exitoso!!!");
+					escenarioPago.close();
+				}
+			} catch (ExcepcionesFenix e) {
+				Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
 			}
-		} catch (ExcepcionesFenix e) {
-			Utilidades.mostrarMensajeError("Registro Pago", "Error en registro: " + e.getMessage());
+
+		} else {
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
 
 	}
@@ -229,6 +243,31 @@ public class CrearEditarPagoControlador {
 	@FXML
 	private void cancelar() {
 		escenarioPago.close();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean numeros
+	 */
+	@FXML
+	public void validarSoloNumeros(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Valida que los campos sean diferentes de vacio
+	 * 
+	 * @return si todos los campos tienen algo
+	 */
+	public boolean validarFormulario() {
+		if (!cmpId.getText().isEmpty() && !cmpPrestamo.getText().isEmpty() && !cmpValor.getText().isEmpty()
+				&& !(cmpFecha.getValue() == null)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

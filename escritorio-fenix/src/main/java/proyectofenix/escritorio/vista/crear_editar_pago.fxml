@@ -31,7 +31,7 @@
 				<DatePicker fx:id="cmpFecha" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<TextField fx:id="cmpId" editable="false" GridPane.columnIndex="1" />
 				<TextField fx:id="cmpPrestamo" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="cmpValor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<TextField fx:id="cmpValor" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 			</children>
 		</GridPane>
 		<Button fx:id="btnAceptar" layoutX="268.0" layoutY="432.0" mnemonicParsing="false" onAction="#registrarPago" text="Aceptar" AnchorPane.rightAnchor="98.0">

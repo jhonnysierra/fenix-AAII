@@ -107,11 +107,6 @@ public class EdicionClienteControlador {
 	private Button btnEditar;
 
 	/**
-	 * Genero de tipo enumeracion
-	 */
-	// private Genero genero;
-
-	/**
 	 * representa el escenario en donde se agrega la vista
 	 */
 	private Stage escenarioEditar;
@@ -268,7 +263,35 @@ public class EdicionClienteControlador {
 
 		if (validarFormulario()) {
 			if (validarEmail()) {
+				Cliente cliente = new Cliente();
+				cliente.setCedula(cmpCedula.getText());
+				cliente.setNombres(cmpNombre.getText());
+				cliente.setApellidos(cmpApellido.getText());
+				cliente.setContrasenia(cmpClave.getText());
+				cliente.setCorreo(cmpEmail.getText());
+				cliente.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
+				cliente.setCiudad(null);
+				cliente.setNoCuenta(cmpNoCuenta.getText());
+				telefonos.add(0, cmpTelefono.getText());
+				cliente.setTelefonos(telefonos);
+				cliente.setDireccion(cmpDireccion.getText());
+				cliente.setEstado("1");
+				seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
+				if (seleccionGenero == 0) {
+					cliente.setGenero(Genero.masculino);
+				} else {
+					cliente.setGenero(Genero.femenino);
+				}
 
+				if (manejador.editarCliente(cliente)) {
+					Utilidades.mostrarMensaje("Edición", "Se editó el cliente con éxito!");
+					clientesObservablesDetalleCliente.set(indiceListaClientesObservables,
+							new ClienteObservable(cliente));
+
+					escenarioEditar.close();
+				} else {
+					Utilidades.mostrarMensajeError("Edición", "Error en edición de cliente!");
+				}
 			} else {
 				Utilidades.mostrarMensajeError("Email invalido", "El email no es valido");
 			}
@@ -277,34 +300,6 @@ public class EdicionClienteControlador {
 					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
 
-		Cliente cliente = new Cliente();
-		cliente.setCedula(cmpCedula.getText());
-		cliente.setNombres(cmpNombre.getText());
-		cliente.setApellidos(cmpApellido.getText());
-		cliente.setContrasenia(cmpClave.getText());
-		cliente.setCorreo(cmpEmail.getText());
-		cliente.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
-		cliente.setCiudad(null);
-		cliente.setNoCuenta(cmpNoCuenta.getText());
-		telefonos.add(0, cmpTelefono.getText());
-		cliente.setTelefonos(telefonos);
-		cliente.setDireccion(cmpDireccion.getText());
-		cliente.setEstado("1");
-		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
-		if (seleccionGenero == 0) {
-			cliente.setGenero(Genero.masculino);
-		} else {
-			cliente.setGenero(Genero.femenino);
-		}
-
-		if (manejador.editarCliente(cliente)) {
-			Utilidades.mostrarMensaje("Edición", "Se editó el cliente con éxito!");
-			clientesObservablesDetalleCliente.set(indiceListaClientesObservables, new ClienteObservable(cliente));
-
-			escenarioEditar.close();
-		} else {
-			Utilidades.mostrarMensajeError("Edición", "Error en edición de cliente!");
-		}
 	}
 
 	/**

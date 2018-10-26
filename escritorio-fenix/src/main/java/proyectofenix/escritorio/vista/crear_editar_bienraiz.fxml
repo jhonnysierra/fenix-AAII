@@ -28,9 +28,9 @@
 				<Label text="Avalúo:" GridPane.rowIndex="2" />
 				<Label text="Dirección:" GridPane.rowIndex="3" />
 				<TextField fx:id="cmpPersona" editable="false" GridPane.columnIndex="1" />
-				<TextField fx:id="cmpId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="cmpAvaluo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="cmpDireccion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<TextField fx:id="cmpId" onKeyTyped="#validarId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<TextField fx:id="cmpAvaluo" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="cmpDireccion" onKeyTyped="#validarDireccion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 			</children>
 		</GridPane>
 		<Button fx:id="btnAceptar" layoutX="268.0" layoutY="432.0" mnemonicParsing="false" onAction="#registrarBienRaiz" text="Aceptar" AnchorPane.rightAnchor="98.0">
