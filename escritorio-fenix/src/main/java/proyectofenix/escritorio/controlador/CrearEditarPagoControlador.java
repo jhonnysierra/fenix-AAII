@@ -133,35 +133,31 @@ public class CrearEditarPagoControlador {
 	 * 
 	 * @param prestamo prestamo observable a modificar
 	 */
-	/*
-	 * public void cargarPrestamo(PrestamoObservable prestamo) {
-	 * btnAceptar.setVisible(false); btnEditar.setVisible(true);
-	 * cmpInfoEncabezado.setText("Por favor edite la información del prestamo");
-	 * cmpId.setDisable(true); cmpPersona.setEditable(false);
-	 * cmpValor.requestFocus();
-	 * 
-	 * cmpId.setText(String.valueOf(prestamo.getId().getValue()));
-	 * cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " +
-	 * persona.getApellidos());
-	 * cmpValor.setText(prestamo.getValor().getValue().toString());
-	 * cmpFechaInicio.setValue(Utilidades.pasarALocalDate(prestamo.getFechaInicio().
-	 * getValue()));
-	 * cmpNumeroCuotas.setText(String.valueOf(prestamo.getNumeroCuotas().getValue())
-	 * );
-	 * cmpTipo.getSelectionModel().select(prestamo.getPrestamo().getTipoPrestamo().
-	 * getId() - 1);
-	 * 
-	 * prestamosObservablesDetallePrestamo = manejador.getPrestamosObservables();
-	 * 
-	 * for (PrestamoObservable p : prestamosObservablesDetallePrestamo) { if
-	 * (p.getId().getValue() == prestamo.getId().getValue()) {
-	 * indiceListaPrestamoObservables =
-	 * prestamosObservablesDetallePrestamo.indexOf(p); } }
-	 * 
-	 * // System.out.println("Indice: " + indiceListaPrestamoObservables);
-	 * 
-	 * }
-	 */
+
+	public void cargarPagos(PagoObservable pago) {
+		btnAceptar.setVisible(false);
+		btnEditar.setVisible(true);
+		cmpInfoEncabezado.setText("Por favor edite la información del pago");
+		cmpId.setDisable(true);
+		cmpPrestamo.setDisable(true);
+		cmpValor.requestFocus();
+
+		cmpId.setText(String.valueOf(pago.getId().getValue()));
+		cmpPrestamo.setText(String.valueOf(pago.getIdPrestamo().getValue()));
+		cmpValor.setText(pago.getValor().getValue().toString());
+		cmpFecha.setValue(Utilidades.pasarALocalDate(pago.getFecha().getValue()));
+
+		pagosObservablesDetallePago = manejador.getPagosObservables();
+
+		for (PagoObservable p : pagosObservablesDetallePago) {
+			if (p.getId().getValue() == pago.getId().getValue()) {
+				indiceListaPagoObservables = pagosObservablesDetallePago.indexOf(p);
+			}
+		}
+
+		// System.out.println("Indice: " + indiceListaPrestamoObservables);
+
+	}
 
 	/**
 	 * permite registrar un prestamo en la base de datos
@@ -207,35 +203,32 @@ public class CrearEditarPagoControlador {
 	}
 
 	/**
-	 * Permite editar la informacion de un prestamo
+	 * Permite editar la informacion de un pago
 	 */
 
-	/*
-	 * @FXML private void editarPrestamo() { int seleccionTipo; Calendar sumaFecha =
-	 * Calendar.getInstance(); Date fechaFin = null;
-	 * 
-	 * TipoPrestamo tipoPrestamo;
-	 * 
-	 * prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
-	 * prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-	 * prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
-	 * 
-	 * sumaFecha.setTime(prestamo.getFechaInicio()); sumaFecha.add(Calendar.MONTH,
-	 * prestamo.getNoCuotas()); fechaFin = sumaFecha.getTime();
-	 * 
-	 * prestamo.setFechaFin(fechaFin);
-	 * 
-	 * seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex(); tipoPrestamo
-	 * = manejador.tipoPrestamoPorId(seleccionTipo + 1);
-	 * prestamo.setTipoPrestamo(tipoPrestamo);
-	 * 
-	 * if (manejador.modificarPrestamo(prestamo)) {
-	 * Utilidades.mostrarMensaje("Edición", "Se editó el prestamo con éxito!");
-	 * prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new
-	 * PrestamoObservable(prestamo)); escenarioPrestamo.close(); } else {
-	 * Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!"); }
-	 * }
-	 */
+	@FXML
+	private void editarPago() {
+		if (validarFormulario()) {
+			pago.setValor(Double.parseDouble(cmpValor.getText()));
+			pago.setFecha(Utilidades.pasarADate(cmpFecha.getValue()));
+
+			try {
+				if (manejador.modificarPago(pago)) {
+					Utilidades.mostrarMensaje("Edición", "Se editó el pago con éxito!");
+					pagosObservablesDetallePago.set(indiceListaPagoObservables, new PagoObservable(pago));
+					escenarioPago.close();
+				} else {
+					Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!");
+				}
+			} catch (ExcepcionesFenix e) {
+				e.printStackTrace();
+			}
+		} else {
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
+		}
+
+	}
 
 	/**
 	 * permite cerrar la ventana de editar y crear

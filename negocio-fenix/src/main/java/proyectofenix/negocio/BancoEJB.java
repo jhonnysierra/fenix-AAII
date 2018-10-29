@@ -1,6 +1,5 @@
 package proyectofenix.negocio;
 
-import java.lang.annotation.Retention;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -713,7 +712,7 @@ public class BancoEJB implements BancoEJBRemote {
 				return null;
 			}
 		} else {
-			throw new ExcepcionesFenix("El bien raiz a modificar es null");
+			throw new ExcepcionesFenix("El pago a modificar es null");
 		}
 
 	}

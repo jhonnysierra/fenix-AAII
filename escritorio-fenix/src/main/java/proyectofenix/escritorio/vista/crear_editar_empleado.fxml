@@ -40,20 +40,20 @@
 				<Label text="Contrasenia:" GridPane.rowIndex="4" />
 				<Label text="Fecha Nacimiento:" GridPane.rowIndex="5" />
 				<DatePicker fx:id="cmpFechaNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-				<TextField fx:id="cmpCedula" GridPane.columnIndex="1" />
-				<TextField fx:id="cmpNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="cmpApellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<TextField fx:id="cmpCedula" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" />
+				<TextField fx:id="cmpNombre" onKeyTyped="#validarSoloLetrasConEspacio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<TextField fx:id="cmpApellido" onKeyTyped="#validarSoloLetrasConEspacio" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 				<TextField fx:id="cmpEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<TextField fx:id="cmpClave" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Genero:" GridPane.rowIndex="6" />
             <ComboBox fx:id="cmpGenero" prefHeight="25.0" prefWidth="173.0" promptText="&lt;Seleccione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Teléfono:" GridPane.rowIndex="7" />
-            <TextField fx:id="cmpTelefono" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="cmpTelefono" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Fecha Inicio:" GridPane.rowIndex="9" />
             <Label text="Dirección:" GridPane.rowIndex="8" />
-            <TextField fx:id="cmpDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="cmpDireccion" onKeyTyped="#validarDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="Fecha Fin:" GridPane.rowIndex="10" />
-            <TextField fx:id="cmpSalario" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <TextField fx:id="cmpSalario" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label text="Salario:" GridPane.rowIndex="11" />
             <DatePicker fx:id="cmpFechaInicio" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <DatePicker fx:id="cmpFechaFin" GridPane.columnIndex="1" GridPane.rowIndex="10" />

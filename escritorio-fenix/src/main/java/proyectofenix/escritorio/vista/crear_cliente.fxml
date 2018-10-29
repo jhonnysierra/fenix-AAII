@@ -50,7 +50,7 @@
             <Label text="Número cuenta" GridPane.rowIndex="9" />
             <TextField fx:id="cmpNoCuenta" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="Dirección:" GridPane.rowIndex="8" />
-            <TextField fx:id="cmpDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="cmpDireccion" onKeyTyped="#validarDireccion" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 			</children>
 		</GridPane>
 		<Button fx:id="btnAceptar" layoutX="268.0" layoutY="406.0" mnemonicParsing="false" onAction="#registrarCliente" text="Aceptar" AnchorPane.rightAnchor="98.0">

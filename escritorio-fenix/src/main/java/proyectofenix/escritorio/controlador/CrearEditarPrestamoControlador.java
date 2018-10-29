@@ -1,6 +1,5 @@
 package proyectofenix.escritorio.controlador;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
@@ -116,13 +116,18 @@ public class CrearEditarPrestamoControlador {
 	 * Persona asociada al prestamo
 	 */
 	private Persona persona;
-	
+
 	/**
 	 * Prestamo que se envia para editar
 	 */
 	private Prestamo prestamo;
 
-	//private List<TipoPrestamo> listaTipoPrestamos;
+	/**
+	 * Caracter a validar
+	 */
+	private static char caracter;
+
+	// private List<TipoPrestamo> listaTipoPrestamos;
 
 	/**
 	 * Metodo constructor
@@ -181,40 +186,46 @@ public class CrearEditarPrestamoControlador {
 	@FXML
 	public void registrarPrestamo() {
 		int seleccionTipo;
-		Calendar sumaFecha = Calendar.getInstance();
-		Date fechaFin = null;
 
-		TipoPrestamo tipoPrestamo;
-		List<Pago> listaPagos = new ArrayList<Pago>();
+		if (validarFormulario()) {
+			Calendar sumaFecha = Calendar.getInstance();
+			Date fechaFin = null;
 
-		Prestamo prestamo = new Prestamo();
+			TipoPrestamo tipoPrestamo;
+			List<Pago> listaPagos = new ArrayList<Pago>();
 
-		prestamo.setId(manejador.consecutivoPrestamo());
-		prestamo.setPersona(persona);
-		prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
-		prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
+			Prestamo prestamo = new Prestamo();
 
-		sumaFecha.setTime(prestamo.getFechaInicio());
-		sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
-		fechaFin = sumaFecha.getTime();
+			prestamo.setId(manejador.consecutivoPrestamo());
+			prestamo.setPersona(persona);
+			prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
+			prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
+			prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
 
-		prestamo.setFechaFin(fechaFin);
+			sumaFecha.setTime(prestamo.getFechaInicio());
+			sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
+			fechaFin = sumaFecha.getTime();
 
-		seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
-		tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
-		prestamo.setTipoPrestamo(tipoPrestamo);
+			prestamo.setFechaFin(fechaFin);
 
-		prestamo.setPagos(listaPagos);
+			seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
+			tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
+			prestamo.setTipoPrestamo(tipoPrestamo);
 
-		try {
-			if (manejador.registrarPrestamo(prestamo)) {
-				manejador.agregarPrestamoALista(prestamo);
-				Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
-				escenarioPrestamo.close();
+			prestamo.setPagos(listaPagos);
+
+			try {
+				if (manejador.registrarPrestamo(prestamo)) {
+					manejador.agregarPrestamoALista(prestamo);
+					Utilidades.mostrarMensaje("Registro Prestamo", "Registro exitoso!!!");
+					escenarioPrestamo.close();
+				}
+			} catch (ExcepcionesFenix e) {
+				e.printStackTrace();
 			}
-		} catch (ExcepcionesFenix e) {
-			e.printStackTrace();
+		} else {
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
 
 	}
@@ -226,32 +237,40 @@ public class CrearEditarPrestamoControlador {
 	@FXML
 	private void editarPrestamo() {
 		int seleccionTipo;
-		Calendar sumaFecha = Calendar.getInstance();
-		Date fechaFin = null;
 
-		TipoPrestamo tipoPrestamo;
+		if (validarFormulario()) {
+			Calendar sumaFecha = Calendar.getInstance();
+			Date fechaFin = null;
 
-		prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
-		prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
+			TipoPrestamo tipoPrestamo;
 
-		sumaFecha.setTime(prestamo.getFechaInicio());
-		sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
-		fechaFin = sumaFecha.getTime();
+			prestamo.setValorPrestamo(Double.parseDouble(cmpValor.getText()));
+			prestamo.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
+			prestamo.setNoCuotas(Integer.parseInt(cmpNumeroCuotas.getText()));
 
-		prestamo.setFechaFin(fechaFin);
+			sumaFecha.setTime(prestamo.getFechaInicio());
+			sumaFecha.add(Calendar.MONTH, prestamo.getNoCuotas());
+			fechaFin = sumaFecha.getTime();
 
-		seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
-		tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
-		prestamo.setTipoPrestamo(tipoPrestamo);
+			prestamo.setFechaFin(fechaFin);
 
-		if (manejador.modificarPrestamo(prestamo)) {
-			Utilidades.mostrarMensaje("Edición", "Se editó el prestamo con éxito!");
-			prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,new PrestamoObservable(prestamo));
-			escenarioPrestamo.close();
+			seleccionTipo = cmpTipo.getSelectionModel().getSelectedIndex();
+			tipoPrestamo = manejador.tipoPrestamoPorId(seleccionTipo + 1);
+			prestamo.setTipoPrestamo(tipoPrestamo);
+
+			if (manejador.modificarPrestamo(prestamo)) {
+				Utilidades.mostrarMensaje("Edición", "Se editó el prestamo con éxito!");
+				prestamosObservablesDetallePrestamo.set(indiceListaPrestamoObservables,
+						new PrestamoObservable(prestamo));
+				escenarioPrestamo.close();
+			} else {
+				Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!");
+			}
 		} else {
-			Utilidades.mostrarMensajeError("Edición", "Error en edición de prestamo!");
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
+
 	}
 
 	/**
@@ -260,6 +279,33 @@ public class CrearEditarPrestamoControlador {
 	@FXML
 	private void cancelar() {
 		escenarioPrestamo.close();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean numeros
+	 */
+	@FXML
+	public void validarSoloNumeros(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Valida que los campos sean diferentes de vacio
+	 * 
+	 * @return si todos los campos tienen algo
+	 */
+	public boolean validarFormulario() {
+		if (!cmpId.getText().isEmpty() && !cmpPersona.getText().isEmpty() && !cmpValor.getText().isEmpty()
+				&& !(cmpFechaInicio.getValue() == null) && !cmpNumeroCuotas.getText().isEmpty()
+				&& !cmpTipo.getSelectionModel().isEmpty()) {
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -327,10 +373,9 @@ public class CrearEditarPrestamoControlador {
 		this.cmpPersona = cmpPersona;
 	}
 
-
-
 	/**
 	 * Metodo get prestamo controlador crear_editar
+	 * 
 	 * @return the prestamo
 	 */
 	public Prestamo getPrestamo() {
@@ -339,12 +384,13 @@ public class CrearEditarPrestamoControlador {
 
 	/**
 	 * Metodo set prestamo controlador crear_editar
+	 * 
 	 * @param prestamo the prestamo to set
 	 */
 	public void setPrestamo(Prestamo prestamo) {
 		this.prestamo = prestamo;
 	}
-	
+
 	/**
 	 * Carga datos iniciales en el escenario
 	 */
@@ -352,5 +398,5 @@ public class CrearEditarPrestamoControlador {
 		cmpId.setText(String.valueOf(manejador.consecutivoPrestamo()));
 		cmpPersona.setText(persona.getCedula() + " - " + persona.getNombres() + " " + persona.getApellidos());
 	}
-	
+
 }

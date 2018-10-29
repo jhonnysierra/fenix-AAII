@@ -182,20 +182,27 @@ public class CrearEditarBienRaizControlador {
 	 */
 	@FXML
 	private void editarBienRaiz() {
-		bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
-		bienraiz.setDireccion(cmpDireccion.getText());
+		if (validarFormulario()) {
+			bienraiz.setAvaluo(Double.parseDouble(cmpAvaluo.getText()));
+			bienraiz.setDireccion(cmpDireccion.getText());
 
-		if (manejador.modificarBienRaiz(bienraiz)) {
-			Utilidades.mostrarMensaje("Edición", "Se editó el bien raíz con éxito!");
-			bienraizObservablesDetalleBienRaiz.set(indiceListaBienRaizObservables, new BienRaizObservable(bienraiz));
-			escenarioBienraiz.close();
+			if (manejador.modificarBienRaiz(bienraiz)) {
+				Utilidades.mostrarMensaje("Edición", "Se editó el bien raíz con éxito!");
+				bienraizObservablesDetalleBienRaiz.set(indiceListaBienRaizObservables,
+						new BienRaizObservable(bienraiz));
+				escenarioBienraiz.close();
+			} else {
+				Utilidades.mostrarMensajeError("Edición", "Error en edición de bien raíz!");
+			}
 		} else {
-			Utilidades.mostrarMensajeError("Edición", "Error en edición de bien raíz!");
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
+
 	}
 
 	/**
-	 * permite cerrar la ventana de editar y crear
+	 * Permite cerrar la ventana de editar y crear
 	 */
 	@FXML
 	private void cancelar() {

@@ -245,7 +245,7 @@ public class EdicionClienteControlador {
 					Utilidades.mostrarMensajeError("Registro", "Error en registro!!");
 				}
 			} else {
-				Utilidades.mostrarMensajeError("Email invalido", "El email no es valido");
+				Utilidades.mostrarMensajeError("Email inválido", "El email no es válido");
 			}
 		} else {
 			Utilidades.mostrarMensajeError("Datos incompletos",
@@ -351,6 +351,23 @@ public class EdicionClienteControlador {
 
 	}
 
+	/**
+	 * Permite validar que el texto ingresado solo sean letras, numeros, # o -
+	 */
+	@FXML
+	public void validarDireccion(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isAlphabetic(caracter) && !Character.isDigit(caracter) && !Character.isWhitespace(caracter)
+				&& !(caracter == '#') && !(caracter == '-')) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Valida que los campos sean diferentes de vacio
+	 * 
+	 * @return si todos los campos tienen algo
+	 */
 	public boolean validarFormulario() {
 		if (!cmpCedula.getText().equals("") && (!cmpNombre.getText().isEmpty() || cmpNombre.getText().startsWith(" "))
 				&& (!cmpApellido.getText().isEmpty() || cmpApellido.getText().startsWith(" "))

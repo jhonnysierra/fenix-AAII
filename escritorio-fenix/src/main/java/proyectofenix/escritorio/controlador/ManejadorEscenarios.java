@@ -90,7 +90,6 @@ public class ManejadorEscenarios {
 		bienraizObservables = FXCollections.observableArrayList();
 		pagosObservables = FXCollections.observableArrayList();
 
-
 		/*
 		 * bancoDelegado = BancoDelegado.bancoDelegado; clientesObservables =
 		 * FXCollections.observableArrayList(); empleadosObservables =
@@ -117,8 +116,8 @@ public class ManejadorEscenarios {
 		 * } catch (IOException e) { e.printStackTrace(); }
 		 */
 		cargarEscenaLogin(this);
-		
-		//cargarEscenaInicio(this);
+
+		// cargarEscenaInicio(this);
 	}
 
 	/**
@@ -142,7 +141,6 @@ public class ManejadorEscenarios {
 			escenario.centerOnScreen();
 			escenario.setScene(scene);
 			escenario.show();
-			
 
 			// se carga el controlador del inicio
 			LoginControlador loginControlador = loader8.getController();
@@ -656,6 +654,46 @@ public class ManejadorEscenarios {
 	}
 
 	/**
+	 * Caraga la escena de editar pago
+	 * 
+	 * @param pago pago a editar
+	 */
+	public void cargarEscenarioEditarPago(Pago pago) {
+
+		try {
+
+			// Se crea un presatmo observable
+			PagoObservable pagoObservableEditar = new PagoObservable(pago);
+
+			// se carga la interfaz
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../vista/crear_editar_pago.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// se crea el escenario
+			Stage escenarioEditar = new Stage();
+			escenarioEditar.setTitle("Editar Pago");
+			Scene scene = new Scene(page);
+			escenarioEditar.setScene(scene);
+
+			// se carga el controlador
+			CrearEditarPagoControlador pagoControlador = loader.getController();
+			pagoControlador.setEscenarioPago(escenarioEditar);
+			pagoControlador.setManejador(this);
+			pagoControlador.setPrestamo(pago.getPrestamo());
+			pagoControlador.setPago(pago);
+			pagoControlador.cargarPagos(pagoObservableEditar);
+
+			// se crea el escenario
+			escenarioEditar.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
 	 * @param clientesObservables the clientesObservables to set
 	 */
 	public void setClientesObservables(ObservableList<ClienteObservable> clientesObservables) {
@@ -1072,6 +1110,24 @@ public class ManejadorEscenarios {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	/**
+	 * Permite modificar un pago
+	 * 
+	 * @param pago pago a modificar
+	 * @return pago modificado
+	 * @throws ExcepcionesFenix
+	 * @see proyectofenix.escritorio.modelo.BancoDelegado#modificarPago(proyectofenix.entidades.Pago)
+	 */
+	public boolean modificarPago(Pago pago) throws ExcepcionesFenix {
+		try {
+			return bancoDelegado.modificarPago(pago) != null;
+		} catch (ExcepcionesFenix e) {
+			Utilidades.mostrarMensajeError("Registro Pago", "Error al editar: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**

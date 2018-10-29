@@ -2,6 +2,8 @@ package proyectofenix.escritorio.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import proyectofenix.entidades.Empleado;
@@ -123,7 +126,7 @@ public class CrearEditarEmpleadoControlador {
 	/**
 	 * Genero de tipo enumeracion
 	 */
-	//private Genero genero;
+	// private Genero genero;
 
 	/**
 	 * representa el escenario en donde se agrega la vista
@@ -148,13 +151,18 @@ public class CrearEditarEmpleadoControlador {
 	/**
 	 * Empleado que se envia como parametro a esta instancia
 	 */
-	//private EmpleadoObservable empleadoEditado;
+	// private EmpleadoObservable empleadoEditado;
 
 	/**
 	 * Indice de la posicion en la lsita de clientes observables del cliente a
 	 * editar
 	 */
 	private int indiceListaEmpleadosObservables;
+
+	/**
+	 * Caractere para la validacion
+	 */
+	private static char caracter;
 
 	/**
 	 * Metodo constructor
@@ -227,36 +235,47 @@ public class CrearEditarEmpleadoControlador {
 	public void registrarCliente() {
 		int seleccionGenero;
 
-		Empleado empleado = new Empleado();
-		empleado.setCedula(cmpCedula.getText());
-		empleado.setNombres(cmpNombre.getText());
-		empleado.setApellidos(cmpApellido.getText());
-		empleado.setContrasenia(cmpClave.getText());
-		empleado.setCorreo(cmpEmail.getText());
-		empleado.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
-		empleado.setCiudad(null);
-		telefonos.add(cmpTelefono.getText());
-		empleado.setTelefonos(telefonos);
-		empleado.setDireccion(cmpDireccion.getText());
-		empleado.setEstado("1");
-		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
-		if (seleccionGenero == 0) {
-			empleado.setGenero(Genero.masculino);
-		} else {
-			empleado.setGenero(Genero.femenino);
-		}
-		empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));
-		empleado.setSalario(Double.parseDouble(cmpSalario.getText()));
+		if (validarFormulario()) {
+			if (validarEmail()) {
+				Empleado empleado = new Empleado();
+				empleado.setCedula(cmpCedula.getText());
+				empleado.setNombres(cmpNombre.getText());
+				empleado.setApellidos(cmpApellido.getText());
+				empleado.setContrasenia(cmpClave.getText());
+				empleado.setCorreo(cmpEmail.getText());
+				empleado.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
+				empleado.setCiudad(null);
+				telefonos.add(cmpTelefono.getText());
+				empleado.setTelefonos(telefonos);
+				empleado.setDireccion(cmpDireccion.getText());
+				empleado.setEstado("1");
+				seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
+				if (seleccionGenero == 0) {
+					empleado.setGenero(Genero.masculino);
+				} else {
+					empleado.setGenero(Genero.femenino);
+				}
+				empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
+				empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));
+				empleado.setSalario(Double.parseDouble(cmpSalario.getText()));
 
-		if (manejador.registrarEmpleado(empleado)) {
-			manejador.agregarEmpleadoALista(empleado);
-			;
-			Utilidades.mostrarMensaje("Registro", "Registro exitoso!!");
-			escenarioEditar.close();
+				if (manejador.registrarEmpleado(empleado)) {
+					manejador.agregarEmpleadoALista(empleado);
+					;
+					Utilidades.mostrarMensaje("Registro", "Registro exitoso!!");
+					escenarioEditar.close();
+				} else {
+					Utilidades.mostrarMensaje("Registro", "Error en registro!!");
+				}
+			} else {
+				Utilidades.mostrarMensajeError("Email inválido", "El email no es válido");
+			}
+
 		} else {
-			Utilidades.mostrarMensaje("Registro", "Error en registro!!");
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
+
 	}
 
 	/**
@@ -266,37 +285,48 @@ public class CrearEditarEmpleadoControlador {
 	private void editarEmpleado() {
 		int seleccionGenero;
 
-		Empleado empleado = new Empleado();
-		empleado.setCedula(cmpCedula.getText());
-		empleado.setNombres(cmpNombre.getText());
-		empleado.setApellidos(cmpApellido.getText());
-		empleado.setContrasenia(cmpClave.getText());
-		empleado.setCorreo(cmpEmail.getText());
-		empleado.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
-		empleado.setCiudad(null);
-		telefonos.add(0, cmpTelefono.getText());
-		empleado.setTelefonos(telefonos);
-		empleado.setDireccion(cmpDireccion.getText());
-		empleado.setEstado("1");
-		seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
-		// System.out.println("Seleccion genero empleado:" + seleccionGenero);
-		if (seleccionGenero == 0) {
-			empleado.setGenero(Genero.masculino);
-		} else {
-			empleado.setGenero(Genero.femenino);
-		}
-		empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
-		empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));
-		empleado.setSalario(Double.parseDouble(cmpSalario.getText()));
+		if (validarFormulario()) {
+			if (validarEmail()) {
+				Empleado empleado = new Empleado();
+				empleado.setCedula(cmpCedula.getText());
+				empleado.setNombres(cmpNombre.getText());
+				empleado.setApellidos(cmpApellido.getText());
+				empleado.setContrasenia(cmpClave.getText());
+				empleado.setCorreo(cmpEmail.getText());
+				empleado.setFecha_nacimiento(Utilidades.pasarADate(cmpFechaNacimiento.getValue()));
+				empleado.setCiudad(null);
+				telefonos.add(0, cmpTelefono.getText());
+				empleado.setTelefonos(telefonos);
+				empleado.setDireccion(cmpDireccion.getText());
+				empleado.setEstado("1");
+				seleccionGenero = cmpGenero.getSelectionModel().getSelectedIndex();
+				// System.out.println("Seleccion genero empleado:" + seleccionGenero);
+				if (seleccionGenero == 0) {
+					empleado.setGenero(Genero.masculino);
+				} else {
+					empleado.setGenero(Genero.femenino);
+				}
+				empleado.setFechaInicio(Utilidades.pasarADate(cmpFechaInicio.getValue()));
+				empleado.setFechaFin(Utilidades.pasarADate(cmpFechaFin.getValue()));
+				empleado.setSalario(Double.parseDouble(cmpSalario.getText()));
 
-		if (manejador.editarEmpleado(empleado)) {
-			Utilidades.mostrarMensaje("Edición", "Se editó el empleado con éxito!");
-			empleadosObservablesDetalleCliente.set(indiceListaEmpleadosObservables, new EmpleadoObservable(empleado));
+				if (manejador.editarEmpleado(empleado)) {
+					Utilidades.mostrarMensaje("Edición", "Se editó el empleado con éxito!");
+					empleadosObservablesDetalleCliente.set(indiceListaEmpleadosObservables,
+							new EmpleadoObservable(empleado));
 
-			escenarioEditar.close();
+					escenarioEditar.close();
+				} else {
+					Utilidades.mostrarMensajeError("Edición", "Error en edición de empleado!");
+				}
+			} else {
+				Utilidades.mostrarMensajeError("Email inválido", "El email no es válido");
+			}
 		} else {
-			Utilidades.mostrarMensajeError("Edición", "Error en edición de empleado!");
+			Utilidades.mostrarMensajeError("Datos incompletos",
+					"Debes ingresar todos los datos. Algunos estan vacíos!");
 		}
+
 	}
 
 	/**
@@ -305,6 +335,79 @@ public class CrearEditarEmpleadoControlador {
 	@FXML
 	private void cancelar() {
 		escenarioEditar.close();
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean numeros
+	 */
+	@FXML
+	public void validarSoloNumeros(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isDigit(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean letras
+	 */
+	@FXML
+	public void validarSoloLetrasConEspacio(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isAlphabetic(caracter) && !Character.isWhitespace(caracter)) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Permite validar el email
+	 * 
+	 * @return true si el email es valido false si no
+	 */
+	@FXML
+	public boolean validarEmail() {
+		Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+		Matcher m = p.matcher(cmpEmail.getText());
+
+		if (m.find() && m.group().equals(cmpEmail.getText())) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * Permite validar que el texto ingresado solo sean letras, numeros, # o -
+	 */
+	@FXML
+	public void validarDireccion(KeyEvent ke) {
+		caracter = ke.getCharacter().charAt(0);
+		if (!Character.isAlphabetic(caracter) && !Character.isDigit(caracter) && !Character.isWhitespace(caracter)
+				&& !(caracter == '#') && !(caracter == '-')) {
+			ke.consume();
+		}
+	}
+
+	/**
+	 * Valida si los campos son diferente de vacio
+	 * 
+	 * @return true si todos contienen informacion false si algunos estan vacios
+	 */
+	public boolean validarFormulario() {
+		if (!cmpCedula.getText().equals("") && (!cmpNombre.getText().isEmpty() || cmpNombre.getText().startsWith(" "))
+				&& (!cmpApellido.getText().isEmpty() || cmpApellido.getText().startsWith(" "))
+				&& !cmpEmail.getText().isEmpty() && !cmpClave.getText().isEmpty()
+				&& !(cmpFechaNacimiento.getValue() == null) && !cmpGenero.getSelectionModel().isEmpty()
+				&& !cmpTelefono.getText().isEmpty() && !cmpDireccion.getText().isEmpty()
+				&& !(cmpFechaInicio.getValue() == null) && !(cmpFechaFin.getValue() == null)
+				&& !cmpSalario.getText().isEmpty()) {
+
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	/**

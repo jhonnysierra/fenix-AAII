@@ -132,23 +132,18 @@ public class PagoControlador {
 	}
 
 	/**
-	 * permite mostrar la ventana de editar prestamo
+	 * permite mostrar la ventana de editar pago
 	 */
-/*	@FXML
-	public void editarPrestamo() {
+	@FXML
+	public void editarPago() {
 
-		int indice = tablaPrestamos.getSelectionModel().getSelectedIndex();
+		int indice = tablaPagos.getSelectionModel().getSelectedIndex();
 
-		Prestamo prestamo = tablaPrestamos.getItems().get(indice).getPrestamo();
+		Pago pago = tablaPagos.getItems().get(indice).getPago();
 		
-		 * System.out.println("Prestamo seleccionado:" + prestamo.getId());
-		 * System.out.println("Tipo Prestamo seleccionado:" +
-		 * prestamo.getTipoPrestamo().getId());
-		 
-
-		escenarioInicial.cargarEscenarioEditarPrestamo(prestamo);
-		tablaPrestamos.refresh();
-	}*/
+		escenarioInicial.cargarEscenarioEditarPago(pago);
+		tablaPagos.refresh();
+	}
 
 	/**
 	 * Permite eliminar un pago de la bd

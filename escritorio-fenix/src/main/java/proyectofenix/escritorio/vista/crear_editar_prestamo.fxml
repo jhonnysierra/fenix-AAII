@@ -36,8 +36,8 @@
 				<DatePicker fx:id="cmpFechaInicio" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<TextField fx:id="cmpId" editable="false" GridPane.columnIndex="1" />
 				<TextField fx:id="cmpPersona" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="cmpValor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-				<TextField fx:id="cmpNumeroCuotas" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				<TextField fx:id="cmpValor" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<TextField fx:id="cmpNumeroCuotas" onKeyTyped="#validarSoloNumeros" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="cmpTipo" prefHeight="25.0" prefWidth="244.0" promptText="&lt;Seleccione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 			</children>
 		</GridPane>
