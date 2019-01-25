@@ -13,7 +13,7 @@ import proyectofenix.entidades.Cliente;
 import proyectofenix.negocio.BancoEJB;
 
 /**
- * Permite generar un
+ * Permite generar un registro de cliente
  * 
  * @author JHONNY
  *
