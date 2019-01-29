@@ -6,52 +6,61 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
  * Clase encargada de representar la informacion de un tipo de asesoria
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  *
  */
 
 @Entity
-public class TipoAsesoria implements Serializable{
+@NamedQueries({
+		@NamedQuery(name = TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, query = "select tp from TipoAsesoria tp where tp.id=:idAsesoria") })
+public class TipoAsesoria implements Serializable {
 
+	/**
+	 * Permite hacer la referencia a la consulta tipo asesoria por codigo
+	 */
+	public static final String TIPO_ASESORIA_POR_CODIGO = "TipoAsesoria";
+	
 	/**
 	 * serialVersionUID clase TipoAsesoria
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Identificador del TipoAsesoria
 	 */
 	@Id
 	@NotNull
 	private int id;
-	
+
 	/**
 	 * Nombre del tipo de asesoria
 	 */
-	@Column(length=50,nullable=false,unique=true)
+	@Column(length = 50, nullable = false, unique = true)
 	@NotNull
 	private String tipo;
-	
+
 	/**
 	 * Descripcion del tipo de asesoria
 	 */
-	@Column(length=100)
+	@Column(length = 100)
 	@NotNull
 	private String descripcion;
-	
+
 	/**
 	 * Lista de asesorias relacionada con la instancia del tipo de asesoria
 	 */
 	@OneToMany(mappedBy = "tipoasesoria")
 	private List<Asesoria> asesoria;
-	
-	
+
 	/**
 	 * METODO CONSTRUCTOR CLASE TipoAsesoria
 	 */
@@ -61,6 +70,7 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo get id clase TipoAsesoria
+	 * 
 	 * @return id
 	 */
 	public int getId() {
@@ -69,6 +79,7 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo set id clase TipoAsesoria
+	 * 
 	 * @param id
 	 */
 	public void setId(int id) {
@@ -77,6 +88,7 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo get tipo clase TipoAsesoria
+	 * 
 	 * @return tipo
 	 */
 	public String getTipo() {
@@ -85,6 +97,7 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo set tipo clase TipoAsesoria
+	 * 
 	 * @param tipo
 	 */
 	public void setTipo(String tipo) {
@@ -93,6 +106,7 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo get descripcion clase TipoAsesoria
+	 * 
 	 * @return the descripcion
 	 */
 	public String getDescripcion() {
@@ -101,15 +115,16 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo set descripcion clase TipoAsesoria
+	 * 
 	 * @param descripcion
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	
+
 	/**
 	 * Metodo get asesoria clase TipoAsesoria
+	 * 
 	 * @return asesoria
 	 */
 	public List<Asesoria> getAsesoria() {
@@ -118,23 +133,23 @@ public class TipoAsesoria implements Serializable{
 
 	/**
 	 * Metodo set asesoria clase TipoAsesoria
+	 * 
 	 * @param asesoria
 	 */
 	public void setAsesoria(List<Asesoria> asesoria) {
 		this.asesoria = asesoria;
 	}
 
-
-
 	/**
 	 * Metodo get serialversionuid clase TipoAsesoria
+	 * 
 	 * @return serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase TipoAsesoria
 	 */
 	@Override
@@ -148,7 +163,7 @@ public class TipoAsesoria implements Serializable{
 		return result;
 	}
 
-	/* 
+	/*
 	 * Metodo hashcode clase TipoAsesoria
 	 */
 	@Override
@@ -179,5 +194,5 @@ public class TipoAsesoria implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

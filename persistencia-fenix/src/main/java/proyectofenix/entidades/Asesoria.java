@@ -21,9 +21,15 @@ import javax.persistence.TemporalType;
  */
 
 @Entity
-@NamedQueries({
+@NamedQueries({ @NamedQuery(name = Asesoria.OBTENER_CONSECUTIVO_ASESORIA, query = "select MAX(a.id) from Asesoria a"),
 		@NamedQuery(name = Asesoria.OBTENER_TOTAL_ASESORIAS_EMPLEADO, query = "select new proyectofenix.DTO.ConsultaAtencionEmpleadoDTO(a.empleado.cedula,COUNT(a.empleado.cedula)) from Asesoria a where a.horaInicio!=a.horaFin GROUP BY a.empleado.cedula") })
 public class Asesoria implements Serializable {
+
+	/**
+	 * Permite obtener el maximo id de una asesoria y sumarle 1 para generar el
+	 * consecutivo
+	 */
+	public static final String OBTENER_CONSECUTIVO_ASESORIA = "ConsecutivoIdAsesoria";
 
 	/**
 	 * Permite obtener el numero de asesorias atendidas por cada Empleado

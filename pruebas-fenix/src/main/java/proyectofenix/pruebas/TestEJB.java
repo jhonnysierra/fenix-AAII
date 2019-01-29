@@ -384,4 +384,5 @@ public class TestEJB {
 		
 		Assert.assertNull("Bien es diferente de null", bien);
 	}
+
 }
