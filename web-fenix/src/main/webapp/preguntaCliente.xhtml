@@ -12,20 +12,27 @@
 <body>
 
 	<h1>Asesoria Cliente</h1>
-	<h: form>
-	
+	<h:form>
+
 		<label>Id:</label>
-		<h:inputText id="preguntaId" value="" />
-		<br/>
+		<h:inputText id="preguntaId" value="#{preguntaBean.id}" />
+		<br />
 		<label>Cedula Cliente:</label>
-		<h:inputText id="preguntaCliente" value="" />
-		<br/>
+		<h:inputText id="preguntaCliente" value="#{preguntaBean.cedula}" />
+		<br />
+		<label>Cedula Empleado:</label>
+		<h:inputText id="preguntaEmpleado" value="#{preguntaBean.empleado}" />
+		<br />
+		<label>Tipo Asesoria:</label>
+		<h:inputText id="preguntaTipoAsesoria" value="#{preguntaBean.tipo_asesoria}" />
+		<br />
 		<label>Fecha Asesoria:</label>
 		<h:inputText id="preguntaFecha" value="#{preguntaBean.fecha}">
 			<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
 		</h:inputText>
-		<br/>
-		<h:commandButton action="#{}" />
-	</h: form>
+		<br />
+		<h:commandButton value="Aceptar" action="#{preguntaBean.crearAsesoria}" />
+	</h:form>
+	<h:messages/>
 </body>
 </html>

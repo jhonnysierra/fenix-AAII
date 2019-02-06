@@ -8,13 +8,12 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyecto.fenix.excepciones.InformacionNoEncontradaException;
 import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
-import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.TipoAsesoria;
-import proyectofenix.entidades.TipoPrestamo;
 
 /**
  * Permite manejar las operaciones de negocio que son unicas para cliente
@@ -62,8 +61,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 		if (clienteBuscar != null) {
 			return clienteBuscar;
 
-		} else if (buscarPersonaPorEmail(clienteBuscar.getCorreo())) {
-			return clienteBuscar;
 		} else {
 			throw new ExcepcionesFenix("No se encontró el cliente");
 		}
@@ -124,26 +121,65 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * 
 	 * @param asesoria asesoria que se va a crear
 	 * @return Asesoria creada o null si no se registró
-	 * @throws ExcepcionesFenix si no existe el cliente, si no existe el empleado
+	 * @throws ExcepcionesFenix                                      si no existe el
+	 *                                                               cliente, si no
+	 *                                                               existe el
+	 *                                                               empleado
+	 * @throws InformacionNoEncontradaException,NullPointerException si no encuentra
+	 *                                                               el cliente
 	 */
-	public Asesoria realizarAsesoria(Asesoria asesoria) throws ExcepcionesFenix {
+	public Asesoria realizarAsesoria(Asesoria asesoria)
+			throws ExcepcionesFenix, InformacionNoEncontradaException, NullPointerException {
 
-		if (asesoria.getCliente() == null) {
-			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el cliente");
-		} else if (asesoria.getEmpleado() == null) {
-			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el empleado");
-		}
+		/*
+		 * if (asesoria.getCliente() == null) { throw new
+		 * ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el cliente"
+		 * ); } else if (asesoria.getEmpleado() == null) { throw new
+		 * ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el empleado"
+		 * ); }
+		 */
 
 		Cliente cliente = asesoria.getCliente();
+		//System.out.println("El cliente es" + cliente);
 
+		/**
+		 * Hacer una excepcion para cada foranea si es null
+		 */
+		
 		if (cliente == null) {
-			/* Mostrar excepcion */
+			throw new NullPointerException("El cliente especificado no existe");
+		} else if (asesoria.getEmpleado() == null) {
+			throw new NullPointerException("El empleado especificado no existe");
 		} else {
-			entityManager.find(Cliente.class, cliente.getCedula());
+			cliente = entityManager.find(Cliente.class, cliente.getCedula());
+			if (cliente == null) {
+				throw new InformacionNoEncontradaException("El cliente no se encuentra registrado");
+			} else {
+				try {
+					entityManager.persist(asesoria);
+					return asesoria;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		if (asesoria.getCliente() != null) {
 
-		}
+		/*
+		 * if (cliente == null) { // TODO throw new
+		 * NullPointerException("El cliente especificado no existe"); } else { cliente =
+		 * entityManager.find(Cliente.class, cliente.getCedula());
+		 * System.out.println(""); if (cliente == null) { throw new
+		 * InformacionNoEncontradaException("El cliente no se encuentra registrado"); }
+		 * else { try { asesoria.setCliente(cliente); entityManager.persist(asesoria);
+		 * return asesoria; } catch (Exception e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } } }
+		 */
+		/*
+		 * if (asesoria.getCliente() != null) {
+		 * 
+		 * }
+		 */
 
 		return null;
 	}
