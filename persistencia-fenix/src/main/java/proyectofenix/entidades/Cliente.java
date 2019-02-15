@@ -112,7 +112,6 @@ public class Cliente extends Persona implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((asesoria == null) ? 0 : asesoria.hashCode());
 		result = prime * result + ((noCuenta == null) ? 0 : noCuenta.hashCode());
 		return result;
 	}
@@ -129,11 +128,6 @@ public class Cliente extends Persona implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		if (asesoria == null) {
-			if (other.asesoria != null)
-				return false;
-		} else if (!asesoria.equals(other.asesoria))
-			return false;
 		if (noCuenta == null) {
 			if (other.noCuenta != null)
 				return false;

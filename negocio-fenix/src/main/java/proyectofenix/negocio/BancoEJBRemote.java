@@ -11,6 +11,7 @@ import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Pago;
+import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
 
@@ -68,6 +69,20 @@ public interface BancoEJBRemote {
 	 * @return Lista con los clientes del banco
 	 */
 	public List<Cliente> listarclientes();
+	
+
+	/**
+	 * Permite listar todas las personas del banco
+	 * @return Lista con las personas 
+	 */
+	public List<Persona> listarPersonas();
+	
+	/**
+	 * Metodo que permite buscar una persona por su numero de cedula
+	 * @param cedula a buscar
+	 * @return Persona encontrada o null si no encuentra nada
+	 */
+	public Persona buscarPersona(String cedula);
 
 	/**
 	 * Permite agregar un empleado al banco

@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
 <meta charset="UTF-8" />
-<title>Pregunta Cliente</title>
+<title>Crear asesoria Cliente</title>
 </head>
 <body>
 
@@ -18,21 +18,33 @@
 		<h:inputText id="preguntaId" value="#{preguntaBean.id}" />
 		<br />
 		<label>Cedula Cliente:</label>
-		<h:inputText id="preguntaCliente" value="#{preguntaBean.cedula}" />
+		<h:inputText id="preguntaCliente"
+			value="#{preguntaBean.cedulaCliente}" />
 		<br />
 		<label>Cedula Empleado:</label>
-		<h:inputText id="preguntaEmpleado" value="#{preguntaBean.empleado}" />
+		<h:inputText id="preguntaEmpleado"
+			value="#{preguntaBean.cedulaEmpleado}" />
 		<br />
 		<label>Tipo Asesoria:</label>
-		<h:inputText id="preguntaTipoAsesoria" value="#{preguntaBean.tipo_asesoria}" />
+		<h:inputText id="preguntaTipoAsesoria"
+			value="#{preguntaBean.tipo_asesoria}" />
 		<br />
 		<label>Fecha Asesoria:</label>
 		<h:inputText id="preguntaFecha" value="#{preguntaBean.fecha}">
-			<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+			<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota"></f:convertDateTime>
 		</h:inputText>
 		<br />
-		<h:commandButton value="Aceptar" action="#{preguntaBean.crearAsesoria}" />
+		<h:selectOneMenu value="#{preguntaBean.persona}"
+			converter="personaConverter">
+			<f:selectItem itemLabel="Seleccione un empleado"
+				noSelectionOption="true"></f:selectItem>
+			<f:selectItems value="#{preguntaBean.personas}" var="persona"
+				itemValue="#{persona}" />
+		</h:selectOneMenu>
+		<br />
+		<h:commandButton value="Aceptar"
+			action="#{preguntaBean.crearAsesoria}" />
 	</h:form>
-	<h:messages/>
+	<h:messages />
 </body>
 </html>

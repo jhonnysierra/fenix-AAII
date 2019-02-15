@@ -1,8 +1,13 @@
 package proyectofenix.negocio;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -98,7 +103,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 			consecutivo = (int) query.getSingleResult() + 1;
 			return consecutivo;
 		} catch (Exception e) {
-			// System.out.println("e.mesage:" + e.getMessage());
 			throw new ExcepcionesFenix("No se puede generar el id de la asesoria");
 		}
 	}
@@ -109,11 +113,21 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * @param idAsesoria codigo de la asesoria
 	 * @return Tipo de asesoria encontrado
 	 */
-	public TipoAsesoria tipoAsesoriaPorCodigo(int idAsesoria) {
-		TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager
-				.createNamedQuery(TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, TipoAsesoria.class);
-		queryTipoAsesoria.setParameter("idAsesoria", idAsesoria);
-		return queryTipoAsesoria.getSingleResult();
+	public TipoAsesoria tipoAsesoriaPorCodigo(int idAsesoria) throws ExcepcionesFenix{
+		TipoAsesoria tipoAsesoria;
+		
+		
+		try {
+			TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager
+					.createNamedQuery(TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, TipoAsesoria.class);
+			queryTipoAsesoria.setParameter("idAsesoria", idAsesoria);
+			tipoAsesoria=queryTipoAsesoria.getSingleResult();
+		} catch (NoResultException re) {
+			re.printStackTrace();
+			throw new ExcepcionesFenix("No se encontró el tipo de asesoria");
+		}
+		
+		return tipoAsesoria;
 	}
 
 	/**
@@ -140,12 +154,12 @@ public class ClienteEJB implements ClienteEJBRemote {
 		 */
 
 		Cliente cliente = asesoria.getCliente();
-		//System.out.println("El cliente es" + cliente);
+		// System.out.println("El cliente es" + cliente);
 
 		/**
 		 * Hacer una excepcion para cada foranea si es null
 		 */
-		
+
 		if (cliente == null) {
 			throw new NullPointerException("El cliente especificado no existe");
 		} else if (asesoria.getEmpleado() == null) {
@@ -182,5 +196,50 @@ public class ClienteEJB implements ClienteEJBRemote {
 		 */
 
 		return null;
+	}
+
+	/**
+	 * Metodo que permite crear una asesoria
+	 * 
+	 * @param tipo_asesoria tipo de asesoria de la asesoria
+	 * @param cedula_empleado cedula del empleado que atendera la asesoria
+	 * @param cedula_cliente cedula del cliente que solicita la asesoria
+	 * @param fecha fecha de la asesoria
+	 * @return Asesoria creada
+	 * @throws ExcepcionesFenix Si no se encuentra el cliente, el empleado o el tipo de asesoria
+	 */
+	public Asesoria crearAsesoria(int tipo_asesoria, String cedula_empleado, String cedula_cliente, Date fecha)
+			throws ExcepcionesFenix {
+
+		Cliente cliente = buscarcliente(cedula_cliente);
+		Empleado empleado = buscarEmpleado(cedula_empleado);
+		TipoAsesoria tipoasesoria = tipoAsesoriaPorCodigo(tipo_asesoria);
+		
+		if (cliente == null) {
+			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el cliente");
+		} else if (empleado == null) {
+			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el empleado");
+		}
+		else if (tipoasesoria==null) {
+			throw new ExcepcionesFenix("No se puede realizar la asesoria porque el tipo de asesoria no existe");
+		}else {
+			
+			Asesoria asesoria = new Asesoria();
+			
+			asesoria.setId(consecutivoAsesoria());
+			asesoria.setCliente(cliente);
+			asesoria.setEmpleado(empleado);
+			asesoria.setTipoasesoria(tipoasesoria);
+			asesoria.setFecha(fecha);
+			
+			
+			try {
+				entityManager.persist(asesoria); 
+				return asesoria;
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new ExcepcionesFenix("No se pudo crear la asesoria. " + e.getMessage());
+			}
+		}
 	}
 }

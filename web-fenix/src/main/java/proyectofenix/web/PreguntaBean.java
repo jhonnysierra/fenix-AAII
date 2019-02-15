@@ -1,7 +1,9 @@
 package proyectofenix.web;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
@@ -15,23 +17,25 @@ import proyecto.fenix.excepciones.InformacionNoEncontradaException;
 import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.TipoAsesoria;
+import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
 
 /**
- * Bean  para registrar una pregunta asesoria
+ * Bean para registrar una asesoria
+ * 
  * @author JJ
  * @version 1.0
- */
-/**
- * @author JHONNY
- *
  */
 @FacesConfig(version = Version.JSF_2_3)
 @Named(value = "preguntaBean")
 @ApplicationScoped
 public class PreguntaBean {
 
+	/**
+	 * EJB para realizar conexion con la capa de negocio
+	 */
 	@EJB
 	private ClienteEJB clienteEJB;
 
@@ -43,12 +47,12 @@ public class PreguntaBean {
 	/**
 	 * cedula cliente
 	 */
-	private String cedula;
+	private String cedulaCliente;
 
 	/**
 	 * cedula empleado
 	 */
-	private String empleado;
+	private String cedulaEmpleado;
 
 	/**
 	 * id del tipo de asesoria solicitada
@@ -61,6 +65,24 @@ public class PreguntaBean {
 	private Date fecha;
 
 	/**
+	 * Lista de personas a la que se puede hacer pregunta
+	 */
+	private List<Persona> personas;
+
+	/**
+	 * Persona a la que se le realiza la pregunta
+	 */
+	private Persona persona;
+
+	@EJB
+	private BancoEJB bancoEJB;
+
+	@PostConstruct
+	private void inicializar() {
+		personas = (List<Persona>) bancoEJB.listarPersonas();
+	}
+
+	/**
 	 * Permite registrar una asesoria en la bd
 	 * 
 	 * @return ruta que muestra la informacion detallada de la asesoria
@@ -71,48 +93,41 @@ public class PreguntaBean {
 		asesoria.setId(id);
 		asesoria.setFecha(fecha);
 
-		Cliente cliente = new Cliente();
-		Empleado empleado = new Empleado();
-		TipoAsesoria tipo = new TipoAsesoria();
+		System.out.println(String.format("La persona es: %s", persona));
 
-/*		try {
-			System.out.println("Entro al try de cliente");
-			cliente = clienteEJB.buscarcliente(cedula);
-		} catch (ExcepcionesFenix e1) {
-			System.out.println("Entro a la excepcion de cliente");
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e1.getMessage(), e1.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			e1.printStackTrace();
-		}*/
-		
-		/**
-		 * Enviar al metodo realizar asesoria los parametros 
-		 * para que se hagan las excepciones desde negocio
+		// Se comenta para que no registre
+		/*
+		 * try { clienteEJB.crearAsesoria(tipo_asesoria, cedulaEmpleado, cedulaCliente,
+		 * fecha); FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+		 * "Registro exitoso", "Registro exitoso");
+		 * FacesContext.getCurrentInstance().addMessage(null, facesMsg); return
+		 * "/infoPregunta"; } catch (ExcepcionesFenix e) { FacesMessage facesMsg = new
+		 * FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
+		 * FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+		 * e.printStackTrace(); }
 		 */
-		
-		cliente.setCedula(cedula);
-		empleado.setCedula(this.empleado);
-		tipo = clienteEJB.tipoAsesoriaPorCodigo(tipo_asesoria);
 
-		asesoria.setCliente(cliente);
-		asesoria.setEmpleado(empleado);
-		asesoria.setTipoasesoria(tipo);
+		/*
+		 * Cliente cliente = new Cliente(); Empleado empleado = new Empleado();
+		 * TipoAsesoria tipo = new TipoAsesoria();
+		 */
 
-		try {
-			clienteEJB.realizarAsesoria(asesoria);
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
-					"Registro exitoso");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "/infoPregunta";
-		} catch (NullPointerException | InformacionNoEncontradaException e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		} catch (ExcepcionesFenix e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		}
-		
-		//No retorna cadena sino se realiza la asesoria
+		/*
+		 * try { System.out.println("Entro al try de cliente"); cliente =
+		 * clienteEJB.buscarcliente(cedulaCliente); } catch (ExcepcionesFenix e1) {
+		 * System.out.println("Entro a la excepcion de cliente"); FacesMessage facesMsg
+		 * = new FacesMessage(FacesMessage.SEVERITY_INFO, e1.getMessage(),
+		 * e1.getMessage()); FacesContext.getCurrentInstance().addMessage(null,
+		 * facesMsg); e1.printStackTrace(); }
+		 */
+
+		/**
+		 * Enviar al metodo realizar asesoria los parametros para que se hagan las
+		 * excepciones desde negocio
+		 */
+
+
+		// No retorna cadena sino se realiza la asesoria
 		return null;
 
 	}
@@ -132,31 +147,31 @@ public class PreguntaBean {
 	}
 
 	/**
-	 * @return the cedula
+	 * @return the cedulaCliente
 	 */
-	public String getCedula() {
-		return cedula;
+	public String getCedulaCliente() {
+		return cedulaCliente;
 	}
 
 	/**
-	 * @param cedula the cedula to set
+	 * @param cedulaCliente the cedulaCliente to set
 	 */
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
+	public void setCedulaCliente(String cedulaCliente) {
+		this.cedulaCliente = cedulaCliente;
 	}
 
 	/**
-	 * @return the empleado
+	 * @return the cedulaEmpleado
 	 */
-	public String getEmpleado() {
-		return empleado;
+	public String getCedulaEmpleado() {
+		return cedulaEmpleado;
 	}
 
 	/**
-	 * @param empleado the empleado to set
+	 * @param cedulaEmpleado the cedulaEmpleado to set
 	 */
-	public void setEmpleado(String empleado) {
-		this.empleado = empleado;
+	public void setCedulaEmpleado(String cedulaEmpleado) {
+		this.cedulaEmpleado = cedulaEmpleado;
 	}
 
 	/**
@@ -185,6 +200,34 @@ public class PreguntaBean {
 	 */
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	/**
+	 * @return the personas
+	 */
+	public List<Persona> getPersonas() {
+		return personas;
+	}
+
+	/**
+	 * @param personas the personas to set
+	 */
+	public void setPersonas(List<Persona> personas) {
+		this.personas = personas;
+	}
+
+	/**
+	 * @return the persona
+	 */
+	public Persona getPersona() {
+		return persona;
+	}
+
+	/**
+	 * @param persona the persona to set
+	 */
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 }

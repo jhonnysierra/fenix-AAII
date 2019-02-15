@@ -38,7 +38,7 @@ public class ClienteBean {
 			cliente.setEstado(estado);
 			cliente.setDireccion(direccion);
 			cliente.setCiudad(null);
-			cliente.setNoCuenta("0008475");
+			cliente.setNoCuenta(numero_cuenta);
 			
 			administradorEJB.agregarCliente(cliente);
 			
@@ -77,6 +77,11 @@ public class ClienteBean {
 	 * Correo electronico de una Persona
 	 */
 	private String correo;
+	
+	/**
+	 * Numero de cuenta de un cliente
+	 */
+	private String numero_cuenta;
 
 	/**
 	 * Estado de una Persona en el sistema 1 ACTIVO, 0 INACTIVO
@@ -93,113 +98,148 @@ public class ClienteBean {
 	 */
 	private Ciudad ciudad;
 
+	
+	// GET y SET
+	
 	/**
-	 * @return the cedula
+	 * Metodo get cedula Bean cliente
+	 * @return cedula
 	 */
 	public String getCedula() {
 		return cedula;
 	}
 
 	/**
-	 * @param cedula the cedula to set
+	 * Metodo set cedula Bean cliente
+	 * @param cedula
 	 */
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
 
 	/**
-	 * @return the nombres
+	 * Metodo get Nombres Bean cliente
+	 * @return nombres
 	 */
 	public String getNombres() {
 		return nombres;
 	}
 
 	/**
-	 * @param nombres the nombres to set
+	 * Metodo set Nombres Bean cliente
+	 * @param nombres
 	 */
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
 	}
 
 	/**
-	 * @return the apellidos
+	 * Metodo get apellidos Bean cliente
+	 * @return apellidos
 	 */
 	public String getApellidos() {
 		return apellidos;
 	}
 
 	/**
-	 * @param apellidos the apellidos to set
+	 * Metodo set apellidos Bean cliente
+	 * @param apellidos
 	 */
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
 
 	/**
-	 * @return the direccion
+	 * Metodo get direccion Bean cliente
+	 * @return direccion
 	 */
 	public String getDireccion() {
 		return direccion;
 	}
 
 	/**
-	 * @param direccion the direccion to set
+	 * Metodo set direccion Bean cliente
+	 * @param direccion
 	 */
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
 
 	/**
-	 * @return the correo
+	 * Metodo get correo Bean cliente
+	 * @return correo
 	 */
 	public String getCorreo() {
 		return correo;
 	}
 
 	/**
-	 * @param correo the correo to set
+	 * Metodo set correo Bean clienteo
+	 * @param correo
 	 */
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
+	
+	/**
+	 * Metodo get numero de cuenta Bean cliente
+	 * @return numero_cuenta
+	 */
+	public String getNumero_cuenta() {
+		return numero_cuenta;
+	}
 
 	/**
-	 * @return the estado
+	 * Metodo set numero de cuenta Bean cliente
+	 * @param numero_cuenta
+	 */
+	public void setNumero_cuenta(String numero_cuenta) {
+		this.numero_cuenta = numero_cuenta;
+	}
+
+	/**
+	 * Metodo get estado Bean cliente
+	 * @return estado
 	 */
 	public String getEstado() {
 		return estado;
 	}
 
 	/**
-	 * @param estado the estado to set
+	 * Metodo set estado Bean cliente
+	 * @param estado
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
 	/**
-	 * @return the contrasenia
+	 * Metodo get contasenia Bean cliente
+	 * @return contrasenia
 	 */
 	public String getContrasenia() {
 		return contrasenia;
 	}
 
 	/**
-	 * @param contrasenia the contrasenia to set
+	 * Metodo set contasenia Bean cliente
+	 * @param contrasenia
 	 */
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
 
 	/**
-	 * @return the ciudad
+	 * Metodo get ciudad Bean cliente
+	 * @return ciudad
 	 */
 	public Ciudad getCiudad() {
 		return ciudad;
 	}
 
 	/**
-	 * @param ciudad the ciudad to set
+	 * Metodo set ciudad Bean cliente
+	 * @param ciudad
 	 */
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;

@@ -74,6 +74,17 @@ public class BancoEJB implements BancoEJBRemote {
 
 		return query.getResultList().size() > 0;
 	}
+	
+	/**
+	 * Metodo que permite buscar una persona por su numero de cedula
+	 * @param cedula a buscar
+	 * @return Persona encontrada o null si no encuentra nada
+	 */
+	public Persona buscarPersona(String cedula) {
+		Persona personaBuscar = entityManager.find(Persona.class, cedula);
+
+		return personaBuscar;
+	}
 
 	/**
 	 * Permite buscar un cliente a la base de datos de un banco por cedula o email
@@ -155,6 +166,15 @@ public class BancoEJB implements BancoEJBRemote {
 
 	}
 
+
+	
+
+	public List<Persona> listarPersonas() {
+		TypedQuery<Persona> personas = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
+
+		return personas.getResultList();
+	}
+	
 	/**
 	 * Permite agregar un empleado a la base de datos de un banco Metodo Test para
 	 * este metodo pruebas-fenix.proyectofenix.pruebas.agregarEmpleadoTest

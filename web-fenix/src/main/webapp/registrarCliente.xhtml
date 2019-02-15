@@ -12,6 +12,8 @@
 <body>
 
 <form jsf:id="formCliente" >
+	
+	<h1>Registrar Cliente</h1>
 
 	<label for="cedulaCliente" >Cedula:</label>
 	<input id="cedulaCliente" type="text" jsf:value="#{clienteBean1.cedula}" />
@@ -26,9 +28,12 @@
 	<input id="correoCliente" type="text" jsf:value="#{clienteBean1.correo}" />
 	
 	<BR />
-	<label for="direccionCliente" >Direccion:</label>
+	<label for="direccionCliente" >Dirección:</label>
 	<input id="direccionCliente" type="text" jsf:value="#{clienteBean1.direccion}" />
 	
+	<BR />
+	<label for="nocuentaCliente" >Número de cuenta:</label>
+	<input id="nocuentaCliente" type="text" jsf:value="#{clienteBean1.numero_cuenta}" />
 	
 	<BR />
 	<label for="estadoCliente" >Estado:</label>

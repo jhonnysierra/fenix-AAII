@@ -449,33 +449,23 @@ public class Persona implements Serializable {
 		return serialVersionUID;
 	}
 
-	/*
-	 * Metodo hashcode clase Persona
+	/* 
+	 * Metodo hashCode clase Persona
 	 * 
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((apellidos == null) ? 0 : apellidos.hashCode());
-		result = prime * result + ((bienRaiz == null) ? 0 : bienRaiz.hashCode());
 		result = prime * result + ((cedula == null) ? 0 : cedula.hashCode());
-		result = prime * result + ((ciudad == null) ? 0 : ciudad.hashCode());
-		result = prime * result + ((contrasenia == null) ? 0 : contrasenia.hashCode());
-		result = prime * result + ((correo == null) ? 0 : correo.hashCode());
-		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + ((fecha_nacimiento == null) ? 0 : fecha_nacimiento.hashCode());
-		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
-		result = prime * result + ((nombres == null) ? 0 : nombres.hashCode());
-		result = prime * result + ((prestamo == null) ? 0 : prestamo.hashCode());
-		result = prime * result + ((telefonos == null) ? 0 : telefonos.hashCode());
 		return result;
 	}
 
-	/*
+	/* 
 	 * Metodo equals clase Persona
 	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -486,69 +476,13 @@ public class Persona implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Persona other = (Persona) obj;
-		if (apellidos == null) {
-			if (other.apellidos != null)
-				return false;
-		} else if (!apellidos.equals(other.apellidos))
-			return false;
-		if (bienRaiz == null) {
-			if (other.bienRaiz != null)
-				return false;
-		} else if (!bienRaiz.equals(other.bienRaiz))
-			return false;
 		if (cedula == null) {
 			if (other.cedula != null)
 				return false;
 		} else if (!cedula.equals(other.cedula))
 			return false;
-		if (ciudad == null) {
-			if (other.ciudad != null)
-				return false;
-		} else if (!ciudad.equals(other.ciudad))
-			return false;
-		if (contrasenia == null) {
-			if (other.contrasenia != null)
-				return false;
-		} else if (!contrasenia.equals(other.contrasenia))
-			return false;
-		if (correo == null) {
-			if (other.correo != null)
-				return false;
-		} else if (!correo.equals(other.correo))
-			return false;
-		if (direccion == null) {
-			if (other.direccion != null)
-				return false;
-		} else if (!direccion.equals(other.direccion))
-			return false;
-		if (estado == null) {
-			if (other.estado != null)
-				return false;
-		} else if (!estado.equals(other.estado))
-			return false;
-		if (fecha_nacimiento == null) {
-			if (other.fecha_nacimiento != null)
-				return false;
-		} else if (!fecha_nacimiento.equals(other.fecha_nacimiento))
-			return false;
-		if (genero != other.genero)
-			return false;
-		if (nombres == null) {
-			if (other.nombres != null)
-				return false;
-		} else if (!nombres.equals(other.nombres))
-			return false;
-		if (prestamo == null) {
-			if (other.prestamo != null)
-				return false;
-		} else if (!prestamo.equals(other.prestamo))
-			return false;
-		if (telefonos == null) {
-			if (other.telefonos != null)
-				return false;
-		} else if (!telefonos.equals(other.telefonos))
-			return false;
 		return true;
 	}
+
 
 }

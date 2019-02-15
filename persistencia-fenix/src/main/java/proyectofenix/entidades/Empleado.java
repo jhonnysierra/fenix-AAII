@@ -147,7 +147,6 @@ public class Empleado extends Persona implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((aseoria == null) ? 0 : aseoria.hashCode());
 		result = prime * result + ((fechaFin == null) ? 0 : fechaFin.hashCode());
 		result = prime * result + ((fechaInicio == null) ? 0 : fechaInicio.hashCode());
 		long temp;
@@ -169,11 +168,6 @@ public class Empleado extends Persona implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Empleado other = (Empleado) obj;
-		if (aseoria == null) {
-			if (other.aseoria != null)
-				return false;
-		} else if (!aseoria.equals(other.aseoria))
-			return false;
 		if (fechaFin == null) {
 			if (other.fechaFin != null)
 				return false;
