@@ -1,5 +1,10 @@
 package proyectofenix.web;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
@@ -10,7 +15,10 @@ import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
+import proyectofenix.entidades.Persona;
+import proyectofenix.entidades.Persona.Genero;
 import proyectofenix.negocio.BancoEJB;
+import proyectofenix.negocio.ClienteEJB;
 
 /**
  * Permite generar un registro de cliente
@@ -21,37 +29,22 @@ import proyectofenix.negocio.BancoEJB;
 @Named
 @ApplicationScoped
 public class ClienteBean {
-	
+
 	@EJB
 	private BancoEJB administradorEJB;
 
-	public boolean agregarCliente() {
+	@EJB
+	private ClienteEJB clienteEJB;
 
-		try {
-			Cliente cliente = new Cliente();
-
-			cliente.setCedula(cedula);
-			cliente.setNombres(nombres);
-			cliente.setApellidos(apellidos);
-			cliente.setContrasenia(contrasenia);
-			cliente.setCorreo(correo);
-			cliente.setEstado(estado);
-			cliente.setDireccion(direccion);
-			cliente.setCiudad(null);
-			cliente.setNoCuenta(numero_cuenta);
-			
-			administradorEJB.agregarCliente(cliente);
-			
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso", "Registro exitoso");
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return true;
-
-		} catch (ElementoRepetidoExcepcion | RuntimeException e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e. getMessage());
-			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return false;
-		}
+	public ClienteBean() {
+		telefonos = new ArrayList<>();
 	}
+
+	@PostConstruct
+	private void inicializar() {
+
+	}
+
 
 	/**
 	 * Permite identificar una persona
@@ -79,30 +72,86 @@ public class ClienteBean {
 	private String correo;
 	
 	/**
+	 * Fecha de nacimiento de un cliente
+	 */
+	private Date fechaNacimiento;
+	
+	/**
+	 * Genero de un cliente
+	 */
+	private Genero genero;
+	
+	/**
+	 * Lista para los telefonos
+	 */
+	private List<String> telefonos;
+	
+	/**
+	 * Telefono de un cliente
+	 */
+	private String telefono;
+
+	/**
 	 * Numero de cuenta de un cliente
 	 */
 	private String numero_cuenta;
 
 	/**
-	 * Estado de una Persona en el sistema 1 ACTIVO, 0 INACTIVO
-	 */
-	private String estado;
-
-	/**
 	 * Contrasenia de una Persona para ingresar al sistema
 	 */
 	private String contrasenia;
-	
+
 	/**
 	 * Ciudad de una persona
 	 */
 	private Ciudad ciudad;
+	
+	private String campoCedula="readonly";
+	
+	
+	public boolean agregarCliente() {
+		System.out.println("Entro al metodo del bean");
+		
+		try {
+			Cliente cliente = new Cliente();
 
+
+			cliente.setCedula(cedula);
+			cliente.setNombres(nombres);
+			cliente.setApellidos(apellidos);
+			cliente.setContrasenia(contrasenia);
+			cliente.setCorreo(correo);
+			cliente.setEstado("1");
+			cliente.setDireccion(direccion);
+			cliente.setCiudad(null);
+			cliente.setNoCuenta(numero_cuenta);
+			
+			cliente.setGenero(genero);
+			telefonos.add(telefono);
+			cliente.setTelefonos(telefonos);
+			cliente.setFecha_nacimiento(fechaNacimiento);
+
+			clienteEJB.agregarCliente(cliente);
+
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
+					"Registro exitoso");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return true;
+
+		} catch (ElementoRepetidoExcepcion | RuntimeException e) {
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return false;
+		}
+	}
+	
+	
 	
 	// GET y SET
-	
+
 	/**
 	 * Metodo get cedula Bean cliente
+	 * 
 	 * @return cedula
 	 */
 	public String getCedula() {
@@ -111,6 +160,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set cedula Bean cliente
+	 * 
 	 * @param cedula
 	 */
 	public void setCedula(String cedula) {
@@ -119,6 +169,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo get Nombres Bean cliente
+	 * 
 	 * @return nombres
 	 */
 	public String getNombres() {
@@ -127,6 +178,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set Nombres Bean cliente
+	 * 
 	 * @param nombres
 	 */
 	public void setNombres(String nombres) {
@@ -135,6 +187,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo get apellidos Bean cliente
+	 * 
 	 * @return apellidos
 	 */
 	public String getApellidos() {
@@ -143,6 +196,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set apellidos Bean cliente
+	 * 
 	 * @param apellidos
 	 */
 	public void setApellidos(String apellidos) {
@@ -151,6 +205,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo get direccion Bean cliente
+	 * 
 	 * @return direccion
 	 */
 	public String getDireccion() {
@@ -159,6 +214,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set direccion Bean cliente
+	 * 
 	 * @param direccion
 	 */
 	public void setDireccion(String direccion) {
@@ -167,6 +223,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo get correo Bean cliente
+	 * 
 	 * @return correo
 	 */
 	public String getCorreo() {
@@ -174,15 +231,17 @@ public class ClienteBean {
 	}
 
 	/**
-	 * Metodo set correo Bean clienteo
+	 * Metodo set correo Bean cliente
+	 * 
 	 * @param correo
 	 */
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
+
 	/**
 	 * Metodo get numero de cuenta Bean cliente
+	 * 
 	 * @return numero_cuenta
 	 */
 	public String getNumero_cuenta() {
@@ -191,6 +250,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set numero de cuenta Bean cliente
+	 * 
 	 * @param numero_cuenta
 	 */
 	public void setNumero_cuenta(String numero_cuenta) {
@@ -198,23 +258,8 @@ public class ClienteBean {
 	}
 
 	/**
-	 * Metodo get estado Bean cliente
-	 * @return estado
-	 */
-	public String getEstado() {
-		return estado;
-	}
-
-	/**
-	 * Metodo set estado Bean cliente
-	 * @param estado
-	 */
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	/**
 	 * Metodo get contasenia Bean cliente
+	 * 
 	 * @return contrasenia
 	 */
 	public String getContrasenia() {
@@ -223,6 +268,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set contasenia Bean cliente
+	 * 
 	 * @param contrasenia
 	 */
 	public void setContrasenia(String contrasenia) {
@@ -231,6 +277,7 @@ public class ClienteBean {
 
 	/**
 	 * Metodo get ciudad Bean cliente
+	 * 
 	 * @return ciudad
 	 */
 	public Ciudad getCiudad() {
@@ -239,12 +286,97 @@ public class ClienteBean {
 
 	/**
 	 * Metodo set ciudad Bean cliente
+	 * 
 	 * @param ciudad
 	 */
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
 	}
-	
-	
 
+	/**
+	 * Metodo get fecha nacimiento Bean cliente
+	 * 
+	 * @return the fechaNacimiento
+	 */
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	/**
+	 * Metodo set fecha nacimiento Bean cliente
+	 * 
+	 * @param fechaNacimiento the fechaNacimiento to set
+	 */
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	/**
+	 * Metodo get genero nacimiento Bean cliente
+	 * 
+	 * @return the genero
+	 */
+	public Genero getGenero() {
+		return genero;
+	}
+
+	/**
+	 * Metodo set genero  nacimiento Bean cliente
+	 * @param genero the genero to set
+	 */
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+
+	/**
+	 * Metodo get telefono nacimiento Bean cliente
+	 * 
+	 * @return the telefono
+	 */
+	public String getTelefono() {
+		return telefono;
+	}
+
+	/**
+	 * Metodo set telefono nacimiento Bean cliente
+	 * 
+	 * @param telefono the telefono to set
+	 */
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	/**
+	 * @return the telefonos
+	 */
+	public List<String> getTelefonos() {
+		return telefonos;
+	}
+
+	/**
+	 * @param telefonos the telefonos to set
+	 */
+	public void setTelefonos(List<String> telefonos) {
+		this.telefonos = telefonos;
+	}
+
+	/**
+	 * @return the campoCedula
+	 */
+	public String getCampoCedula() {
+		return campoCedula;
+	}
+
+	/**
+	 * @param campoCedula the campoCedula to set
+	 */
+	public void setCampoCedula(String campoCedula) {
+		this.campoCedula = campoCedula;
+	}
+
+
+
+
+	
+	
 }

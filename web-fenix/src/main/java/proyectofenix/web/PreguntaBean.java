@@ -96,36 +96,37 @@ public class PreguntaBean {
 		System.out.println(String.format("La persona es: %s", persona));
 
 		// Se comenta para que no registre
-		/*
-		 * try { clienteEJB.crearAsesoria(tipo_asesoria, cedulaEmpleado, cedulaCliente,
-		 * fecha); FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-		 * "Registro exitoso", "Registro exitoso");
-		 * FacesContext.getCurrentInstance().addMessage(null, facesMsg); return
-		 * "/infoPregunta"; } catch (ExcepcionesFenix e) { FacesMessage facesMsg = new
-		 * FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
-		 * FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-		 * e.printStackTrace(); }
-		 */
 
-		/*
-		 * Cliente cliente = new Cliente(); Empleado empleado = new Empleado();
-		 * TipoAsesoria tipo = new TipoAsesoria();
-		 */
+		try {
+			clienteEJB.crearAsesoria(tipo_asesoria, cedulaEmpleado, cedulaCliente, fecha);
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
+					"Registro exitoso");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return "/infoPregunta";
+		} catch (ExcepcionesFenix e) {
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e.printStackTrace();
+		}
 
-		/*
-		 * try { System.out.println("Entro al try de cliente"); cliente =
-		 * clienteEJB.buscarcliente(cedulaCliente); } catch (ExcepcionesFenix e1) {
-		 * System.out.println("Entro a la excepcion de cliente"); FacesMessage facesMsg
-		 * = new FacesMessage(FacesMessage.SEVERITY_INFO, e1.getMessage(),
-		 * e1.getMessage()); FacesContext.getCurrentInstance().addMessage(null,
-		 * facesMsg); e1.printStackTrace(); }
-		 */
+/*		Cliente cliente = new Cliente();
+		Empleado empleado = new Empleado();
+		TipoAsesoria tipo = new TipoAsesoria();
+
+		try {
+			System.out.println("Entro al try de cliente");
+			cliente = clienteEJB.buscarcliente(cedulaCliente);
+		} catch (ExcepcionesFenix e1) {
+			System.out.println("Entro a la excepcion de cliente");
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e1.getMessage(), e1.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e1.printStackTrace();
+		}*/
 
 		/**
 		 * Enviar al metodo realizar asesoria los parametros para que se hagan las
 		 * excepciones desde negocio
 		 */
-
 
 		// No retorna cadena sino se realiza la asesoria
 		return null;

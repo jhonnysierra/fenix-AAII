@@ -2,6 +2,7 @@ package proyectofenix.negocio;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.ejb.LocalBean;
@@ -12,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyecto.fenix.excepciones.InformacionNoEncontradaException;
 import proyectofenix.entidades.Asesoria;
@@ -40,6 +42,42 @@ public class ClienteEJB implements ClienteEJBRemote {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	/**
+	 * Metodo que permite buscar una persona por numero de cedula
+	 * 
+	 * @param cedula a buscar
+	 * @return Persona encontrada o null si no encuentra nada
+	 */
+	public Persona buscarPersona(String cedula) {
+		Persona personaBuscar = entityManager.find(Persona.class, cedula);
+
+		return personaBuscar;
+	}
+	
+	/**
+	 * Metodo que permite listar las personas del Banco
+	 * 
+	 * @return Lista de personas
+	 */
+	public List<Persona> listarPersonas() {
+		TypedQuery<Persona> personas = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
+
+		return personas.getResultList();
+	}
+	
+	/**
+	 * Metodo que permite listar los empleados del Banco
+	 * 
+	 * @return lista con los empleados del banco
+	 */
+	public List<Empleado> listarEmpleados() {
+		TypedQuery<Empleado> empleados = entityManager.createNamedQuery(Empleado.OBTENER_DATOS_EMPLEADO,
+				Empleado.class);
+
+		return empleados.getResultList();
+
+	}
 	/**
 	 * Metodo que permite buscar una persona por email
 	 * 
@@ -70,6 +108,54 @@ public class ClienteEJB implements ClienteEJBRemote {
 			throw new ExcepcionesFenix("No se encontró el cliente");
 		}
 	}
+	
+	/**
+	 * Permite agregar un cliente a la base de datos de un banco
+	 * 
+	 * @param cliente cliente a ser agregado
+	 * @return devuelve el cliente agregado o null si no lo agrega
+	 */
+	public Cliente agregarCliente(Cliente cliente) throws ElementoRepetidoExcepcion {
+		System.out.println("Hola entramos a agregar cliente");
+		if (entityManager.find(Persona.class, cliente.getCedula()) != null) {
+			throw new ElementoRepetidoExcepcion("Error: ya se ha registrado una persona con este número de documento");
+
+		} else if (buscarPersonaPorEmail(cliente.getCorreo())) {
+			throw new ElementoRepetidoExcepcion("Error: El email ya se encuentra registrado");
+		}
+
+		try {
+			entityManager.persist(cliente);
+			return cliente;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	/**
+	 * Permite modificar un cliente a la base de datos de un banco
+	 * 
+	 * @param Empleado empleado a ser agregado
+	 * @return devuelve el cliente modificado o null si no lo modifica
+	 */
+	public Cliente modificarCliente(Cliente cliente) throws ExcepcionesFenix {
+
+		if (cliente != null) {
+			try {
+				entityManager.merge(cliente);
+				return cliente;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			throw new ExcepcionesFenix("El cliente a modificar es null");
+		}
+
+	}
+	
 
 	/**
 	 * Metodo que permite buscar un empleado por cedula
