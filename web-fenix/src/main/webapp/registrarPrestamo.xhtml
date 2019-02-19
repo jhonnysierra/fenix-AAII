@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta charset="UTF-8" />
+<title>Registrar Prestamo</title>
+</head>
+<body>
+
+	<h1>Resistrar Prestamo</h1>
+
+	<h4>Los campos de este formulario son obligarotios</h4>
+	<h:form>
+		<br />
+		<label>Id:</label>
+		<h:inputText id="prestamoId" placeholder="" required="true"
+			requiredMessage="Falta el id del prestamo"
+			value="#{clienteBean1.cedula}" readonly="true" />
+		<br />
+
+		<label>Persona:</label>
+		<h:inputText id="prestamoPersona" placeholder="" required="true"
+			requiredMessage="Necesitamos una persona asociada al documento"
+			value="#{clienteBean1.cedula}" readonly="true" />
+		<br />
+
+		<label>Valor:</label>
+		<h:inputText id="prestamoValor"
+			placeholder="Ingrese el valor del prestamo" required="true"
+			requiredMessage="Por favor ingresa el valor del prestamo"
+			value="#{prestamoBean.valorPrestamo}" />
+		<br />
+
+		<label>Fecha:</label>
+		<h:inputText id="prestamoFecha" value="#{prestamoBean.fechaInicio}"
+			required="true" requiredMessage="Ingresa la fecha">
+			<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota"></f:convertDateTime>
+		</h:inputText>
+		<br />
+
+		<label>Número de cuotas:</label>
+		<h:inputText id="prestamoNumeroCuotas"
+			placeholder="Ingrese el valor del prestamo" required="true"
+			requiredMessage="Por favor ingresa el valor del prestamo"
+			value="#{prestamoBean.numeroCuotas}"  />
+		<br />
+
+		<label>Tipo Asesoria:</label>
+		<h:selectOneMenu value="#{prestamoBean.tipoPrestamo}"
+			converter="selectItemObjectConverter" required="true"
+			requiredMessage="Debes seleccionar un tipo de prestamo">
+			<f:selectItem itemLabel="Seleccione tipo de Prestamo"
+				noSelectionOption="true"></f:selectItem>
+			<f:selectItems value="#{prestamoBean.tiposPrestamo}"
+				var="tipoPrestamo" itemValue="#{tipoPrestamo}"
+				itemLabel="#{tipoPrestamo.nombre}" />
+		</h:selectOneMenu>
+		<br />
+
+		<h:commandButton value="Aceptar"
+			action="#{prestamoBean.registrarPrestamo}" />
+	</h:form>
+	<h:messages />
+</body>
+</html>
