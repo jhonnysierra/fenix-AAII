@@ -23,7 +23,7 @@ import proyectofenix.negocio.ClienteEJB;
 /**
  * Permite generar un registro de cliente
  * 
- * @author JHONNY
+ * @author JJ
  *
  */
 @Named
@@ -49,7 +49,6 @@ public class ClienteBean {
 	/**
 	 * Permite identificar una persona
 	 */
-
 	private String cedula;
 
 	/**
@@ -106,15 +105,17 @@ public class ClienteBean {
 	 */
 	private Ciudad ciudad;
 	
-	private String campoCedula="readonly";
 	
 	
+	
+	/**
+	 * Metodo que permite registrar un cliente
+	 *  
+	 * @return true si registra el cliente false si no 
+	 */
 	public boolean agregarCliente() {
-		System.out.println("Entro al metodo del bean");
-		
-		try {
+			try {
 			Cliente cliente = new Cliente();
-
 
 			cliente.setCedula(cedula);
 			cliente.setNombres(nombres);
@@ -139,6 +140,65 @@ public class ClienteBean {
 			return true;
 
 		} catch (ElementoRepetidoExcepcion | RuntimeException e) {
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return false;
+		}
+	}
+	
+	/**
+	 * Metodo que permite modificar la informacion de un cliente
+	 * 
+	 * @return true si se modifico o false si no 
+	 */
+	public boolean modificarCliente() {
+		
+		try {
+			
+			Cliente cliente = new Cliente();
+
+			cliente.setCedula(cedula);
+			cliente.setNombres(nombres);
+			cliente.setApellidos(apellidos);
+			cliente.setContrasenia(contrasenia);
+			cliente.setCorreo(correo);
+			cliente.setEstado("1");
+			cliente.setDireccion(direccion);
+			cliente.setCiudad(null);
+			cliente.setNoCuenta(numero_cuenta);
+			
+			cliente.setGenero(genero);
+			telefonos.add(telefono);
+			cliente.setTelefonos(telefonos);
+			cliente.setFecha_nacimiento(fechaNacimiento);
+			
+			clienteEJB.modificarCliente(cliente);
+			
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modificó el cliente",
+					"Modificar exitoso");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return true;
+			
+		} catch (ExcepcionesFenix e) {
+			e.printStackTrace();
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return false;
+		}
+	}
+	
+	public boolean eliminarCliente() {
+		
+		try {
+			// Cambiar el parametro de la cedula de la clase a uno enviado por el metodo si es necesario
+			clienteEJB.eliminarCliente(cedula);
+			
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó el cliente",
+					"Eliminar cliente exitoso");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			return true;
+			
+		} catch (ExcepcionesFenix e) {
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return false;
@@ -359,24 +419,4 @@ public class ClienteBean {
 	public void setTelefonos(List<String> telefonos) {
 		this.telefonos = telefonos;
 	}
-
-	/**
-	 * @return the campoCedula
-	 */
-	public String getCampoCedula() {
-		return campoCedula;
-	}
-
-	/**
-	 * @param campoCedula the campoCedula to set
-	 */
-	public void setCampoCedula(String campoCedula) {
-		this.campoCedula = campoCedula;
-	}
-
-
-
-
-	
-	
 }

@@ -21,6 +21,7 @@ import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.TipoAsesoria;
+import proyectofenix.entidades.TipoPrestamo;
 
 /**
  * Permite manejar las operaciones de negocio que son unicas para cliente
@@ -116,7 +117,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * @return devuelve el cliente agregado o null si no lo agrega
 	 */
 	public Cliente agregarCliente(Cliente cliente) throws ElementoRepetidoExcepcion {
-		System.out.println("Hola entramos a agregar cliente");
 		if (entityManager.find(Persona.class, cliente.getCedula()) != null) {
 			throw new ElementoRepetidoExcepcion("Error: ya se ha registrado una persona con este número de documento");
 
@@ -128,7 +128,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 			entityManager.persist(cliente);
 			return cliente;
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			return null;
 		}
 
@@ -156,6 +156,31 @@ public class ClienteEJB implements ClienteEJBRemote {
 
 	}
 	
+	/**
+	 * Permite eliminar un cliente a la base de datos de un banco por cedula. Para
+	 * el caso de nuestro proyecto el eliminado sera logico, es decir se cammbia el
+	 * estado del empleado.
+	 * 
+	 * @param cedula cliente a eliminar
+	 * @return boolean devuelve true si fue eliminado o false si no
+	 */
+	public boolean eliminarCliente(String cedula) throws ExcepcionesFenix {
+		Cliente clienteEliminar = buscarcliente(cedula);
+
+		if (clienteEliminar != null) {
+			try {
+				//entityManager.remove(clienteEliminar);
+				clienteEliminar.setEstado("0");
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			throw new ExcepcionesFenix("El Cliente a eliminar es null");
+		}
+
+	}
 
 	/**
 	 * Metodo que permite buscar un empleado por cedula
@@ -174,6 +199,17 @@ public class ClienteEJB implements ClienteEJBRemote {
 			throw new ExcepcionesFenix("No se encontró el empleado");
 		}
 
+	}
+	
+	/**
+	 * Permite listar todos los tipos de prestamos existentes
+	 * 
+	 * @return Lista con los tipos de prestamos
+	 */
+	public List<TipoPrestamo> listarTodosTipoPrestamo() {
+		TypedQuery<TipoPrestamo> queryTipoPrestamo = entityManager.createNamedQuery(TipoPrestamo.ALL_TIPO_PRESTAMO,
+				TipoPrestamo.class);
+		return queryTipoPrestamo.getResultList();
 	}
 
 	/**
@@ -216,6 +252,17 @@ public class ClienteEJB implements ClienteEJBRemote {
 		return tipoAsesoria;
 	}
 
+	/**
+	 * Permite listar todos los tipos de prestamos existentes
+	 * 
+	 * @return Lista con los tipos de prestamos
+	 */
+	public List<TipoAsesoria> listarTodosTipoAsesoria() {
+		TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager.createNamedQuery(TipoAsesoria.OBTENER_TIPOASESORIAS_ALL,
+				TipoAsesoria.class);
+		return queryTipoAsesoria.getResultList();
+	}
+	
 	/**
 	 * Metodo que permite crear una asesoria
 	 * 
@@ -318,12 +365,10 @@ public class ClienteEJB implements ClienteEJBRemote {
 			asesoria.setTipoasesoria(tipoasesoria);
 			asesoria.setFecha(fecha);
 			
-			
 			try {
 				entityManager.persist(asesoria); 
 				return asesoria;
 			} catch (Exception e) {
-				e.printStackTrace();
 				throw new ExcepcionesFenix("No se pudo crear la asesoria. " + e.getMessage());
 			}
 		}

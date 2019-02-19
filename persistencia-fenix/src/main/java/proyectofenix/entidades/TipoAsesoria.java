@@ -21,14 +21,20 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, query = "select tp from TipoAsesoria tp where tp.id=:idAsesoria") })
+		@NamedQuery(name = TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, query = "select tp from TipoAsesoria tp where tp.id=:idAsesoria"),
+		@NamedQuery(name = TipoAsesoria.OBTENER_TIPOASESORIAS_ALL, query = "select tp from TipoAsesoria tp") })
 public class TipoAsesoria implements Serializable {
 
+	/**
+	 * Permite obtener todos los tipos de prestamos que existen
+	 */
+	public static final String OBTENER_TIPOASESORIAS_ALL = "TipoAsesoriaAll";
+	
 	/**
 	 * Permite hacer la referencia a la consulta tipo asesoria por codigo
 	 */
 	public static final String TIPO_ASESORIA_POR_CODIGO = "TipoAsesoria";
-	
+
 	/**
 	 * serialVersionUID clase TipoAsesoria
 	 */

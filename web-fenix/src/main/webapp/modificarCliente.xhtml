@@ -7,19 +7,19 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
 <meta charset="UTF-8" />
-<title>Registrar Cliente</title>
+<title>Modificar Cliente</title>
 </head>
 <body>
 
 <form jsf:id="formCliente" >
 	
-	<h1>Registrar Cliente</h1>
+	<h1>Modificar Cliente</h1>
 	
 	<h4>Los campos de este formulario son obligarotios</h4>
 	
 	<DIV>
 	<label for="cedulaCliente" >Cedula:</label>
-	<input id="cedulaCliente" placeholder="Ingrese su número de documento sin puntos" jsf:required="true" />
+	<input id="cedulaCliente" placeholder="Ingrese su número de documento sin puntos" jsf:required="true" type="text" jsf:value="#{clienteBean1.cedula}" readonly="readonly"/>
 	<BR />
 	<label for="nombresCliente" >Nombres:</label>
 	<input id="nombresCliente" jsf:required="true" jsf:requiredMessage="Los nombres son obligatorios" type="text" jsf:value="#{clienteBean1.nombres}" />
@@ -62,7 +62,7 @@
 	<input id="contraseniaCliente" jsf:required="true" jsf:requiredMessage="Es necesario tu contraseña" type="text" jsf:value="#{clienteBean1.contrasenia}" />
 	
 	<BR />
-	<input type="submit" jsf:action="#{clienteBean1.agregarCliente}" value="Aceptar" />
+	<input type="submit" jsf:action="#{clienteBean1.modificarCliente}" value="Modificar" />
 	
 	<h:messages />
 	<br />

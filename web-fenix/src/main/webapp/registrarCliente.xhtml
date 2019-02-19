@@ -19,7 +19,7 @@
 	
 	<DIV>
 	<label for="cedulaCliente" >Cedula:</label>
-	<input id="cedulaCliente" placeholder="Ingrese su número de documento sin puntos" jsf:required="true" />
+	<input id="cedulaCliente" placeholder="Ingrese su número de documento sin puntos" jsf:required="true" jsf:requiredMessage="El documento es obligatorio" type="text" jsf:value="#{clienteBean1.cedula}" />
 	<BR />
 	<label for="nombresCliente" >Nombres:</label>
 	<input id="nombresCliente" jsf:required="true" jsf:requiredMessage="Los nombres son obligatorios" type="text" jsf:value="#{clienteBean1.nombres}" />
