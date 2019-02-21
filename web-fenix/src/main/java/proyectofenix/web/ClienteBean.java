@@ -1,8 +1,11 @@
 package proyectofenix.web;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -28,23 +31,18 @@ import proyectofenix.negocio.ClienteEJB;
  */
 @Named
 @ApplicationScoped
-public class ClienteBean {
+public class ClienteBean implements Serializable{
+
+	/**
+	 * Serializable
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@EJB
 	private BancoEJB administradorEJB;
 
 	@EJB
 	private ClienteEJB clienteEJB;
-
-	public ClienteBean() {
-		telefonos = new ArrayList<>();
-	}
-
-	@PostConstruct
-	private void inicializar() {
-
-	}
-
 
 	/**
 	 * Permite identificar una persona
@@ -69,22 +67,22 @@ public class ClienteBean {
 	 * Correo electronico de una Persona
 	 */
 	private String correo;
-	
+
 	/**
 	 * Fecha de nacimiento de un cliente
 	 */
 	private Date fechaNacimiento;
-	
+
 	/**
 	 * Genero de un cliente
 	 */
 	private Genero genero;
-	
+
 	/**
 	 * Lista para los telefonos
 	 */
 	private List<String> telefonos;
-	
+
 	/**
 	 * Telefono de un cliente
 	 */
@@ -104,17 +102,39 @@ public class ClienteBean {
 	 * Ciudad de una persona
 	 */
 	private Ciudad ciudad;
-	
-	
-	
-	
+
+	/**
+	 * Lista de clientes
+	 */
+	private List<Cliente> clientes;
+
+	/**
+	 * Cliente
+	 */
+	private Cliente cliente;
+
+	/**
+	 * Metodo constructor
+	 */
+	public ClienteBean() {
+		telefonos = new ArrayList<>();
+	}
+
+	@PostConstruct
+	private void inicializar() {
+		clientes = administradorEJB.listarclientesActivos();
+		for (Cliente c : clientes) {
+			System.out.println(String.format("Cedula:%s, estado:%s", c.getCedula(), c.getEstado()));
+		}
+	}
+
 	/**
 	 * Metodo que permite registrar un cliente
-	 *  
-	 * @return true si registra el cliente false si no 
+	 * 
+	 * @return true si registra el cliente false si no
 	 */
 	public boolean agregarCliente() {
-			try {
+		try {
 			Cliente cliente = new Cliente();
 
 			cliente.setCedula(cedula);
@@ -126,7 +146,7 @@ public class ClienteBean {
 			cliente.setDireccion(direccion);
 			cliente.setCiudad(null);
 			cliente.setNoCuenta(numero_cuenta);
-			
+
 			cliente.setGenero(genero);
 			telefonos.add(telefono);
 			cliente.setTelefonos(telefonos);
@@ -145,16 +165,16 @@ public class ClienteBean {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Metodo que permite modificar la informacion de un cliente
 	 * 
-	 * @return true si se modifico o false si no 
+	 * @return true si se modifico o false si no
 	 */
 	public boolean modificarCliente() {
-		
+
 		try {
-			
+
 			Cliente cliente = new Cliente();
 
 			cliente.setCedula(cedula);
@@ -166,19 +186,19 @@ public class ClienteBean {
 			cliente.setDireccion(direccion);
 			cliente.setCiudad(null);
 			cliente.setNoCuenta(numero_cuenta);
-			
+
 			cliente.setGenero(genero);
 			telefonos.add(telefono);
 			cliente.setTelefonos(telefonos);
 			cliente.setFecha_nacimiento(fechaNacimiento);
-			
+
 			clienteEJB.modificarCliente(cliente);
-			
+
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modificó el cliente",
 					"Modificar exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return true;
-			
+
 		} catch (ExcepcionesFenix e) {
 			e.printStackTrace();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
@@ -187,26 +207,32 @@ public class ClienteBean {
 		}
 	}
 	
-	public boolean eliminarCliente() {
-		
+	public String modificarLink() {
+		return "registrarCliente";
+	}
+
+	public String eliminarCliente() {
+
 		try {
-			// Cambiar el parametro de la cedula de la clase a uno enviado por el metodo si es necesario
-			clienteEJB.eliminarCliente(cedula);
+			// Cambiar el parametro de la cedula de la clase a uno enviado por el metodo si
+			// es necesario
 			
+			clienteEJB.eliminarCliente(cliente.getCedula());
+
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó el cliente",
 					"Eliminar cliente exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return true;
 			
+			inicializar();
+			return "listaClientes";
+
 		} catch (ExcepcionesFenix e) {
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return false;
+			return null;
 		}
 	}
-	
-	
-	
+
 	// GET y SET
 
 	/**
@@ -381,7 +407,8 @@ public class ClienteBean {
 	}
 
 	/**
-	 * Metodo set genero  nacimiento Bean cliente
+	 * Metodo set genero nacimiento Bean cliente
+	 * 
 	 * @param genero the genero to set
 	 */
 	public void setGenero(Genero genero) {
@@ -389,7 +416,7 @@ public class ClienteBean {
 	}
 
 	/**
-	 * Metodo get telefono nacimiento Bean cliente
+	 * Metodo get telefono Bean cliente
 	 * 
 	 * @return the telefono
 	 */
@@ -398,7 +425,7 @@ public class ClienteBean {
 	}
 
 	/**
-	 * Metodo set telefono nacimiento Bean cliente
+	 * Metodo set telefono Bean cliente
 	 * 
 	 * @param telefono the telefono to set
 	 */
@@ -407,6 +434,8 @@ public class ClienteBean {
 	}
 
 	/**
+	 * Metodo get lista telefonos Bean cliente
+	 * 
 	 * @return the telefonos
 	 */
 	public List<String> getTelefonos() {
@@ -414,9 +443,48 @@ public class ClienteBean {
 	}
 
 	/**
+	 * Metodo set lista telefonos Bean cliente
+	 * 
 	 * @param telefonos the telefonos to set
 	 */
 	public void setTelefonos(List<String> telefonos) {
 		this.telefonos = telefonos;
 	}
+
+	/**
+	 * Metodo get lista clientes Bean cliente
+	 * 
+	 * @return the clientes
+	 */
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	/**
+	 * Metodo set lista clientes Bean cliente
+	 * 
+	 * @param clientes the clientes to set
+	 */
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	/**
+	 * Metodo get cliente Bean cliente
+	 * 
+	 * @return the cliente
+	 */
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	/**
+	 * Metodo set cliente Bean cliente
+	 * 
+	 * @param cliente the cliente to set
+	 */
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 }

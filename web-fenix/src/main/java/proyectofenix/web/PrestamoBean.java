@@ -1,7 +1,9 @@
 package proyectofenix.web;
 
+import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -11,10 +13,15 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.annotation.FacesConfig.Version;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
 
+import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
@@ -28,7 +35,13 @@ import proyectofenix.negocio.ClienteEJB;
 @FacesConfig(version = Version.JSF_2_3)
 @Named(value = "prestamoBean")
 @ApplicationScoped
-public class PrestamoBean {
+public class PrestamoBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * EJB para realizar conexion con la capa de negocio
 	 */
@@ -48,6 +61,7 @@ public class PrestamoBean {
 	/**
 	 * Valor del prestamo
 	 */
+	@Min(value=1)
 	private double valorPrestamo;
 	
 	/**
@@ -63,6 +77,7 @@ public class PrestamoBean {
 	/**
 	 * Numero de cuotas del prestamo
 	 */
+	@Min(value=1)
 	private int numeroCuotas;
 	
 	/**
@@ -91,20 +106,49 @@ public class PrestamoBean {
 	private String fechaFormateada;
 	
 	
+	
+	
 	@PostConstruct
 	private void inicializar() {
 		tiposPrestamo = bancoEJB.listarTodosTipoPrestamo();
 		formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy",new Locale("es","COL"));
+		valorPrestamo=0;
+		
 	}
 	
-	
-	
-	
-	public boolean registrarPrestamo() {
+	/**
+	 * Metodo que permite registrar un prestamo
+	 * 
+	 * @return ruta a donde se redirige
+	 */
+	public String registrarPrestamo() {
+		String cedula="1"; 
+		Calendar sumaFecha = Calendar.getInstance();
+
+		sumaFecha.setTime(fechaInicio);
+		sumaFecha.add(Calendar.MONTH, numeroCuotas);
+		fechaFin = sumaFecha.getTime();
+
 		
-		System.out.println("Hola entramos a registrar prestamo");
+		try {
+			bancoEJB.realizarPrestamo(cedula, valorPrestamo, fechaInicio, fechaFin, numeroCuotas, tipoPrestamo.getId());
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro de prestamo exitoso",
+					"Registro prestamo exitoso");
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			id=0;
+			persona=null;
+			valorPrestamo=0;
+			fechaInicio=null;
+			fechaFin=null;
+			tipoPrestamo=null;
+			return "";
+		} catch (ExcepcionesFenix e) {
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+			e.printStackTrace();
+			return "";
+		}
 		
-		return true;
 	}
 	
 	

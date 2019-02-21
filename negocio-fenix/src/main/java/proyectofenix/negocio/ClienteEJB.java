@@ -171,6 +171,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 			try {
 				//entityManager.remove(clienteEliminar);
 				clienteEliminar.setEstado("0");
+				entityManager.merge(clienteEliminar);
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();

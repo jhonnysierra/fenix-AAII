@@ -1,69 +1,117 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta charset="UTF-8" />
-<title>Registrar Prestamo</title>
-</head>
-<body>
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-	<h1>Resistrar Prestamo</h1>
+<ui:composition template="/WEB-INF/template.xhtml">
 
-	<h4>Los campos de este formulario son obligarotios</h4>
-	<h:form>
-		<br />
-		<label>Id:</label>
-		<h:inputText id="prestamoId" placeholder="" required="true"
-			requiredMessage="Falta el id del prestamo"
-			value="#{clienteBean1.cedula}" readonly="true" />
-		<br />
+	<meta charset="UTF-8" />
+	<ui:define name="title">Registrar Prestamo</ui:define>
 
-		<label>Persona:</label>
-		<h:inputText id="prestamoPersona" placeholder="" required="true"
-			requiredMessage="Necesitamos una persona asociada al documento"
-			value="#{clienteBean1.cedula}" readonly="true" />
-		<br />
 
-		<label>Valor:</label>
-		<h:inputText id="prestamoValor"
-			placeholder="Ingrese el valor del prestamo" required="true"
-			requiredMessage="Por favor ingresa el valor del prestamo"
-			value="#{prestamoBean.valorPrestamo}" />
-		<br />
+	<ui:define name="contenido">
 
-		<label>Fecha:</label>
-		<h:inputText id="prestamoFecha" value="#{prestamoBean.fechaInicio}"
-			required="true" requiredMessage="Ingresa la fecha">
-			<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota"></f:convertDateTime>
-		</h:inputText>
-		<br />
+		<h4>Los campos de este formulario son obligarotios</h4>
+		<h:outputStylesheet>
+        .ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
+        {
+            border: none !important;
+            border-style: none !important;
+            border-width: 0px !important;
+        }
+    </h:outputStylesheet>
 
-		<label>Número de cuotas:</label>
-		<h:inputText id="prestamoNumeroCuotas"
-			placeholder="Ingrese el valor del prestamo" required="true"
-			requiredMessage="Por favor ingresa el valor del prestamo"
-			value="#{prestamoBean.numeroCuotas}"  />
-		<br />
+		<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
 
-		<label>Tipo Asesoria:</label>
-		<h:selectOneMenu value="#{prestamoBean.tipoPrestamo}"
-			converter="selectItemObjectConverter" required="true"
-			requiredMessage="Debes seleccionar un tipo de prestamo">
-			<f:selectItem itemLabel="Seleccione tipo de Prestamo"
-				noSelectionOption="true"></f:selectItem>
-			<f:selectItems value="#{prestamoBean.tiposPrestamo}"
-				var="tipoPrestamo" itemValue="#{tipoPrestamo}"
-				itemLabel="#{tipoPrestamo.nombre}" />
-		</h:selectOneMenu>
-		<br />
+		<h:form id="registrarPrestamo">
+			<p:panelGrid columns="2">
+				<f:facet name="header">Registrar Prestamo</f:facet>
+				<h:outputLabel for="prestamoId" value="Id:" />
+				<p:inputText id="prestamoId" placeholder="" required="true"
+					requiredMessage="Falta el id del prestamo" value="" readonly="true" />
 
-		<h:commandButton value="Aceptar"
-			action="#{prestamoBean.registrarPrestamo}" />
-	</h:form>
-	<h:messages />
-</body>
+				<label>Persona:</label>
+				<p:inputText id="prestamoPersona" placeholder="" required="true"
+					requiredMessage="Necesitamos una persona asociada al documento"
+					value="#{clienteBean1.cedula}" readonly="true" />
+				<br />
+
+				<label>Valor:</label>
+				<p:inputText id="prestamoValor"
+					placeholder="Ingrese el valor del prestamo" required="true"
+					requiredMessage="Por favor ingresa el valor del prestamo"
+					value="#{prestamoBean.valorPrestamo}">
+				</p:inputText>
+				<br />
+
+				<label>Fecha:</label>
+				<p:calendar id="restricted" required="true"
+					requiredMessage="Por favor ingresa una fecha"
+					value="#{prestamoBean.fechaInicio}" locale="co"
+					pattern="yyyy-MM-dd" />
+				<br />
+
+				<label>Número de cuotas:</label>
+				<p:inputText id="prestamoNumeroCuotas"
+					placeholder="Ingrese el valor del prestamo" required="true"
+					requiredMessage="Por favor ingresa el valor del prestamo"
+					value="#{prestamoBean.numeroCuotas}">
+					<f:convertNumber integerOnly="true" type="number" />
+				</p:inputText>
+				<br />
+
+				<label>Tipo Asesoria:</label>
+				<p:selectOneMenu value="#{prestamoBean.tipoPrestamo}"
+					converter="selectItemObjectConverter" required="true"
+					requiredMessage="Debes seleccionar un tipo de prestamo">
+					<f:selectItem itemLabel="Seleccione tipo de Prestamo"
+						noSelectionOption="true"></f:selectItem>
+					<f:selectItems value="#{prestamoBean.tiposPrestamo}"
+						var="tipoPrestamo" itemValue="#{tipoPrestamo}"
+						itemLabel="#{tipoPrestamo.nombre}" />
+				</p:selectOneMenu>
+				<br />
+
+				<h:commandButton value="Aceptar"
+					action="#{prestamoBean.registrarPrestamo}" />
+
+			</p:panelGrid>
+
+			<script type="text/javascript">
+				var campoValor = document
+						.getElementById('registrarPrestamo:prestamoValor').value;
+				var campoCuotas = document
+						.getElementById('registrarPrestamo:prestamoNumeroCuotas').value;
+
+				if (this.campoValor == "0.0") {
+					document.getElementById('registrarPrestamo:prestamoValor').value = '';
+
+				}
+				if (this.campoCuotas == "0") {
+					document
+							.getElementById('registrarPrestamo:prestamoNumeroCuotas').value = '';
+				}
+
+				function deleteUser() {
+					return confirm("Are you sure?");
+				}
+
+				function limpiar() {
+					var campo = document
+							.getElementById('registrarPrestamo:prestamoValor');
+					campo.value = '';
+					alert('hola' + campo.value);
+
+				}
+			</script>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

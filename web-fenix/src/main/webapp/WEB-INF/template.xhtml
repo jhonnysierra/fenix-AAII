@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title><ui:insert name="title">Banco Fenix</ui:insert></title>
+</h:head>
+
+<h:body>
+
+	<div align="center">
+
+		<div id="header">
+			<ui:insert name="header">
+				<h:graphicImage url="#{resource['header.jpg']}" />
+			</ui:insert>
+		</div>
+	</div>
+
+	<div align="center">
+		<h:panelGroup rendered="#{!seguridadBean.autenticado}">
+			<ui:insert name="login">
+				<h:form>
+					<h:panelGrid columns="2">
+						<f:facet name="header">INGRESAR</f:facet>
+						<p:outputLabel value="Login" />
+						<p:inputText value="#{seguridadBean.usuario.cedula}" />
+						<p:outputLabel value="Clave" />
+						<p:password value="#{seguridadBean.usuario.contrasenia}" />
+
+						<p:commandButton value="Aceptar" ajax="false"
+							action="#{seguridadBean.login}" />
+					</h:panelGrid>
+
+				</h:form>
+			</ui:insert>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{seguridadBean.autenticado}">
+			<ui:insert name="menu">
+				<h:form>
+					<p:growl id="messages" />
+
+					<p:menubar>
+						<p:submenu label="File" icon="pi pi-file">
+							<p:submenu label="New" icon="pi pi-briefcase">
+								<p:menuitem value="Project" url="#" />
+								<p:menuitem value="Other" url="#" />
+							</p:submenu>
+							<p:menuitem value="Open" url="#" />
+							<p:separator />
+							<p:menuitem value="Quit" url="#" />
+						</p:submenu>
+
+						<p:submenu label="Edit" icon="pi pi-pencil">
+							<p:menuitem value="Undo" url="#" icon="pi pi-angle-double-left" />
+							<p:menuitem value="Redo" url="#" icon="pi pi-angle-double-right" />
+						</p:submenu>
+
+						<p:submenu label="Help" icon="pi pi-question">
+							<p:menuitem value="Contents" url="#" />
+							<p:submenu label="Search" icon="pi pi-search">
+								<p:submenu label="Text">
+									<p:menuitem value="Workspace" url="#" />
+								</p:submenu>
+								<p:menuitem value="File" url="#" />
+							</p:submenu>
+						</p:submenu>
+
+						<p:submenu label="Actions" icon="pi pi-cog">
+							<p:submenu label="Ajax" icon="pi pi-refresh">
+								<p:menuitem value="Save" action="#{menuView.save}"
+									icon="pi pi-save" update="messages" />
+								<p:menuitem value="Update" action="#{menuView.update}"
+									icon="pi pi-refresh" update="messages" />
+							</p:submenu>
+							<p:submenu label="Non-Ajax" icon="pi pi-clone">
+								<p:menuitem value="Delete" action="#{menuView.delete}"
+									icon="pi pi-times" update="messages" ajax="false" />
+							</p:submenu>
+						</p:submenu>
+
+						<p:menuitem value="Quit" url="http://www.primefaces.org"
+							icon="pi pi-times" />
+
+						<f:facet name="options">
+							<p:inputText style="margin:1px 10px 1px 1px;"
+								placeholder="Search" />
+							<p:commandButton action="#{seguridadBean.cerrarSesion}"
+								ajax="false" value="Salir" icon="pi pi-home" />
+						</f:facet>
+					</p:menubar>
+				</h:form>
+			</ui:insert>
+			<ui:insert name="contenido">
+			
+    			Content area.  Template
+  			</ui:insert>
+		</h:panelGroup>
+
+
+	</div>
+
+
+	<div id="footer" align="center">
+		<h3>Fenix Banco</h3>
+		<h6>Todos los derechos reservados</h6>
+	</div>
+
+</h:body>
+
+</html>

@@ -1,5 +1,7 @@
 package proyectofenix.negocio;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -74,9 +76,10 @@ public class BancoEJB implements BancoEJBRemote {
 
 		return query.getResultList().size() > 0;
 	}
-	
+
 	/**
 	 * Metodo que permite buscar una persona por su numero de cedula
+	 * 
 	 * @param cedula a buscar
 	 * @return Persona encontrada o null si no encuentra nada
 	 */
@@ -165,16 +168,25 @@ public class BancoEJB implements BancoEJBRemote {
 		return clientes.getResultList();
 
 	}
-
-
 	
+	/**
+	 * Permite listar los clientes activos en el banco
+	 * @return
+	 */
+	public List<Cliente> listarclientesActivos() {
+		TypedQuery<Cliente> clientes = entityManager.createNamedQuery(Cliente.CLIENTES_POR_ESTADO, Cliente.class);
+		clientes.setParameter("estado", "1");
+		
+		return clientes.getResultList();
 
+	}
+	
 	public List<Persona> listarPersonas() {
 		TypedQuery<Persona> personas = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
 
 		return personas.getResultList();
 	}
-	
+
 	/**
 	 * Permite agregar un empleado a la base de datos de un banco Metodo Test para
 	 * este metodo pruebas-fenix.proyectofenix.pruebas.agregarEmpleadoTest
@@ -389,6 +401,75 @@ public class BancoEJB implements BancoEJBRemote {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	/**
+	 * Metodo que permite realizar un prestamo, dependiendo de los parametros
+	 * 
+	 * @param cedula         de la persona que realiza el credito
+	 * @param valorPrestamo  monto del prestamo
+	 * @param fechaInicio    fecha en la que se realiza el prestamo
+	 * @param fechaFin       fecha en la que vence el prestamo
+	 * @param numeroCuotas   numero de cuotas del prestamo
+	 * @param idTipoPrestamo id del tipo de prestamo
+	 * @return Prestamo realizado
+	 * @throws ExcepcionesFenix Si no se genera el id del prestamo, si no existe la
+	 *                          persona, el tipo de id, las cuotas son <=0,
+	 */
+	public Prestamo realizarPrestamo(String cedula, double valorPrestamo, Date fechaInicio, Date fechaFin,
+			int numeroCuotas, int idTipoPrestamo) throws ExcepcionesFenix {
+		Prestamo prestamo = new Prestamo();
+
+		/*
+		 * System.out.println("Datos metodo: " + cedula + "," + valorPrestamo + "," +
+		 * fechaInicio + "," + fechaFin + "," + numeroCuotas + "," + idTipoPrestamo);
+		 */
+
+		// Genera consecutivo
+		prestamo.setId(consecutivoPrestamo());
+
+		// Buscar persona
+		Persona persona = buscarPersona(cedula);
+
+		// Busca tipo de prestamo
+		TipoPrestamo tipoPrestamo = tipoPrestamoPorCodigo(idTipoPrestamo);
+
+		// Crear una lista de pagos vacia
+		List<Pago> listaPagos = new ArrayList<Pago>();
+
+		if (entityManager.find(Prestamo.class, prestamo.getId()) != null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
+		} else if (persona == null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque la persona no existe");
+		} else if (fechaInicio == null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque la fecha no es valida");
+		} else if (numeroCuotas <= 0) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque las cuotas no son validas");
+		} else if (tipoPrestamo == null) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el tipo de prestamo es invalido");
+		}
+		// Si el prestamo es hipotecario(4) y la persona no tiene bien raiz hay una
+		// excepcion
+		if (tipoPrestamo.getId() == 4 && persona.getBienRaiz() == null) {
+			throw new ExcepcionesFenix(
+					"No se puede realizar el prestamo hipotecario porque el cliente no tiene un bien asociado");
+		}
+
+		prestamo.setPersona(persona);
+		prestamo.setValorPrestamo(valorPrestamo);
+		prestamo.setFechaInicio(fechaInicio);
+		prestamo.setFechaFin(fechaFin);
+		prestamo.setNoCuotas(numeroCuotas);
+		prestamo.setTipoPrestamo(tipoPrestamo);
+		prestamo.setPagos(listaPagos);
+
+		try {
+			entityManager.persist(prestamo);
+			return prestamo;
+		} catch (Exception e) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo " + e.getMessage());
+		}
+
 	}
 
 	/**

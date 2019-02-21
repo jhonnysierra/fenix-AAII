@@ -21,10 +21,15 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = Cliente.OBTENER_DATOS_CLIENTE, query = "select c from Cliente c"),
-	@NamedQuery(name = Cliente.OBTENER_CLIENTE_SIN_ASESORIA, query = "select c from Cliente c where c.asesoria is EMPTY")
-		 })
+		@NamedQuery(name = Cliente.OBTENER_CLIENTE_SIN_ASESORIA, query = "select c from Cliente c where c.asesoria is EMPTY"),
+		@NamedQuery(name = Cliente.CLIENTES_POR_ESTADO, query = "select c from Cliente c where c.estado=:estado") })
 public class Cliente extends Persona implements Serializable {
 
+	/**
+	 * Permite obtener los clientes activos
+	 */
+	public static final String CLIENTES_POR_ESTADO = "ClientesActivos";
+	
 	/**
 	 * Permite obtener los datos de los clientes
 	 */
@@ -34,7 +39,7 @@ public class Cliente extends Persona implements Serializable {
 	 * Permite obtener los datos de los clientes
 	 */
 	public static final String OBTENER_CLIENTE_SIN_ASESORIA = "ClienteSinAsesoria";
-	
+
 	/**
 	 * Numero de cuenta de un cliente
 	 */
