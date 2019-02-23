@@ -1,24 +1,21 @@
 package proyectofenix.web;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.validation.constraints.Past;
 
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
-import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Persona.Genero;
 import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
@@ -31,7 +28,7 @@ import proyectofenix.negocio.ClienteEJB;
  */
 @Named
 @ApplicationScoped
-public class ClienteBean implements Serializable{
+public class ClienteBean implements Serializable {
 
 	/**
 	 * Serializable
@@ -71,6 +68,7 @@ public class ClienteBean implements Serializable{
 	/**
 	 * Fecha de nacimiento de un cliente
 	 */
+	@Past
 	private Date fechaNacimiento;
 
 	/**
@@ -131,9 +129,9 @@ public class ClienteBean implements Serializable{
 	/**
 	 * Metodo que permite registrar un cliente
 	 * 
-	 * @return true si registra el cliente false si no
+	 * @return URL registrar cliente
 	 */
-	public boolean agregarCliente() {
+	public String agregarCliente() {
 		try {
 			Cliente cliente = new Cliente();
 
@@ -157,12 +155,15 @@ public class ClienteBean implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
 					"Registro exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return true;
+			
+			reiniciarVariables();
+			
+			return "/registrarCliente";
 
 		} catch (ElementoRepetidoExcepcion | RuntimeException e) {
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return false;
+			return "";
 		}
 	}
 
@@ -171,7 +172,7 @@ public class ClienteBean implements Serializable{
 	 * 
 	 * @return true si se modifico o false si no
 	 */
-	public boolean modificarCliente() {
+	public String modificarCliente() {
 
 		try {
 
@@ -197,33 +198,38 @@ public class ClienteBean implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se modificó el cliente",
 					"Modificar exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return true;
+			
+			reiniciarVariables();
+			return "/registrarCliente";
 
 		} catch (ExcepcionesFenix e) {
 			e.printStackTrace();
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return false;
+			return "";
 		}
 	}
-	
-	public String modificarLink() {
-		return "registrarCliente";
-	}
 
+	
+	/**
+	 * Metodo que permite eliminar un cliente
+	 * 
+	 * @return URL lista clientes
+	 */
 	public String eliminarCliente() {
 
 		try {
 			// Cambiar el parametro de la cedula de la clase a uno enviado por el metodo si
 			// es necesario
-			
+
 			clienteEJB.eliminarCliente(cliente.getCedula());
 
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó el cliente",
 					"Eliminar cliente exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			
+
 			inicializar();
+			// volver a cargar lista
 			return "listaClientes";
 
 		} catch (ExcepcionesFenix e) {
@@ -233,6 +239,22 @@ public class ClienteBean implements Serializable{
 		}
 	}
 
+	public void reiniciarVariables() {
+		cedula="";
+		nombres="";
+		apellidos="";
+		direccion="";
+		correo="";
+		fechaNacimiento=null;
+		genero=null;
+		telefonos=new ArrayList<>();
+		telefono="";
+		numero_cuenta="";
+		contrasenia="";
+		cliente=null;
+		
+	}
+	
 	// GET y SET
 
 	/**
@@ -416,11 +438,15 @@ public class ClienteBean implements Serializable{
 	}
 
 	/**
-	 * Metodo get telefono Bean cliente
+	 * Metodo get telefono Bean cliente Se modifica para asignarles el primer numero
+	 * del array de telefonos
 	 * 
 	 * @return the telefono
 	 */
 	public String getTelefono() {
+		if (this.cliente!=null)
+			telefono = cliente.getTelefonos().get(0);
+		
 		return telefono;
 	}
 

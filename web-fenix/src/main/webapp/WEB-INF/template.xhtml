@@ -7,6 +7,8 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title><ui:insert name="title">Banco Fenix</ui:insert></title>
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
 </h:head>
 
 <h:body>
@@ -15,7 +17,7 @@
 
 		<div id="header">
 			<ui:insert name="header">
-				<h:graphicImage url="#{resource['header.jpg']}" />
+				<h:graphicImage url="#{resource['securityheaderimg.png']}" />
 			</ui:insert>
 		</div>
 	</div>
@@ -31,10 +33,11 @@
 						<p:outputLabel value="Clave" />
 						<p:password value="#{seguridadBean.usuario.contrasenia}" />
 
-						<p:commandButton value="Aceptar" ajax="false"
+						<br />
+						<p:commandButton value="Aceptar"  icon="fa fa-sign-in-alt" ajax="false"
 							action="#{seguridadBean.login}" />
 					</h:panelGrid>
-
+					<p:growl id="messages" showDetail="true" />
 				</h:form>
 			</ui:insert>
 		</h:panelGroup>
@@ -43,9 +46,8 @@
 			<ui:insert name="menu">
 				<h:form>
 					<p:growl id="messages" />
-
 					<p:menubar>
-						<p:submenu label="File" icon="pi pi-file">
+						<p:submenu label="Clientes" icon="fa fa-angle-right">
 							<p:submenu label="New" icon="pi pi-briefcase">
 								<p:menuitem value="Project" url="#" />
 								<p:menuitem value="Other" url="#" />
@@ -90,7 +92,7 @@
 							<p:inputText style="margin:1px 10px 1px 1px;"
 								placeholder="Search" />
 							<p:commandButton action="#{seguridadBean.cerrarSesion}"
-								ajax="false" value="Salir" icon="pi pi-home" />
+								ajax="false" value="Salir" icon="fa fa-sign-out-alt" />
 						</f:facet>
 					</p:menubar>
 				</h:form>

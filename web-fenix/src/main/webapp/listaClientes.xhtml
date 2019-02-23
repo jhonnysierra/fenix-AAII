@@ -87,7 +87,7 @@
 
 							<h:outputLabel for="telefono" value="Telefono: " />
 							<h:outputText id="telefono"
-								value="#{clienteBean1.cliente.telefonos}"
+								value="#{clienteBean1.telefono}"
 								style="font-weight:bold" />
 
 							<h:outputLabel for="contrasenia" value="Contraseña: " />
@@ -97,13 +97,18 @@
 
 							<f:facet name="footer">
 								<p:commandButton value="Modificar" ajax="false"
-									action="#{clienteBean1.modificarLink}" />
+									action="/modificarCliente" />
 							</f:facet>
 							
 							<f:facet name="footer">
 								<p:commandButton removeFrom="#{clienteBean1.clientes}" update=":listaClientes:tablaClientes" value="Eliminar" ajax="false"
 									action="#{clienteBean1.eliminarCliente}" />
 							</f:facet>
+							
+							<f:facet name="footer">
+								<p:commandButton value="Prestar" ajax="false"
+									action="/registrarPrestamo" />
+							</f:facet>							
 
 						</p:panelGrid>
 

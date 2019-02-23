@@ -5,6 +5,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.annotation.FacesConfig.Version;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import proyectofenix.entidades.Persona;
@@ -30,8 +32,15 @@ public class SeguridadBean {
 	
 	public String login() {
 		if (usuario.getCedula() !=null) {
-			if (bancoEJB.buscarPersona(usuario.getCedula()) !=null) {
-				autenticado=true;
+			Persona p = bancoEJB.buscarPersona(usuario.getCedula());
+			if (p !=null) {
+				if (p.getContrasenia().equals(usuario.getContrasenia())) {
+					autenticado=true;
+				}else {
+					FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Datos incorrectos", "Los datos ingresados son incorrectos");
+					FacesContext.getCurrentInstance().addMessage(null, facesMsg);
+				}
+				
 			}
 		}
 		return null;
