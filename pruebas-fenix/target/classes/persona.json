@@ -1,0 +1,246 @@
+{
+	"PERSONA": [
+		{
+			"cedula": "123456789",
+			"dtype": "Persona",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "pperez@gmail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Pedro",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "1115187219",
+			"dtype": "Persona",
+			"apellidos": "Sierra Parra",
+			"contrasenia": "12345",
+			"correo": "jhonnysierrap@gmail.com",
+			"direccion": "cra 8 13-06 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Jhonny",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "6208204",
+			"dtype": "Cliente",
+			"apellidos": "Morales Molina",
+			"contrasenia": "12345",
+			"correo": "hectormm@gmail.com",
+			"direccion": "cra 8 13-06 ",
+			"estado": "1",
+			"fecha_nacimiento": "1950-04-03",
+			"genero": "masculino",
+			"nombres": "Hector",
+			"ciudad_id": "02"
+		},
+		{
+			"cedula": "123",
+			"dtype": "Cliente",
+			"apellidos": "Londono Molina",
+			"contrasenia": "12345",
+			"correo": "caroloslondono@gmail.com",
+			"direccion": "cra 31A 35E-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1986-12-03",
+			"genero": "masculino",
+			"nombres": "Carlos",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1234",
+			"dtype": "Empleado",
+			"apellidos": "Farias",
+			"contrasenia": "12345",
+			"correo": "javierfarias@gmail.com",
+			"direccion": "cll 31A 35E-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1976-11-12",
+			"genero": "masculino",
+			"nombres": "Javier",
+			"ciudad_id": "04"
+		},
+		{
+			"cedula": "12345",
+			"dtype": "Empleado",
+			"apellidos": "Salazar",
+			"contrasenia": "12345",
+			"correo": "andressalazar@gmail.com",
+			"direccion": "cll 9 7-03 ",
+			"estado": "1",
+			"fecha_nacimiento": "1995-08-23",
+			"genero": "masculino",
+			"nombres": "Andres",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "6212751",
+			"dtype": "Empleado",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "julianaperez@mail.com",
+			"direccion": "CRA 5 6-77 ",
+			"estado": "1",
+			"fecha_nacimiento": "1989-09-05",
+			"genero": "femenino",
+			"nombres": "Juliana",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "3117860844",
+			"dtype": "Cliente",
+			"apellidos": "Penaloza",
+			"contrasenia": "12345",
+			"correo": "penaloza@mail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1993-05-09",
+			"genero": "masculino",
+			"nombres": "Sebastian",
+			"ciudad_id": "04"
+		},
+		{
+			"cedula": "3113260765",
+			"dtype": "Cliente",
+			"apellidos": "Linares",
+			"contrasenia": "12345",
+			"correo": "linares@mail.com",
+			"direccion": "cra 5 ",
+			"estado": "1",
+			"fecha_nacimiento": "1984-09-09",
+			"genero": "femenino",
+			"nombres": "Marcela",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "201856105",
+			"dtype": "Administrador",
+			"apellidos": "Perez",
+			"contrasenia": "12345",
+			"correo": "pperez@mail.com",
+			"direccion": "cra 9 ",
+			"estado": "1",
+			"fecha_nacimiento": "1964-09-09",
+			"genero": "masculino",
+			"nombres": "Edwin",
+			"ciudad_id": "01"
+		},
+		{
+			"cedula": "1234567876",
+			"dtype": "Administrador",
+			"apellidos": "Ortiz Londono",
+			"contrasenia": "12345",
+			"correo": "julianortiz@mail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1990-09-09",
+			"genero": "masculino",
+			"nombres": "Julian",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1115187223",
+			"dtype": "Administrador",
+			"apellidos": "Ortiz Campos",
+			"contrasenia": "12345",
+			"correo": "sergionortiz@mail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1989-09-09",
+			"genero": "masculino",
+			"nombres": "Sergio",
+			"ciudad_id": "04"
+		},
+		{
+			"cedula": "1115187224",
+			"dtype": "Cliente",
+			"apellidos": "Campos",
+			"contrasenia": "12345",
+			"correo": "campos@gmail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1985-09-09",
+			"genero": "masculino",
+			"nombres": "Sergio G",
+			"ciudad_id": "03"
+		},
+		{
+			"cedula": "1115187225",
+			"dtype": "Cliente",
+			"apellidos": "Montes",
+			"contrasenia": "12345",
+			"correo": "campos@gmail.com",
+			"direccion": "cra 29 ",
+			"estado": "1",
+			"fecha_nacimiento": "1985-01-10",
+			"genero": "masculino",
+			"nombres": "Bernarndo",
+			"ciudad_id": "03"
+		}
+	],
+	"CLIENTE": [
+		{
+			"cedula": "6208204",
+			"nocuenta": "88723947"
+		},
+		{
+			"cedula": "123",
+			"nocuenta": "87889234"
+		},
+		{
+			"cedula": "3117860844",
+			"nocuenta": "08885663"
+		},
+		{
+			"cedula": "3113260765",
+			"nocuenta": "4765536"
+		},
+		{
+			"cedula": "1115187224",
+			"nocuenta": "47655364"
+		},
+		{
+			"cedula": "1115187225",
+			"nocuenta": "47600364"
+		}
+	],
+	"EMPLEADO": [
+		{
+			"cedula": "1234",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 2500000
+		},
+		{
+			"cedula": "12345",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 3500000
+		},
+		{
+			"cedula": "6212751",
+			"fechafin": "2010-01-01 08:00:00",
+			"fechainicio": "2010-01-01 08:00:00",
+			"salario": 4500000
+		}
+	],
+	"ADMINISTRADOR": [
+		{
+			"cedula": "201856105",
+			"observacion": "ninguna"
+		},
+		{
+			"cedula": "1234567876",
+			"observacion": "ninguna"
+		},
+		{
+			"cedula": "1115187223",
+			"observacion": "ninguna"
+		}
+	]
+}

@@ -4,71 +4,107 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta charset="UTF-8" />
-<title>Modificar Cliente</title>
-</head>
-<body>
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-<form jsf:id="formCliente" >
-	
-	<h1>Modificar Cliente</h1>
-	
-	<h4>Los campos de este formulario son obligarotios</h4>
-	
-	<DIV>
-	<label for="cedulaCliente" >Cedula:</label>
-	<input id="cedulaCliente" placeholder="Ingrese su número de documento sin puntos" jsf:required="true" type="text" jsf:value="#{clienteBean1.cedula}" readonly="readonly"/>
-	<BR />
-	<label for="nombresCliente" >Nombres:</label>
-	<input id="nombresCliente" jsf:required="true" jsf:requiredMessage="Los nombres son obligatorios" type="text" jsf:value="#{clienteBean1.nombres}" />
-	<BR />
-	<label for="apellidosCliente" >Apellidos:</label>
-	<input id="apellidosCliente" jsf:required="true" jsf:requiredMessage="Los apellidos son obligatorios" type="text" jsf:value="#{clienteBean1.apellidos}" />
-	<BR />
-	<label for="correoCliente" >Correo:</label>
-	<input id="correoCliente" jsf:required="true" jsf:requiredMessage="Es necesario tu correo electrónico" jsf:validatorMessage="El formato del email es incorrecto" type="text" jsf:value="#{clienteBean1.correo}"><f:validateRegex
-		pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$">
-	</f:validateRegex></input>	
-	<BR />
-	
-	<label for="fechaNaciCliente" >Fecha de nacimiento:</label>
-	<h:inputText id="fechaNaciCliente" value="#{clienteBean1.fechaNacimiento}">
-		<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota"></f:convertDateTime>
-	</h:inputText>
-	<BR />
-	
-	<label for="generoCliente" >Género:</label>
-	<h:selectOneMenu value = "#{clienteBean1.genero}"> 
-            <f:selectItem itemValue = "masculino" itemLabel = "Masculino" /> 
-            <f:selectItem itemValue = "femenino" itemLabel = "Femenino" /> 
-    </h:selectOneMenu> 
-	<BR />
-	
-	<label for="telefonoCliente" >Teléfono:</label>
-	<input id="telefonoCliente" jsf:required="true" jsf:requiredMessage="Es necesario tu teléfono" type="text" jsf:value="#{clienteBean1.telefono}" />
-	<BR />
-	
-	<label for="direccionCliente" >Dirección:</label>
-	<input id="direccionCliente" jsf:required="true"  jsf:requiredMessage="La dirección es obligatoria" type="text" jsf:value="#{clienteBean1.direccion}" />
-	
-	<BR />
-	<label for="nocuentaCliente" >Número de cuenta:</label>
-	<input id="nocuentaCliente" jsf:required="true" jsf:requiredMessage="Es necesario tu cuenta" type="text" jsf:value="#{clienteBean1.numero_cuenta}" />
-		
-	<BR />
-	<label for="contraseniaCliente" >Contraseña:</label>
-	<input id="contraseniaCliente" jsf:required="true" jsf:requiredMessage="Es necesario tu contraseña" type="text" jsf:value="#{clienteBean1.contrasenia}" />
-	
-	<BR />
-	<input type="submit" jsf:action="#{clienteBean1.modificarCliente}" value="Modificar" />
-	
-	<h:messages />
-	<br />
-	</DIV>
-</form>
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<meta charset="UTF-8" />
+	<ui:define name="title">Modificar Cliente</ui:define>
 
 
-</body>
+
+	<ui:define name="contenido">
+		<h:outputStylesheet>
+        .ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
+        {
+            border: none !important;
+            border-style: none !important;
+            border-width: 0px !important;
+        }
+    </h:outputStylesheet>
+
+		<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
+
+		<body>
+			<BR />
+			<h:form id="formCliente">
+				<p:panelGrid columns="2">
+					<f:facet name="header">Modificar Cliente</f:facet>
+					<p:outputLabel for="cedulaCliente" value="Cedula:" />
+					<p:inputText id="cedulaCliente"
+						placeholder="Ingrese su número de documento sin puntos"
+						maxlength="10" required="true"
+						onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+						requiredMessage="El documento es obligatorio" type="text"
+						value="#{clienteBean1.cliente.cedula}" />
+
+					<p:outputLabel for="nombresCliente" value="Nombres:" />
+					<p:inputText id="nombresCliente" required="true"
+						requiredMessage="Los nombres son obligatorios" type="text"
+						value="#{clienteBean1.cliente.nombres}" />
+
+					<p:outputLabel for="apellidosCliente" value="Apellidos:" />
+					<p:inputText id="apellidosCliente" required="true"
+						requiredMessage="Los apellidos son obligatorios" type="text"
+						value="#{clienteBean1.cliente.apellidos}" />
+
+
+					<p:outputLabel for="correoCliente" value="Correo:" />
+					<p:inputText id="correoCliente" required="true"
+						requiredMessage="Es necesario tu correo electrónico"
+						validatorMessage="El formato del email es incorrecto" type="text"
+						value="#{clienteBean1.cliente.correo}"><f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+
+					<p:outputLabel for="fechaNaciCliente" value="Fecha de nacimiento:" />
+					<p:calendar id="fechaNaciCliente" required="true"
+						requiredMessage="Por favor ingresa una fecha"
+						value="#{clienteBean1.cliente.fecha_nacimiento}" locale="co"
+						pattern="yyyy-MM-dd" />
+
+
+					<p:outputLabel for="generoCliente" value="Género:" />
+					<p:selectOneMenu id="generoCliente" value="#{clienteBean1.cliente.genero}">
+						<f:selectItem itemValue="masculino" itemLabel="Masculino" />
+						<f:selectItem itemValue="femenino" itemLabel="Femenino" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="telefonoCliente" value="Teléfono:" />
+					<p:inputText id="telefonoCliente" maxlength="10" required="true"
+						onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+						requiredMessage="Es necesario tu teléfono" type="text"
+						value="#{clienteBean1.telefonoLista}" />
+
+					<p:outputLabel for="direccionCliente" value="Dirección:" />
+					<p:inputText id="direccionCliente" required="true"
+						requiredMessage="La dirección es obligatoria" type="text"
+						value="#{clienteBean1.cliente.direccion}" />
+
+
+					<p:outputLabel for="nocuentaCliente" value="Número de cuenta:" />
+					<p:inputText id="nocuentaCliente" maxlength="15" required="true"
+						onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+						requiredMessage="Es necesario tu cuenta" type="text"
+						value="#{clienteBean1.cliente.noCuenta}" />
+
+					<p:outputLabel for="contraseniaCliente" value="Contraseña:" />
+					<p:inputText id="contraseniaCliente" required="true"
+						requiredMessage="Es necesario tu contraseña" type="text"
+						value="#{clienteBean1.cliente.contrasenia}" />
+
+
+					<p:commandButton ajax="false" icon="fa fa-pen-square" value="Modificar"
+						action="#{clienteBean1.modificarCliente}" />
+
+				</p:panelGrid>
+			</h:form>
+		</body>
+	</ui:define>
+</ui:composition>
 </html>

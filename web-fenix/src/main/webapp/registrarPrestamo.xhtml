@@ -38,15 +38,15 @@
 
 				<label>Persona:</label>
 				<p:inputText id="prestamoPersona" placeholder="" required="true"
-					requiredMessage="Necesitamos una persona asociada al documento"
-					value="#{clienteBean1.cedula}" readonly="true" />
+					requiredMessage="Necesitamos una persona asociada al prestamo"
+					value="#{prestamoBean.clienteBean.cliente.cedula}" />
 				<br />
 
 				<label>Valor:</label>
 				<p:inputText id="prestamoValor"
 					placeholder="Ingrese el valor del prestamo" required="true"
-					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
 					requiredMessage="Por favor ingresa el valor del prestamo"
+					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
 					value="#{prestamoBean.valorPrestamo}">
 				</p:inputText>
 				<br />
@@ -80,7 +80,7 @@
 				</p:selectOneMenu>
 				<br />
 
-				<h:commandButton ajax="false" value="Aceptar"
+				<p:commandButton ajax="false" icon="fa fa-dollar-sign" value="Aceptar"
 					action="#{prestamoBean.registrarPrestamo}" />
 
 			</p:panelGrid>

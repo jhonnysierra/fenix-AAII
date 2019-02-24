@@ -168,19 +168,20 @@ public class BancoEJB implements BancoEJBRemote {
 		return clientes.getResultList();
 
 	}
-	
+
 	/**
 	 * Permite listar los clientes activos en el banco
+	 * 
 	 * @return
 	 */
 	public List<Cliente> listarclientesActivos() {
 		TypedQuery<Cliente> clientes = entityManager.createNamedQuery(Cliente.CLIENTES_POR_ESTADO, Cliente.class);
 		clientes.setParameter("estado", "1");
-		
+
 		return clientes.getResultList();
 
 	}
-	
+
 	public List<Persona> listarPersonas() {
 		TypedQuery<Persona> personas = entityManager.createNamedQuery(Persona.OBTENER_DATOS_PERSONAS, Persona.class);
 
@@ -441,6 +442,8 @@ public class BancoEJB implements BancoEJBRemote {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque el id del prestamo ya existe");
 		} else if (persona == null) {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque la persona no existe");
+		} else if (persona.getEstado().equals("0")) {
+			throw new ExcepcionesFenix("No se puede realizar el prestamo porque la persona esta INACTIVA");
 		} else if (fechaInicio == null) {
 			throw new ExcepcionesFenix("No se puede realizar el prestamo porque la fecha no es valida");
 		} else if (numeroCuotas <= 0) {
@@ -467,7 +470,7 @@ public class BancoEJB implements BancoEJBRemote {
 			entityManager.persist(prestamo);
 			return prestamo;
 		} catch (Exception e) {
-			throw new ExcepcionesFenix("No se puede realizar el prestamo " + e.getMessage());
+			throw new ExcepcionesFenix("No se puede realizar el prestamo: " + e.getMessage());
 		}
 
 	}

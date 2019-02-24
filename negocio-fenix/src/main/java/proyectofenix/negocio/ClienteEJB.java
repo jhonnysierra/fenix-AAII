@@ -144,8 +144,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 				entityManager.merge(cliente);
 				return cliente;
 			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				throw new ExcepcionesFenix("No se pudo modificar el cliente:" + e.getMessage());
 			}
 		} else {
 			throw new ExcepcionesFenix("El cliente a modificar es null");

@@ -58,8 +58,9 @@
 					<p:inputText id="correoCliente" required="true"
 						requiredMessage="Es necesario tu correo electrónico"
 						validatorMessage="El formato del email es incorrecto" type="text"
-						value="#{clienteBean1.correo}"><f:validateRegex
-						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						value="#{clienteBean1.correo}">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 					</p:inputText>
 
 					<p:outputLabel for="fechaNaciCliente" value="Fecha de nacimiento:" />
@@ -88,7 +89,7 @@
 
 
 					<p:outputLabel for="nocuentaCliente" value="Número de cuenta:" />
-					<p:inputText id="nocuentaCliente" required="true"
+					<p:inputText id="nocuentaCliente" maxlength="15" required="true"
 						onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
 						requiredMessage="Es necesario tu cuenta" type="text"
 						value="#{clienteBean1.numero_cuenta}" />

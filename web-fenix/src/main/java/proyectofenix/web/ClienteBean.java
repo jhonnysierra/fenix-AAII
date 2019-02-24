@@ -7,8 +7,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Past;
 
@@ -16,6 +18,7 @@ import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Ciudad;
 import proyectofenix.entidades.Cliente;
+import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Persona.Genero;
 import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
@@ -85,7 +88,11 @@ public class ClienteBean implements Serializable {
 	 * Telefono de un cliente
 	 */
 	private String telefono;
-
+	
+	/**
+	 * Telefono del cliente que se muestra en la lista
+	 */
+	private String telefonoLista;
 	/**
 	 * Numero de cuenta de un cliente
 	 */
@@ -110,6 +117,10 @@ public class ClienteBean implements Serializable {
 	 * Cliente
 	 */
 	private Cliente cliente;
+	
+	@Inject 
+	@ManagedProperty(value="#{seguridadBean.usuario}")
+	private Persona usuario;
 
 	/**
 	 * Metodo constructor
@@ -149,6 +160,7 @@ public class ClienteBean implements Serializable {
 			telefonos.add(telefono);
 			cliente.setTelefonos(telefonos);
 			cliente.setFecha_nacimiento(fechaNacimiento);
+			this.clientes.add(cliente);
 
 			clienteEJB.agregarCliente(cliente);
 
@@ -173,25 +185,25 @@ public class ClienteBean implements Serializable {
 	 * @return true si se modifico o false si no
 	 */
 	public String modificarCliente() {
-
+		
 		try {
 
 			Cliente cliente = new Cliente();
 
-			cliente.setCedula(cedula);
-			cliente.setNombres(nombres);
-			cliente.setApellidos(apellidos);
-			cliente.setContrasenia(contrasenia);
-			cliente.setCorreo(correo);
+			cliente.setCedula(this.cliente.getCedula());
+			cliente.setNombres(this.cliente.getNombres());
+			cliente.setApellidos(this.cliente.getApellidos());
+			cliente.setContrasenia(this.cliente.getContrasenia());
+			cliente.setCorreo(this.cliente.getCorreo());
 			cliente.setEstado("1");
-			cliente.setDireccion(direccion);
+			cliente.setDireccion(this.cliente.getDireccion());
 			cliente.setCiudad(null);
-			cliente.setNoCuenta(numero_cuenta);
+			cliente.setNoCuenta(this.cliente.getNoCuenta());
 
-			cliente.setGenero(genero);
-			telefonos.add(telefono);
+			cliente.setGenero(this.cliente.getGenero());
+			telefonos.add(telefonoLista);
 			cliente.setTelefonos(telefonos);
-			cliente.setFecha_nacimiento(fechaNacimiento);
+			cliente.setFecha_nacimiento(this.cliente.getFecha_nacimiento());
 
 			clienteEJB.modificarCliente(cliente);
 
@@ -200,7 +212,7 @@ public class ClienteBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			
 			reiniciarVariables();
-			return "/registrarCliente";
+			return "/listaClientes";
 
 		} catch (ExcepcionesFenix e) {
 			e.printStackTrace();
@@ -239,6 +251,9 @@ public class ClienteBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Metodo que permite reiniciar los valores de las variables
+	 */
 	public void reiniciarVariables() {
 		cedula="";
 		nombres="";
@@ -444,9 +459,6 @@ public class ClienteBean implements Serializable {
 	 * @return the telefono
 	 */
 	public String getTelefono() {
-		if (this.cliente!=null)
-			telefono = cliente.getTelefonos().get(0);
-		
 		return telefono;
 	}
 
@@ -512,5 +524,42 @@ public class ClienteBean implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	/**
+	 * @return the usuario
+	 */
+	public Persona getUsuario() {
+		return usuario;
+	}
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(Persona usuario) {
+		this.usuario = usuario;
+	}
+
+	/**
+	 * Metodo get que permite obtener el primer telefono del array de telefonos
+	 * 
+	 * @return telefonoLista
+	 */
+	public String getTelefonoLista() {
+		if (this.cliente!=null)
+			telefonoLista = cliente.getTelefonos().get(0);
+		
+		return telefonoLista;
+	}
+
+	/**
+	 * Metodo set que permite obtener el primer telefono del array de telefonos
+	 * 
+	 * @param telefonoLista the telefonoLista to set
+	 */
+	public void setTelefonoLista(String telefonoLista) {
+		this.telefonoLista = telefonoLista;
+	}
+	
+	
 
 }

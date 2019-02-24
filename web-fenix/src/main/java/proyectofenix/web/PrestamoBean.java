@@ -12,9 +12,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.annotation.FacesConfig.Version;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 
@@ -105,15 +107,18 @@ public class PrestamoBean implements Serializable{
 	 */
 	private String fechaFormateada;
 	
-	
+	/**
+	 * Instancia de cliente Bean para asignar el prestamo al cliente seleccionado
+	 */
+	@Inject
+	@ManagedProperty(value="#{clienteBean1}")
+	private ClienteBean clienteBean;
 	
 	
 	@PostConstruct
 	private void inicializar() {
 		tiposPrestamo = bancoEJB.listarTodosTipoPrestamo();
 		formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy",new Locale("es","COL"));
-		valorPrestamo=0;
-		
 	}
 	
 	/**
@@ -122,26 +127,20 @@ public class PrestamoBean implements Serializable{
 	 * @return ruta a donde se redirige
 	 */
 	public String registrarPrestamo() {
-		String cedula="1"; 
 		Calendar sumaFecha = Calendar.getInstance();
 
 		sumaFecha.setTime(fechaInicio);
 		sumaFecha.add(Calendar.MONTH, numeroCuotas);
 		fechaFin = sumaFecha.getTime();
 
-		
+
 		try {
-			bancoEJB.realizarPrestamo(cedula, valorPrestamo, fechaInicio, fechaFin, numeroCuotas, tipoPrestamo.getId());
+			bancoEJB.realizarPrestamo(clienteBean.getCliente().getCedula(), valorPrestamo, fechaInicio, fechaFin, numeroCuotas, tipoPrestamo.getId());
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro de prestamo exitoso",
 					"Registro prestamo exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			id=0;
-			persona=null;
-			valorPrestamo=0;
-			fechaInicio=null;
-			fechaFin=null;
-			tipoPrestamo=null;
-			return "";
+			reiniciarVariables();
+			return "/listaClientes";
 		} catch (ExcepcionesFenix e) {
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
@@ -151,6 +150,17 @@ public class PrestamoBean implements Serializable{
 		
 	}
 	
+	/**
+	 * Metodo que permite reiniciar las variables del bean
+	 */
+	public void reiniciarVariables() {
+		persona=null;
+		valorPrestamo=0;
+		numeroCuotas=0;
+		fechaInicio=null;
+		fechaFin=null;
+		tipoPrestamo=null;
+	}
 	
 	// Metodos Get y Set
 	
@@ -314,7 +324,23 @@ public class PrestamoBean implements Serializable{
 	public void setFechaFormateada(String fechaFormateada) {
 		this.fechaFormateada = fechaFormateada;
 	}
-	
-	
+
+	/**
+	 * Metodo get clienteBean Cliente Bean
+	 *  
+	 * @return the clienteBean
+	 */
+	public ClienteBean getClienteBean() {
+		return clienteBean;
+	}
+
+	/**
+	 * Metodo set clienteBean Cliente Bean
+	 * 
+	 * @param clienteBean the clienteBean to set
+	 */
+	public void setClienteBean(ClienteBean clienteBean) {
+		this.clienteBean = clienteBean;
+	}
 
 }

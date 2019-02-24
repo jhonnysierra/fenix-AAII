@@ -14,9 +14,6 @@
 
 
 	<ui:define name="contenido">
-		<div>
-			<p:growl />
-		</div>
 		<br />
 		<h:form id="listaClientes">
 			<p:fieldset legend="Lista de clientes" style="margin-bottom:20px">
@@ -87,7 +84,7 @@
 
 							<h:outputLabel for="telefono" value="Telefono: " />
 							<h:outputText id="telefono"
-								value="#{clienteBean1.telefono}"
+								value="#{clienteBean1.telefonoLista}"
 								style="font-weight:bold" />
 
 							<h:outputLabel for="contrasenia" value="Contraseña: " />
