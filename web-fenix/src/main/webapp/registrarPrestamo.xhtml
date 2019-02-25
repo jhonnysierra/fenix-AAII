@@ -32,14 +32,10 @@
 		<h:form id="registrarPrestamo">
 			<p:panelGrid columns="2">
 				<f:facet name="header">Registrar Prestamo</f:facet>
-				<h:outputLabel for="prestamoId" value="Id:" />
-				<p:inputText id="prestamoId" placeholder="" required="true"
-					requiredMessage="Falta el id del prestamo" value="" readonly="true" />
-
 				<label>Persona:</label>
 				<p:inputText id="prestamoPersona" placeholder="" required="true"
 					requiredMessage="Necesitamos una persona asociada al prestamo"
-					value="#{prestamoBean.clienteBean.cliente.cedula}" />
+					value="#{prestamoBean.clienteBean.cliente.cedula}" disabled="true"/>
 				<br />
 
 				<label>Valor:</label>
@@ -80,8 +76,8 @@
 				</p:selectOneMenu>
 				<br />
 
-				<p:commandButton ajax="false" icon="fa fa-dollar-sign" value="Aceptar"
-					action="#{prestamoBean.registrarPrestamo}" />
+				<p:commandButton ajax="false" icon="fa fa-dollar-sign"
+					value="Aceptar" action="#{prestamoBean.registrarPrestamo}" />
 
 			</p:panelGrid>
 

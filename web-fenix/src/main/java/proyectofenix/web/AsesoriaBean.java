@@ -134,7 +134,7 @@ public class AsesoriaBean {
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 			return "/infoAsesoria";
 		} catch (ExcepcionesFenix e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage());
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 		}
 

@@ -4,52 +4,75 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
-<head>
-<meta charset="UTF-8" />
-<title>Solicitar asesoria Cliente</title>
-</head>
-<body>
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-	<h1>Asesoria Cliente</h1>
-	
-	<h4>Los campos de este formulario son obligarotios</h4>
-	<h:form>
-		<br />
-		<label>Cedula Cliente:</label>
-		<h:inputText id="asesoriaCliente"
-			placeholder="Ingrese su número de documento sin puntos" required="true" requiredMessage="Necesitamos tu número de documento" value="#{asesoriaBean.cedulaCliente}" />
-		<br />
-		<label>Empleado:</label>
-		<h:selectOneMenu value="#{asesoriaBean.empleado}"
-			converter="selectItemObjectConverter" required="true" requiredMessage="Debes seleccionar un empleado">
-			<f:selectItem itemLabel="Seleccione un empleado"
-				noSelectionOption="true"></f:selectItem>
-			<f:selectItems value="#{asesoriaBean.empleados}" var="empleado"
-				itemValue="#{empleado}"
-				itemLabel="#{empleado.nombres} #{empleado.apellidos}" />
-		</h:selectOneMenu>
-		<br />
-		<label>Tipo Asesoria:</label>
-		<h:selectOneMenu value="#{asesoriaBean.tipoAsesoria}"
-			converter="selectItemObjectConverter" required="true" requiredMessage="Debes seleccionar un tipo de asesoría">
-			<f:selectItem itemLabel="Seleccione tipo de Asesoria"
-				noSelectionOption="true"></f:selectItem>
-			<f:selectItems value="#{asesoriaBean.tiposAsesoria}" var="tipoAsesoria"
-				itemValue="#{tipoAsesoria}"
-				itemLabel="#{tipoAsesoria.tipo}" />
-		</h:selectOneMenu>
-		<br />
-		<label>Fecha Asesoria:</label>
-		<h:inputText id="asesoriaFecha" value="#{asesoriaBean.fecha}" required="true" requiredMessage="Ingresa la fecha">
-			<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota"></f:convertDateTime>
-		</h:inputText>
-		
-		<br />
+<ui:composition template="/WEB-INF/template.xhtml">
 
-		<h:commandButton value="Aceptar"
-			action="#{asesoriaBean.crearAsesoria}" />
-	</h:form>
-	<h:messages />
-</body>
+	<meta charset="UTF-8" />
+	<ui:define name="title">Solicitar Asesoría</ui:define>
+
+
+	<ui:define name="contenido">
+		<h:outputStylesheet>
+        .ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
+        {
+            border: none !important;
+            border-style: none !important;
+            border-width: 0px !important;
+        }
+    </h:outputStylesheet>
+
+		<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
+		<body>
+
+			<h4>Los campos de este formulario son obligarotios</h4>
+			<h:form>
+				<p:panelGrid columns="2">
+					<f:facet name="header">Solicitar Asesoría</f:facet>
+
+					<label>Cedula Cliente:</label>
+					<p:inputText id="asesoriaCliente"
+						placeholder="Ingrese su número de documento sin puntos"
+						required="true"
+						requiredMessage="Necesitamos tu número de documento"
+						value="#{asesoriaBean.cedulaCliente}" style="width:100%" />
+					<label>Empleado:</label>
+					<p:selectOneMenu value="#{asesoriaBean.empleado}"
+						converter="selectItemObjectConverter" required="true"
+						requiredMessage="Debes seleccionar un empleado" >
+						<f:selectItem itemLabel="Seleccione un empleado"
+							noSelectionOption="true"></f:selectItem>
+						<f:selectItems value="#{asesoriaBean.empleados}" var="empleado"
+							itemValue="#{empleado}"
+							itemLabel="#{empleado.nombres} #{empleado.apellidos}" />
+					</p:selectOneMenu>
+
+					<label>Tipo Asesoria:</label>
+					<p:selectOneMenu value="#{asesoriaBean.tipoAsesoria}"
+						converter="selectItemObjectConverter" required="true"
+						requiredMessage="Debes seleccionar un tipo de asesoría">
+						<f:selectItem itemLabel="Seleccione tipo de Asesoria"
+							noSelectionOption="true"></f:selectItem>
+						<f:selectItems value="#{asesoriaBean.tiposAsesoria}"
+							var="tipoAsesoria" itemValue="#{tipoAsesoria}"
+							itemLabel="#{tipoAsesoria.tipo}" />
+					</p:selectOneMenu>
+
+					<label>Fecha Asesoria:</label>
+					<p:calendar id="fechaNaciCliente" required="true"
+						requiredMessage="Por favor ingresa una fecha"
+						value="#{asesoriaBean.fecha}" locale="co" pattern="yyyy-MM-dd" />
+
+					<p:commandButton ajax="false" icon="fa fa-save" value="Aceptar"
+						action="#{asesoriaBean.crearAsesoria}" />
+				</p:panelGrid>
+			</h:form>
+		</body>
+	</ui:define>
+</ui:composition>
 </html>

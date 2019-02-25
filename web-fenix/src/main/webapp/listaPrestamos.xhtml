@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<meta charset="UTF-8" />
+	<ui:define name="title">Lista Prestamos</ui:define>
+
+
+	<ui:define name="contenido">
+		<br />
+		<h:form id="listaPrestamos">
+
+			<p:dataTable id="tablaPrestamos" value="#{prestamoBean.prestamos}"
+				var="prestamo">
+				<f:facet name="header">Lista de Prestamos</f:facet>
+				<p:column headerText="Id">
+					<h:outputText value="#{prestamo.id}" />
+				</p:column>
+
+				<p:column headerText="Persona">
+					<h:outputText
+						value="#{prestamo.persona.nombres} #{prestamo.persona.apellidos}" />
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{prestamo.valorPrestamo}" />
+				</p:column>
+
+				<p:column headerText="Fecha Prestamo">
+					<h:outputText value="#{prestamo.fechaInicio}">
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:24px">
+					<p:commandLink update=":listaPrestamos:detallePrestamo"
+						oncomplete="PF('documentDialog').show()" icon="fa fa-search"
+						title="Ver Detalles">
+						<i class="fas fa-search"></i>
+						<f:setPropertyActionListener value="#{prestamo}"
+							target="#{prestamoBean.prestamo}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog id="dialog" header="Detalle Prestamo" showEffect="fade"
+				widgetVar="documentDialog" modal="true" resizable="false">
+				<p:outputPanel id="detallePrestamo">
+					<p:panelGrid columns="2" cellpadding="4">
+						<h:outputLabel for="Id" value="Id: " />
+						<h:outputText id="id" value="#{prestamoBean.prestamo.id}"
+							style="font-weight:bold" />
+
+						<h:outputLabel for="persona" value="Persona: " />
+						<h:outputText id="persona"
+							value="#{prestamoBean.prestamo.persona.nombres} #{prestamoBean.prestamo.persona.apellidos}"
+							style="font-weight:bold" />
+
+						<h:outputLabel for="valor" value="Valor: " />
+						<h:outputText id="valor"
+							value="#{prestamoBean.prestamo.valorPrestamo}"
+							style="font-weight:bold" />
+
+						<h:outputLabel for="fechaInicio" value="Fecha Inicio: " />
+						<h:outputText id="fechaInicio"
+							value="#{prestamoBean.prestamo.fechaInicio}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="fechaFin" value="Fecha Fin: " />
+						<h:outputText id="fechaFin"
+							value="#{prestamoBean.prestamo.fechaFin}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="tipo" value="Tipo: " />
+						<h:outputText id="tipo"
+							value="#{prestamoBean.prestamo.tipoPrestamo.nombre}"
+							style="font-weight:bold" />
+
+						<h:outputLabel for="noCuotas" value="Número cuotas: " />
+						<h:outputText id="noCuotas"
+							value="#{prestamoBean.prestamo.noCuotas}"
+							style="font-weight:bold">
+						</h:outputText>
+
+						<h:outputLabel for="noPagos" value="Número Pagos: " />
+						<h:outputText id="noPagos" value="#{prestamoBean.cantidadPagos}"
+							style="font-weight:bold" />
+
+						<f:facet name="footer">
+							<p:commandButton value="Pagar Cuota" ajax="false" action="/registrarPagoCuota" />
+						</f:facet>
+					</p:panelGrid>
+
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

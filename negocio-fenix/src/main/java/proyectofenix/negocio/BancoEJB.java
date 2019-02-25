@@ -365,6 +365,8 @@ public class BancoEJB implements BancoEJBRemote {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque NO se encontró el prestamo");
 		} else if (entityManager.find(Pago.class, pago.getId()) != null) {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque el id del pago ya existe");
+		}else if ( (sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo().getValorPrestamo()) {
+			throw new ExcepcionesFenix("El pago supera el valor del prestamo");
 		}
 
 		try {
@@ -376,6 +378,20 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 	}
 
+
+	/** Metodo que realiza la sumatoria de pagos de un prestamo
+	 * @param pagos lista de pagos del prestamo
+	 * @return sumatoria de los pagos del prestamo
+	 */
+	public double sumaPagosPrestamo(List<Pago> pagos) {
+		double totalPagado=0;
+		for (Pago p : pagos) {
+			totalPagado+=p.getValor();
+		}
+		
+		return totalPagado;
+		
+	}
 	/**
 	 * Metodo para registrar un prestamo
 	 * 

@@ -132,9 +132,9 @@ public class ClienteBean implements Serializable {
 	@PostConstruct
 	private void inicializar() {
 		clientes = administradorEJB.listarclientesActivos();
-		for (Cliente c : clientes) {
+		/*for (Cliente c : clientes) {
 			System.out.println(String.format("Cedula:%s, estado:%s", c.getCedula(), c.getEstado()));
-		}
+		}*/
 	}
 
 	/**
