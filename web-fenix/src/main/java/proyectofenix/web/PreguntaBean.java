@@ -1,7 +1,11 @@
 package proyectofenix.web;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -76,10 +80,17 @@ public class PreguntaBean {
 
 	@EJB
 	private BancoEJB bancoEJB;
+	
+	/**
+	 * Formateador de fechas
+	 */
+	private Format formatoFecha;
+	
 
 	@PostConstruct
 	private void inicializar() {
 		personas = (List<Persona>) bancoEJB.listarPersonas();
+		formatoFecha = new SimpleDateFormat("HH:ii:ss", new Locale("es", "COL"));
 	}
 
 	/**
@@ -92,13 +103,21 @@ public class PreguntaBean {
 		Asesoria asesoria = new Asesoria();
 		asesoria.setId(id);
 		asesoria.setFecha(fecha);
-
+		Date hora = null;
+		
+		try {
+			hora = new SimpleDateFormat("hh:mm:ss").parse("00:00:00");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		System.out.println(String.format("La persona es: %s", persona));
 
 		// Se comenta para que no registre
 
 		try {
-			clienteEJB.crearAsesoria(tipo_asesoria, cedulaEmpleado, cedulaCliente, fecha);
+			clienteEJB.crearAsesoria(tipo_asesoria, cedulaEmpleado, cedulaCliente, fecha,hora);
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
 					"Registro exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);

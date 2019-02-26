@@ -10,9 +10,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.annotation.FacesConfig.Version;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import proyecto.fenix.excepciones.ExcepcionesFenix;
@@ -92,12 +94,12 @@ public class AsesoriaBean {
 	 * Tipo de asesoria
 	 */
 	private TipoAsesoria tipoAsesoria;
-	
+
 	/**
 	 * Formateador de fechas
 	 */
 	private Format formatoFecha;
-	
+
 	/**
 	 * Fecha formteada para mostrar en el resumen
 	 */
@@ -106,11 +108,18 @@ public class AsesoriaBean {
 	@EJB
 	private BancoEJB bancoEJB;
 
+	/**
+	 * El inyectado desde el login Seguridad Bean
+	 */
+	@Inject
+	@ManagedProperty(value = "#{seguridadBean}")
+	private SeguridadBean seguridadBean;
+
 	@PostConstruct
 	private void inicializar() {
 		empleados = clienteEJB.listarEmpleados();
 		tiposAsesoria = clienteEJB.listarTodosTipoAsesoria();
-		formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy",new Locale("es","COL"));
+		formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("es", "COL"));
 	}
 
 	/**
@@ -119,22 +128,26 @@ public class AsesoriaBean {
 	 * @return ruta que muestra la informacion detallada de la asesoria
 	 */
 	public String crearAsesoria() {
-		
-		//System.out.println(String.format("La persona es: %s", empleado.getCedula()));
-		//System.out.println(String.format("El tipo de asesoria es: %s", tipoAsesoria.getId()));
+
+		// System.out.println(String.format("La persona es: %s", empleado.getCedula()));
+		// System.out.println(String.format("El tipo de asesoria es: %s",
+		// tipoAsesoria.getId()));
 
 		// Se comenta para que no registre
-		
-		fechaFormateada=formatoFecha.format(fecha);
+
+		// Se formatea la fecha para fecha y hora colombiana
+		fechaFormateada = formatoFecha.format(fecha);
+		cedulaCliente=seguridadBean.getUsuario().getCedula();
 
 		try {
-			clienteEJB.crearAsesoria(tipoAsesoria.getId(), empleado.getCedula(), cedulaCliente, fecha);
+			clienteEJB.crearAsesoria(tipoAsesoria.getId(), empleado.getCedula(), cedulaCliente, fecha, horaInicio);
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso",
 					"Registro exitoso");
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-			return "/infoAsesoria";
+			reiniciarVariables();
+			return "/index";
 		} catch (ExcepcionesFenix e) {
-			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage());
+			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, facesMsg);
 		}
 
@@ -143,6 +156,14 @@ public class AsesoriaBean {
 
 	}
 
+	public void reiniciarVariables() {
+		id=0;
+		cedulaCliente="";
+		cedulaEmpleado="";
+		fecha=null;
+		horaInicio=null;
+		horaFin=null;
+	}
 	// ---------------Metodos Get y Set--------------------
 
 	/**
@@ -360,5 +381,23 @@ public class AsesoriaBean {
 	public void setFechaFormateada(String fechaFormateada) {
 		this.fechaFormateada = fechaFormateada;
 	}
-	
+
+	/**
+	 * Metodo get seguridad Bean inyectado desde el bean seguridad
+	 * 
+	 * @return the seguridadBean
+	 */
+	public SeguridadBean getSeguridadBean() {
+		return seguridadBean;
+	}
+
+	/**
+	 * Metodo set seguridad Bean inyectado desde el bean seguridad
+	 * 
+	 * @param seguridadBean the seguridadBean to set
+	 */
+	public void setSeguridadBean(SeguridadBean seguridadBean) {
+		this.seguridadBean = seguridadBean;
+	}
+
 }

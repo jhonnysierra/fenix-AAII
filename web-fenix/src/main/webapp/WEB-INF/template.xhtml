@@ -9,6 +9,38 @@
 	<title><ui:insert name="title">Banco Fenix</ui:insert></title>
 	<link rel="stylesheet"
 		href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+	<script>
+		PrimeFaces.locales['co'] = {
+			closeText : 'Cerrar',
+			prevText : 'Anterior',
+			nextText : 'Siguiente',
+			monthNames : [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
+					'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+					'Noviembre', 'Diciembre' ],
+			monthNamesShort : [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+					'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+			dayNames : [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves',
+					'Viernes', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+			dayNamesMin : [ 'D', 'L', 'M', 'M', 'J', 'V', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Seleccione una hora',
+			timeText : 'Tiempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Fecha actual',
+			ampm : false,
+			month : 'Mes',
+			week : 'Semana',
+			day : 'Día',
+			allDayText : 'Todo el día'
+		};
+	</script>
 </h:head>
 
 <h:body>
@@ -47,45 +79,22 @@
 				<h:form>
 
 					<p:menubar>
-						<p:submenu label="Clientes" icon="fa fa-angle-right">
-							<p:submenu label="New" icon="pi pi-briefcase">
-								<p:menuitem value="Project" url="#" />
-								<p:menuitem value="Other" url="#" />
-							</p:submenu>
+						<p:submenu label="Clientes" icon="fa fa-angle-right"
+							rendered="#{seguridadBean.loginEmpleado}">
 							<p:menuitem value="Registrar" url="/registrarCliente.xhtml" />
 							<p:menuitem value="Lista" url="/listaClientes.xhtml" />
 						</p:submenu>
 
-						<p:submenu label="Prestamos" icon="fa fa-angle-right">
-							<p:menuitem value="Lista" url="/listaPrestamos.xhtml"  />
+						<p:submenu label="Prestamos" icon="fa fa-angle-right"
+							rendered="#{seguridadBean.loginEmpleado}">
+							<p:menuitem value="Lista" url="/listaPrestamos.xhtml" />
 							<p:menuitem value="Redo" url="#" icon="pi pi-angle-double-right" />
 						</p:submenu>
 
-						<p:submenu label="Help" icon="pi pi-question">
-							<p:menuitem value="Contents" url="#" />
-							<p:submenu label="Search" icon="pi pi-search">
-								<p:submenu label="Text">
-									<p:menuitem value="Workspace" url="#" />
-								</p:submenu>
-								<p:menuitem value="File" url="#" />
-							</p:submenu>
+						<p:submenu label="Asesoria" icon="fa fa-angle-right"
+							rendered="#{seguridadBean.loginCliente}">
+							<p:menuitem value="Solicitar" url="/asesoriaCliente.xhtml" />
 						</p:submenu>
-
-						<p:submenu label="Actions" icon="pi pi-cog">
-							<p:submenu label="Ajax" icon="pi pi-refresh">
-								<p:menuitem value="Save" action="#{menuView.save}"
-									icon="pi pi-save" update="messages" />
-								<p:menuitem value="Update" action="#{menuView.update}"
-									icon="pi pi-refresh" update="messages" />
-							</p:submenu>
-							<p:submenu label="Non-Ajax" icon="pi pi-clone">
-								<p:menuitem value="Delete" action="#{menuView.delete}"
-									icon="pi pi-times" update="messages" ajax="false" />
-							</p:submenu>
-						</p:submenu>
-
-						<p:menuitem value="Quit" url="http://www.primefaces.org"
-							icon="pi pi-times" />
 
 						<f:facet name="options">
 							<p:commandButton action="#{seguridadBean.cerrarSesion}"

@@ -1,7 +1,11 @@
 package proyectofenix.negocio;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -16,7 +20,9 @@ import proyecto.fenix.excepciones.InformacionNoEncontradaException;
 import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
+import proyectofenix.entidades.Pago;
 import proyectofenix.entidades.Persona;
+import proyectofenix.entidades.Prestamo;
 import proyectofenix.entidades.TipoAsesoria;
 import proyectofenix.entidades.TipoPrestamo;
 
@@ -40,7 +46,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	/**
 	 * Metodo que permite buscar una persona por numero de cedula
 	 * 
@@ -52,7 +57,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 
 		return personaBuscar;
 	}
-	
+
 	/**
 	 * Metodo que permite listar las personas del Banco
 	 * 
@@ -63,7 +68,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 
 		return personas.getResultList();
 	}
-	
+
 	/**
 	 * Metodo que permite listar los empleados del Banco
 	 * 
@@ -76,6 +81,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 		return empleados.getResultList();
 
 	}
+
 	/**
 	 * Metodo que permite buscar una persona por email
 	 * 
@@ -106,7 +112,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 			throw new ExcepcionesFenix("No se encontró el cliente");
 		}
 	}
-	
+
 	/**
 	 * Permite agregar un cliente a la base de datos de un banco
 	 * 
@@ -125,12 +131,12 @@ public class ClienteEJB implements ClienteEJBRemote {
 			entityManager.persist(cliente);
 			return cliente;
 		} catch (Exception e) {
-			
+
 			return null;
 		}
 
 	}
-	
+
 	/**
 	 * Permite modificar un cliente a la base de datos de un banco
 	 * 
@@ -151,7 +157,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 		}
 
 	}
-	
+
 	/**
 	 * Permite eliminar un cliente a la base de datos de un banco por cedula. Para
 	 * el caso de nuestro proyecto el eliminado sera logico, es decir se cammbia el
@@ -165,7 +171,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 
 		if (clienteEliminar != null) {
 			try {
-				//entityManager.remove(clienteEliminar);
+				// entityManager.remove(clienteEliminar);
 				clienteEliminar.setEstado("0");
 				entityManager.merge(clienteEliminar);
 				return true;
@@ -197,7 +203,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 		}
 
 	}
-	
+
 	/**
 	 * Permite listar todos los tipos de prestamos existentes
 	 * 
@@ -232,20 +238,19 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * @param idAsesoria codigo de la asesoria
 	 * @return Tipo de asesoria encontrado
 	 */
-	public TipoAsesoria tipoAsesoriaPorCodigo(int idAsesoria) throws ExcepcionesFenix{
+	public TipoAsesoria tipoAsesoriaPorCodigo(int idAsesoria) throws ExcepcionesFenix {
 		TipoAsesoria tipoAsesoria;
-		
-		
+
 		try {
 			TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager
 					.createNamedQuery(TipoAsesoria.TIPO_ASESORIA_POR_CODIGO, TipoAsesoria.class);
 			queryTipoAsesoria.setParameter("idAsesoria", idAsesoria);
-			tipoAsesoria=queryTipoAsesoria.getSingleResult();
+			tipoAsesoria = queryTipoAsesoria.getSingleResult();
 		} catch (NoResultException re) {
 			re.printStackTrace();
 			throw new ExcepcionesFenix("No se encontró el tipo de asesoria");
 		}
-		
+
 		return tipoAsesoria;
 	}
 
@@ -255,11 +260,11 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * @return Lista con los tipos de prestamos
 	 */
 	public List<TipoAsesoria> listarTodosTipoAsesoria() {
-		TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager.createNamedQuery(TipoAsesoria.OBTENER_TIPOASESORIAS_ALL,
-				TipoAsesoria.class);
+		TypedQuery<TipoAsesoria> queryTipoAsesoria = entityManager
+				.createNamedQuery(TipoAsesoria.OBTENER_TIPOASESORIAS_ALL, TipoAsesoria.class);
 		return queryTipoAsesoria.getResultList();
 	}
-	
+
 	/**
 	 * Metodo que permite crear una asesoria
 	 * 
@@ -331,43 +336,83 @@ public class ClienteEJB implements ClienteEJBRemote {
 	/**
 	 * Metodo que permite crear una asesoria
 	 * 
-	 * @param tipo_asesoria tipo de asesoria de la asesoria
+	 * @param tipo_asesoria   tipo de asesoria de la asesoria
 	 * @param cedula_empleado cedula del empleado que atendera la asesoria
-	 * @param cedula_cliente cedula del cliente que solicita la asesoria
-	 * @param fecha fecha de la asesoria
+	 * @param cedula_cliente  cedula del cliente que solicita la asesoria
+	 * @param fecha           fecha de la asesoria
 	 * @return Asesoria creada
-	 * @throws ExcepcionesFenix Si no se encuentra el cliente, el empleado o el tipo de asesoria
+	 * @throws ExcepcionesFenix Si no se encuentra el cliente, el empleado o el tipo
+	 *                          de asesoria
 	 */
-	public Asesoria crearAsesoria(int tipo_asesoria, String cedula_empleado, String cedula_cliente, Date fecha)
+	public Asesoria crearAsesoria(int tipo_asesoria, String cedula_empleado, String cedula_cliente, Date fecha, Date horaInicio)
 			throws ExcepcionesFenix {
 
 		Cliente cliente = buscarcliente(cedula_cliente);
 		Empleado empleado = buscarEmpleado(cedula_empleado);
 		TipoAsesoria tipoasesoria = tipoAsesoriaPorCodigo(tipo_asesoria);
+		List<Asesoria> listaAsesoriasEmpleado = listaAsesoriaEmpleado(cedula_empleado);
 		
+		//SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("es", "COL"));
+		
+		Calendar sumaHora = Calendar.getInstance();
+		sumaHora.setTime(horaInicio);
+		sumaHora.add(Calendar.HOUR, 1); 
+	
+		
+		for (Asesoria a : listaAsesoriasEmpleado) {
+			System.out.println("Hora lista:" + a.getHoraInicio());
+			if (a.getFecha().equals(fecha) && a.getHoraInicio().equals(horaInicio)) {
+				throw new ExcepcionesFenix("El empleado no puede atender tu solicitud en este horario. Intenta cambiar la hora si no funciona cambia el día");
+				
+			}
+		}
+
 		if (cliente == null) {
 			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el cliente");
 		} else if (empleado == null) {
 			throw new ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el empleado");
-		}
-		else if (tipoasesoria==null) {
+		} else if (tipoasesoria == null) {
 			throw new ExcepcionesFenix("No se puede realizar la asesoria porque el tipo de asesoria no existe");
-		}else {
-			
+		} else {
+
 			Asesoria asesoria = new Asesoria();
-			
+
 			asesoria.setId(consecutivoAsesoria());
 			asesoria.setCliente(cliente);
 			asesoria.setEmpleado(empleado);
 			asesoria.setTipoasesoria(tipoasesoria);
 			asesoria.setFecha(fecha);
-			
+			asesoria.setHoraInicio(horaInicio);
+
 			try {
-				entityManager.persist(asesoria); 
+				entityManager.persist(asesoria);
 				return asesoria;
 			} catch (Exception e) {
 				throw new ExcepcionesFenix("No se pudo crear la asesoria. " + e.getMessage());
 			}
+		}
+	}
+
+	/**
+	 * Metodo que permite obtener el listado de asesorias de un empleado
+	 * 
+	 * @param cedulaEmpleado cedula del empleado del que se quiere obtener las
+	 *                       asesorias
+	 * @return Lista de asesorias del empleado
+	 * @throws ExcepcionesFenix si no se genera la lista
+	 */
+	public List<Asesoria> listaAsesoriaEmpleado(String cedulaEmpleado) throws ExcepcionesFenix {
+
+		try {
+			TypedQuery<Asesoria> query = entityManager.createNamedQuery(Asesoria.OBTENER_LISTA_ASESORIAS_EMPLEADO,
+					Asesoria.class);
+			query.setParameter("cedula", cedulaEmpleado);
+
+			List<Asesoria> listaAsesorias = query.getResultList();
+			System.out.println("lista asesorias ejb:" + listaAsesorias.size());
+			return listaAsesorias;
+		} catch (Exception e) {
+			throw new ExcepcionesFenix("No se genero la lista de asesoria del empleado. " + e.getMessage());
 		}
 	}
 }

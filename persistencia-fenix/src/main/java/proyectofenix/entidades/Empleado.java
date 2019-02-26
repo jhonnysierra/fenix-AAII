@@ -14,7 +14,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
- * Clase encargada de representar la informacion de un Empleado hereda de la clase Persona
+ * Clase encargada de representar la informacion de un Empleado hereda de la
+ * clase Persona
+ * 
  * @author JJJ
  * @version 1.0 28-agosto-2018
  *
@@ -22,13 +24,13 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = Empleado.OBTENER_DATOS_EMPLEADO, query = "select e from Empleado e") })
-public class Empleado extends Persona implements Serializable{
-	
+public class Empleado extends Persona implements Serializable {
+
 	/**
 	 * Permite obtener los datos de los empleados
 	 */
 	public static final String OBTENER_DATOS_EMPLEADO = "DatosEmpleado";
-	
+
 	/**
 	 * serialVersionUID clase Empleado
 	 */
@@ -41,24 +43,24 @@ public class Empleado extends Persona implements Serializable{
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaInicio;
-	
+
 	/**
 	 * Fecha de fin de contrato de un Empleado
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaFin;
-	
+
 	/**
 	 * Salario de un Empleado
 	 */
-	private double salario; 
-	
+	private double salario;
+
 	/**
 	 * Lista de asesorias de un empleado
 	 */
 	@OneToMany(mappedBy = "empleado")
 	private List<Asesoria> aseoria;
-	
+
 	/**
 	 * Metodo constructor clase Empleado
 	 */
@@ -68,6 +70,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo get fecha inicio contrato clase Empleado
+	 * 
 	 * @return fechaInicio
 	 */
 	public Date getFechaInicio() {
@@ -76,6 +79,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo set fecha inicio contrato clase Empleado
+	 * 
 	 * @param fechaInicio
 	 */
 	public void setFechaInicio(Date fechaInicio) {
@@ -84,6 +88,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo get fecha fin contrato clase Empleado
+	 * 
 	 * @return fechaFin
 	 */
 	public Date getFechaFin() {
@@ -92,6 +97,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo set fecha fin contrato clase Empleado
+	 * 
 	 * @param fechaFin
 	 */
 	public void setFechaFin(Date fechaFin) {
@@ -100,6 +106,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo get salario clase Empleado
+	 * 
 	 * @return salario
 	 */
 	public double getSalario() {
@@ -108,16 +115,16 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo set salario clase Empleado
+	 * 
 	 * @param salario
 	 */
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
-	
-	
 
 	/**
 	 * Metodo get lista asesorias clase Empleado
+	 * 
 	 * @return aseoria
 	 */
 	public List<Asesoria> getAseoria() {
@@ -126,6 +133,7 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo set lista asesorias clase Empleado
+	 * 
 	 * @param aseoria
 	 */
 	public void setAseoria(List<Asesoria> aseoria) {
@@ -134,14 +142,15 @@ public class Empleado extends Persona implements Serializable{
 
 	/**
 	 * Metodo get serialversionuid clase Empleado
+	 * 
 	 * @return the serialversionuid
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	/* 
-	 * Metodo hashcode clase Empleado 
+	/*
+	 * Metodo hashcode clase Empleado
 	 */
 	@Override
 	public int hashCode() {
@@ -154,7 +163,6 @@ public class Empleado extends Persona implements Serializable{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
-	
 
 	/*
 	 * Metodo equals clase Empleado

@@ -40,11 +40,12 @@
 						placeholder="Ingrese su número de documento sin puntos"
 						required="true"
 						requiredMessage="Necesitamos tu número de documento"
-						value="#{asesoriaBean.cedulaCliente}" style="width:100%" />
+						value="#{asesoriaBean.seguridadBean.usuario.cedula}"
+						style="width:100%" disabled="true" />
 					<label>Empleado:</label>
 					<p:selectOneMenu value="#{asesoriaBean.empleado}"
 						converter="selectItemObjectConverter" required="true"
-						requiredMessage="Debes seleccionar un empleado" >
+						requiredMessage="Debes seleccionar un empleado">
 						<f:selectItem itemLabel="Seleccione un empleado"
 							noSelectionOption="true"></f:selectItem>
 						<f:selectItems value="#{asesoriaBean.empleados}" var="empleado"
@@ -67,6 +68,10 @@
 					<p:calendar id="fechaNaciCliente" required="true"
 						requiredMessage="Por favor ingresa una fecha"
 						value="#{asesoriaBean.fecha}" locale="co" pattern="yyyy-MM-dd" />
+
+					<p:outputLabel for="time" value="Hora:" />
+					<p:calendar id="time" value="#{asesoriaBean.horaInicio}"
+						pattern="HH:mm" locale="co" timeOnly="true" />
 
 					<p:commandButton ajax="false" icon="fa fa-save" value="Aceptar"
 						action="#{asesoriaBean.crearAsesoria}" />
