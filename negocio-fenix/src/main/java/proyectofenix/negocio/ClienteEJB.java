@@ -344,26 +344,27 @@ public class ClienteEJB implements ClienteEJBRemote {
 	 * @throws ExcepcionesFenix Si no se encuentra el cliente, el empleado o el tipo
 	 *                          de asesoria
 	 */
-	public Asesoria crearAsesoria(int tipo_asesoria, String cedula_empleado, String cedula_cliente, Date fecha, Date horaInicio)
-			throws ExcepcionesFenix {
+	public Asesoria crearAsesoria(int tipo_asesoria, String cedula_empleado, String cedula_cliente, Date fecha,
+			Date horaInicio) throws ExcepcionesFenix {
 
 		Cliente cliente = buscarcliente(cedula_cliente);
 		Empleado empleado = buscarEmpleado(cedula_empleado);
 		TipoAsesoria tipoasesoria = tipoAsesoriaPorCodigo(tipo_asesoria);
 		List<Asesoria> listaAsesoriasEmpleado = listaAsesoriaEmpleado(cedula_empleado);
-		
-		//SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale("es", "COL"));
-		
+
+		// SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+		// new Locale("es", "COL"));
+
 		Calendar sumaHora = Calendar.getInstance();
 		sumaHora.setTime(horaInicio);
-		sumaHora.add(Calendar.HOUR, 1); 
-	
-		
+		sumaHora.add(Calendar.HOUR, 1);
+
 		for (Asesoria a : listaAsesoriasEmpleado) {
 			System.out.println("Hora lista:" + a.getHoraInicio());
 			if (a.getFecha().equals(fecha) && a.getHoraInicio().equals(horaInicio)) {
-				throw new ExcepcionesFenix("El empleado no puede atender tu solicitud en este horario. Intenta cambiar la hora si no funciona cambia el día");
-				
+				throw new ExcepcionesFenix(
+						"El empleado no puede atender tu solicitud en este horario. Intenta cambiar la hora si no funciona cambia el día");
+
 			}
 		}
 
@@ -414,5 +415,19 @@ public class ClienteEJB implements ClienteEJBRemote {
 		} catch (Exception e) {
 			throw new ExcepcionesFenix("No se genero la lista de asesoria del empleado. " + e.getMessage());
 		}
+	}
+
+	/**
+	 * Permite lista los prestamo que ha realizado una persona
+	 * 
+	 * @param cedula cedula de la persona
+	 * @return lista de los prestamos de una persona
+	 */
+	public List<Prestamo> listarPrestamosPersona(String cedula) {
+		TypedQuery<Prestamo> query = entityManager.createNamedQuery(Persona.OBTENER_PRESTAMOS_PERSONA, Prestamo.class);
+		query.setParameter("cedula", cedula);
+
+		return query.getResultList();
+
 	}
 }

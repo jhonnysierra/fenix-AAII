@@ -10,16 +10,16 @@
 <ui:composition template="/WEB-INF/template.xhtml">
 
 	<meta charset="UTF-8" />
-	<ui:define name="title">Lista Prestamos</ui:define>
+	<ui:define name="title">Lista Prestamos Cliente</ui:define>
 
 
 	<ui:define name="contenido">
 		<br />
 		<h:form id="listaPrestamos">
 
-			<p:dataTable id="tablaPrestamos" value="#{prestamoBean.prestamos}"
+			<p:dataTable id="tablaPrestamos" value="#{prestamoClienteBean.prestamos}"
 				var="prestamo">
-				<f:facet name="header">Lista de Prestamos</f:facet>
+				<f:facet name="header">Lista de Prestamos Cliente</f:facet>
 				<p:column headerText="Id">
 					<h:outputText value="#{prestamo.id}" />
 				</p:column>
@@ -45,7 +45,7 @@
 						title="Ver Detalles">
 						<i class="fas fa-eye"></i>
 						<f:setPropertyActionListener value="#{prestamo}"
-							target="#{prestamoBean.prestamo}" />
+							target="#{prestamoClienteBean.prestamo}" />
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
@@ -55,46 +55,46 @@
 				<p:outputPanel id="detallePrestamo">
 					<p:panelGrid columns="2" cellpadding="4">
 						<h:outputLabel for="Id" value="Id: " />
-						<h:outputText id="id" value="#{prestamoBean.prestamo.id}"
+						<h:outputText id="id" value="#{prestamoClienteBean.prestamo.id}"
 							style="font-weight:bold" />
 
 						<h:outputLabel for="persona" value="Persona: " />
 						<h:outputText id="persona"
-							value="#{prestamoBean.prestamo.persona.nombres} #{prestamoBean.prestamo.persona.apellidos}"
+							value="#{prestamoClienteBean.prestamo.persona.nombres} #{prestamoClienteBean.prestamo.persona.apellidos}"
 							style="font-weight:bold" />
 
 						<h:outputLabel for="valor" value="Valor: " />
 						<h:outputText id="valor"
-							value="#{prestamoBean.prestamo.valorPrestamo}"
+							value="#{prestamoClienteBean.prestamo.valorPrestamo}"
 							style="font-weight:bold" />
 
 						<h:outputLabel for="fechaInicio" value="Fecha Inicio: " />
 						<h:outputText id="fechaInicio"
-							value="#{prestamoBean.prestamo.fechaInicio}"
+							value="#{prestamoClienteBean.prestamo.fechaInicio}"
 							style="font-weight:bold">
 							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
 						</h:outputText>
 
 						<h:outputLabel for="fechaFin" value="Fecha Fin: " />
 						<h:outputText id="fechaFin"
-							value="#{prestamoBean.prestamo.fechaFin}"
+							value="#{prestamoClienteBean.prestamo.fechaFin}"
 							style="font-weight:bold">
 							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
 						</h:outputText>
 
 						<h:outputLabel for="tipo" value="Tipo: " />
 						<h:outputText id="tipo"
-							value="#{prestamoBean.prestamo.tipoPrestamo.nombre}"
+							value="#{prestamoClienteBean.prestamo.tipoPrestamo.nombre}"
 							style="font-weight:bold" />
 
 						<h:outputLabel for="noCuotas" value="Número cuotas: " />
 						<h:outputText id="noCuotas"
-							value="#{prestamoBean.prestamo.noCuotas}"
+							value="#{prestamoClienteBean.prestamo.noCuotas}"
 							style="font-weight:bold">
 						</h:outputText>
 
 						<h:outputLabel for="noPagos" value="Número Pagos: " />
-						<h:outputText id="noPagos" value="#{prestamoBean.cantidadPagos}"
+						<h:outputText id="noPagos" value="#{prestamoClienteBean.cantidadPagos}"
 							style="font-weight:bold" />
 
 						<f:facet name="footer">

@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import proyecto.fenix.excepciones.ElementoRepetidoExcepcion;
 import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Administrador;
+import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.BienRaiz;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
@@ -365,7 +366,8 @@ public class BancoEJB implements BancoEJBRemote {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque NO se encontró el prestamo");
 		} else if (entityManager.find(Pago.class, pago.getId()) != null) {
 			throw new ExcepcionesFenix("No se puede realizar el pago porque el id del pago ya existe");
-		}else if ( (sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo().getValorPrestamo()) {
+		} else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo()
+				.getValorPrestamo()) {
 			throw new ExcepcionesFenix("El pago supera el valor del prestamo");
 		}
 
@@ -378,20 +380,22 @@ public class BancoEJB implements BancoEJBRemote {
 		}
 	}
 
-
-	/** Metodo que realiza la sumatoria de pagos de un prestamo
+	/**
+	 * Metodo que realiza la sumatoria de pagos de un prestamo
+	 * 
 	 * @param pagos lista de pagos del prestamo
 	 * @return sumatoria de los pagos del prestamo
 	 */
 	public double sumaPagosPrestamo(List<Pago> pagos) {
-		double totalPagado=0;
+		double totalPagado = 0;
 		for (Pago p : pagos) {
-			totalPagado+=p.getValor();
+			totalPagado += p.getValor();
 		}
-		
+
 		return totalPagado;
-		
+
 	}
+
 	/**
 	 * Metodo para registrar un prestamo
 	 * 
@@ -880,6 +884,46 @@ public class BancoEJB implements BancoEJBRemote {
 			throw new ExcepcionesFenix("Ocurrió un error!!! No se pudo validar la información");
 		}
 
+	}
+
+	/**
+	 * Metodo que permite obtener el listado de asesorias de un empleado
+	 * 
+	 * @param cedulaEmpleado cedula del empleado del que se quiere obtener las
+	 *                       asesorias
+	 * @return Lista de asesorias del empleado
+	 * @throws ExcepcionesFenix si no se genera la lista
+	 */
+	public List<Asesoria> listaAsesoriaEmpleado(String cedulaEmpleado) {
+
+		TypedQuery<Asesoria> query = entityManager.createNamedQuery(Asesoria.OBTENER_LISTA_ASESORIAS_EMPLEADO,
+				Asesoria.class);
+		query.setParameter("cedula", cedulaEmpleado);
+
+		List<Asesoria> listaAsesorias = query.getResultList();
+		return listaAsesorias;
+	}
+
+	/**
+	 * Metodo que permite actualizar la hora final de una asesoria, es decir, cuando
+	 * el empleado ya atendio al cliente.
+	 * 
+	 * @param asesoria asesoria a editar
+	 * @return asesoria editada
+	 * @throws ExcepcionesFenix
+	 */
+	public Asesoria atenderAsesoria(Asesoria asesoria) throws ExcepcionesFenix {
+
+		if (asesoria != null) {
+			try {
+				entityManager.merge(asesoria);
+				return asesoria;
+			} catch (Exception e) {
+				throw new ExcepcionesFenix("La asesoria no se pudo actualizar");
+			}
+		} else {
+			throw new ExcepcionesFenix("La asesoria es null");
+		}
 	}
 
 }

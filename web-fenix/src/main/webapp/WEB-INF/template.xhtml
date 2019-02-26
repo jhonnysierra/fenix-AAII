@@ -88,10 +88,30 @@
 						<p:submenu label="Prestamos" icon="fa fa-angle-right"
 							rendered="#{seguridadBean.loginEmpleado}">
 							<p:menuitem value="Lista" url="/listaPrestamos.xhtml" />
-							<p:menuitem value="Redo" url="#" icon="pi pi-angle-double-right" />
+							<p:submenu label="Listar Por Tipo">
+								<p:menuitem value="Comsumo"
+									action="#{prestamoTipoBean.listarPorTipoPrestamo(1)}" />
+								<p:menuitem value="Personal"
+									action="#{prestamoTipoBean.listarPorTipoPrestamo(2)}" />
+								<p:menuitem value="Estudio"
+									action="#{prestamoTipoBean.listarPorTipoPrestamo(3)}" />
+								<p:menuitem value="Hipotecario"
+									action="#{prestamoTipoBean.listarPorTipoPrestamo(4)}" />
+							</p:submenu>
 						</p:submenu>
 
-						<p:submenu label="Asesoria" icon="fa fa-angle-right"
+						<p:submenu label="Asesorias" icon="fa fa-angle-right"
+							rendered="#{seguridadBean.loginEmpleado}">
+							<p:menuitem value="Lista" url="/listaAsesoriasEmpleado.xhtml" />
+						</p:submenu>
+
+
+						<p:submenu label="Asesoría" icon="fa fa-angle-right"
+							rendered="#{seguridadBean.loginCliente}">
+							<p:menuitem value="Solicitar" url="/listaPrestamosCliente.xhtml" />
+						</p:submenu>
+
+						<p:submenu label="Asesoría" icon="fa fa-angle-right"
 							rendered="#{seguridadBean.loginCliente}">
 							<p:menuitem value="Solicitar" url="/asesoriaCliente.xhtml" />
 						</p:submenu>

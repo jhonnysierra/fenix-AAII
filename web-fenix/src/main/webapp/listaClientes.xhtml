@@ -34,9 +34,9 @@
 					</p:column>
 					<p:column style="width:24px">
 						<p:commandLink update=":listaClientes:detalleCliente"
-							oncomplete="PF('documentDialog').show()" icon="pi pi-search"
+							oncomplete="PF('documentDialog').show()" icon="fa fa-eye"
 							title="Ver Detalles">
-							<h:outputText value="Ver" />
+							<i class="fas fa-eye"></i>
 							<f:setPropertyActionListener value="#{cliente}"
 								target="#{clienteBean1.cliente}" />
 						</p:commandLink>

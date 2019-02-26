@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<meta charset="UTF-8" />
+	<ui:define name="title">Lista Asesorias Empleado</ui:define>
+
+
+	<ui:define name="contenido">
+		<br />
+		<h:form id="listaAsesorias">
+
+			<p:dataTable id="tablaAsesorias"
+				value="#{asesoriaEmpleadoBean.asesorias}" var="asesoria">
+				<f:facet name="header">Lista Asesorias</f:facet>
+				<p:column headerText="id">
+					<h:outputText value="#{asesoria.id}" />
+				</p:column>
+				<p:column headerText="Cliente">
+					<h:outputText
+						value="#{asesoria.cliente.nombres} #{asesoria.cliente.apellidos}" />
+				</p:column>
+				<p:column headerText="Tipo Asesoria">
+					<h:outputText value="#{asesoria.tipoasesoria.tipo}" />
+				</p:column>
+				<p:column headerText="Estado">
+					<h:outputText style="color:#FF0000;" value="SIN ATENDER"
+						rendered="#{asesoria.horaFin==null}" />
+					<h:outputText style="color:#32BF3A;" value="ATENDIDA"
+						rendered="#{asesoria.horaFin!=null}" />
+				</p:column>
+
+				<p:column style="width:24px">
+					<p:commandLink update=":listaAsesorias:detalleAsesoria"
+						oncomplete="PF('documentDialog').show()" title="Ver Detalles">
+						<i class="fas fa-eye"></i>
+						<f:setPropertyActionListener value="#{asesoria}"
+							target="#{asesoriaEmpleadoBean.asesoria}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog id="dialog" header="Detalles Asesoria" showEffect="fade"
+				widgetVar="documentDialog" modal="true" resizable="false">
+				<p:outputPanel id="detalleAsesoria">
+					<p:panelGrid columns="2" cellpadding="4"
+						rendered="#{not empty asesoriaEmpleadoBean.asesoria}">
+						<h:outputLabel for="id" value="Id: " />
+						<h:outputText id="id" value="#{asesoriaEmpleadoBean.asesoria.id}"
+							style="font-weight:bold" />
+
+						<h:outputLabel for="fecha" value="Fecha: " />
+						<h:outputText id="fecha"
+							value="#{asesoriaEmpleadoBean.asesoria.fecha}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="horaInicio" value="Hora Inicio: " />
+						<h:outputText id="horaInicio"
+							value="#{asesoriaEmpleadoBean.asesoria.horaInicio}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="hh:mm:ss aa"
+								timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="horaFin" value="Hora Fin: " />
+						<h:outputText id="horaFin"
+							value="#{asesoriaEmpleadoBean.asesoria.horaFin}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="hh:mm:ss aa"
+								timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="cliente" value="Cliente: " />
+						<h:outputText id="cliente"
+							value="#{asesoriaEmpleadoBean.asesoria.cliente.nombres} #{asesoriaEmpleadoBean.asesoria.cliente.apellidos}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="hh:mm:ss aa"
+								timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel for="tipoAsesoria" value="Tipo Asesoria: " />
+						<h:outputText id="tipoAsesoria"
+							value="#{asesoriaEmpleadoBean.asesoria.tipoasesoria.tipo}"
+							style="font-weight:bold">
+							<f:convertDateTime pattern="hh:mm:ss aa"
+								timeZone="America/Bogota" />
+						</h:outputText>
+
+						<h:outputLabel value="Estado: " />
+						<h:outputText id="estado1" style="color:#FF0000;"
+							value="SIN ATENDER"
+							rendered="#{asesoriaEmpleadoBean.asesoria.horaFin==null}" />
+
+						<h:outputText id="estado2" style="color:#32BF3A;" value="ATENDIDA"
+							rendered="#{asesoriaEmpleadoBean.asesoria.horaFin!=null}" />
+
+						<f:facet name="footer">
+							<p:commandButton value="Atendida"
+								rendered="#{asesoriaEmpleadoBean.asesoria.horaFin==null}"
+								action="#{asesoriaEmpleadoBean.atenderAsesoria}">
+								<p:confirm header="Confirmar"
+									message="¿Ya has atendido la cita?" />
+							</p:commandButton>
+							<p:outputLabel></p:outputLabel>
+
+						</f:facet>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="SI" type="button"
+								styleClass="ui-confirmdialog-yes" icon="fa fa-check-square" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+						</p:confirmDialog>
+
+					</p:panelGrid>
+				</p:outputPanel>
+
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
