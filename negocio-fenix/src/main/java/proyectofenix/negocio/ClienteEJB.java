@@ -430,4 +430,63 @@ public class ClienteEJB implements ClienteEJBRemote {
 		return query.getResultList();
 
 	}
+
+	/**
+	 * Metodo que permite registrar un pago
+	 * 
+	 * @param pago a realizar
+	 * @return Pago, pago realizado
+	 */
+	public Pago registrarPagoCuota(Pago pago) throws ExcepcionesFenix {
+		if (pago.getPrestamo() == null) {
+			throw new ExcepcionesFenix("No se puede realizar el pago porque NO se encontró el prestamo");
+		} else if (entityManager.find(Pago.class, pago.getId()) != null) {
+			throw new ExcepcionesFenix("No se puede realizar el pago porque el id del pago ya existe");
+		} else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo()
+				.getValorPrestamo()) {
+			throw new ExcepcionesFenix("El pago supera el valor del prestamo");
+		}
+
+		try {
+			entityManager.persist(pago);
+			return pago;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Metodo que realiza la sumatoria de pagos de un prestamo
+	 * 
+	 * @param pagos lista de pagos del prestamo
+	 * @return sumatoria de los pagos del prestamo
+	 */
+	public double sumaPagosPrestamo(List<Pago> pagos) {
+		double totalPagado = 0;
+		for (Pago p : pagos) {
+			totalPagado += p.getValor();
+		}
+
+		return totalPagado;
+
+	}
+	
+	/**
+	 * Metodo que devuelve el consecutivo para el pago
+	 * 
+	 * @return consecutivo del pago
+	 * @throws ExcepcionesFenix si no se genera el id del pago
+	 */
+	public int consecutivoPago() throws ExcepcionesFenix {
+		int consecutivo;
+		try {
+			Query query = entityManager.createNamedQuery(Pago.OBTENER_CONSECUTIVO_PAGO);
+			consecutivo = (int) query.getSingleResult() + 1;
+			return consecutivo;
+		} catch (Exception e) {
+			// System.out.println("e.mesage:" + e.getMessage());
+			throw new ExcepcionesFenix("No se puede generar el id del pago");
+		}
+	}
 }

@@ -1,10 +1,7 @@
 package proyectofenix.web;
 
 import java.io.Serializable;
-import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,17 +11,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.annotation.ManagedProperty;
 import javax.faces.annotation.FacesConfig.Version;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.Min;
-
-import proyecto.fenix.excepciones.ExcepcionesFenix;
 import proyectofenix.entidades.Pago;
-import proyectofenix.entidades.Persona;
 import proyectofenix.entidades.Prestamo;
-import proyectofenix.entidades.TipoPrestamo;
 import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
 
@@ -72,16 +62,6 @@ public class PrestamoClienteBean implements Serializable {
 	private List<Pago> pagos;
 
 	/**
-	 * Formateador de fechas
-	 */
-	private Format formatoFecha;
-
-	/**
-	 * Fecha formteada para mostrar en el resumen
-	 */
-	private String fechaFormateada;
-
-	/**
 	 * Cantidad de pagos realizados
 	 */
 	private int cantidadPagos;
@@ -95,7 +75,7 @@ public class PrestamoClienteBean implements Serializable {
 
 	@PostConstruct
 	private void inicializar() {
-		formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("es", "COL"));
+		new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("es", "COL"));
 	}
 
 
@@ -130,25 +110,6 @@ public class PrestamoClienteBean implements Serializable {
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
 	}
-
-	/**
-	 * Metodo get fecha formateada prestamo Bean
-	 * 
-	 * @return the fechaFormateada
-	 */
-	public String getFechaFormateada() {
-		return fechaFormateada;
-	}
-
-	/**
-	 * Metodo set fecha formateada prestamo Bean
-	 * 
-	 * @param fechaFormateada the fechaFormateada to set
-	 */
-	public void setFechaFormateada(String fechaFormateada) {
-		this.fechaFormateada = fechaFormateada;
-	}
-
 
 	/**
 	 * Metodo get lista de prestamos. Actualiza los prestamos con el metodo EJB

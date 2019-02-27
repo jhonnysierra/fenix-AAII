@@ -15,10 +15,10 @@
 
 	<ui:define name="contenido">
 		<br />
-		<h:form id="listaPrestamos">
+		<h:form id="listaPrestamos" rendered="#{seguridadBean.loginCliente}">
 
 			<p:dataTable id="tablaPrestamos" value="#{prestamoClienteBean.prestamos}"
-				var="prestamo">
+				var="prestamo" >
 				<f:facet name="header">Lista de Prestamos Cliente</f:facet>
 				<p:column headerText="Id">
 					<h:outputText value="#{prestamo.id}" />
@@ -98,7 +98,7 @@
 							style="font-weight:bold" />
 
 						<f:facet name="footer">
-							<p:commandButton value="Pagar Cuota" ajax="false" action="/registrarPagoCuota" />
+							<p:commandButton value="Pagar Cuota" ajax="false" action="/registrarPagoCuotaCliente" />
 						</f:facet>
 					</p:panelGrid>
 

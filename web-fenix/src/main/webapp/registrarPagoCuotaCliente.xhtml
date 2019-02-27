@@ -35,7 +35,8 @@
 				<label>Prestamo:</label>
 				<p:inputText id="pagoPrestamo" placeholder="" required="true"
 					requiredMessage="Necesitamos una persona asociada al prestamo"
-					value="#{pagoCuotaBean.prestamoBean.prestamo.id}" disabled="true"/>
+					value="#{pagoCuotaClienteBean.prestamoClienteBean.prestamo.id}"
+					disabled="true" />
 				<br />
 
 				<label>Valor:</label>
@@ -43,18 +44,20 @@
 					placeholder="Ingrese el valor del prestamo" required="true"
 					requiredMessage="Por favor ingresa el valor del prestamo"
 					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-					value="#{pagoCuotaBean.valorPago}">
+					value="#{pagoCuotaClienteBean.valorPago}">
 				</p:inputText>
 				<br />
 
 				<label>Fecha:</label>
 				<p:calendar id="restricted" required="true"
 					requiredMessage="Por favor ingresa una fecha"
-					value="#{pagoCuotaBean.fechaPago}" locale="co" pattern="yyyy-MM-dd" />
+					value="#{pagoCuotaClienteBean.fechaPago}" locale="co"
+					pattern="yyyy-MM-dd" />
 
 				<p:outputLabel for="pagoPagar"></p:outputLabel>
-				<p:commandButton id="pagoPagar" ajax="false" icon="fa fa-dollar-sign"
-					value="Aceptar" action="#{pagoCuotaBean.registrarPagoCuota}" />
+				<p:commandButton id="pagoPagar" ajax="false"
+					icon="fa fa-dollar-sign" value="Aceptar"
+					action="#{pagoCuotaClienteBean.registrarPagoCuota}" />
 
 			</p:panelGrid>
 
