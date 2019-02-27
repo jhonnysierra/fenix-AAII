@@ -1,5 +1,6 @@
 package utilidades.web;
 
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,10 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import proyecto.fenix.excepciones.ExcepcionesFenix;
-import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.Persona;
-import proyectofenix.escritorio.utilidades.Utilidades;
 
 /**
  * Permite enviar emails
@@ -23,11 +21,6 @@ import proyectofenix.escritorio.utilidades.Utilidades;
  *
  */
 public class EnviarEmail {
-
-	/**
-	 * Contrasenia usuario
-	 */
-	private String contrasenia;
 
 	/**
 	 * Usuario del correo electronico del cual se envian los correos
@@ -86,7 +79,7 @@ public class EnviarEmail {
 
 		try {
 
-			Message message = new MimeMessage(session);
+			Message message = new Message(session);
 			message.setFrom(new InternetAddress(usuario));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
 			message.setSubject(asunto);
@@ -103,20 +96,6 @@ public class EnviarEmail {
 		
 		
 
-	}
-
-	/**
-	 * @return the contrasenia
-	 */
-	public String getContrasenia() {
-		return contrasenia;
-	}
-
-	/**
-	 * @param contrasenia the contrasenia to set
-	 */
-	public void setContrasenia(String contrasenia) {
-		this.contrasenia = contrasenia;
 	}
 
 	/**
