@@ -159,6 +159,8 @@ public class LoginControlador {
 				}
 			});
 
+			session.setDebug(true);
+			
 			try {
 
 				Message message = new MimeMessage(session);

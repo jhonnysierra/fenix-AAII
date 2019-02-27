@@ -77,8 +77,8 @@
 						<p:outputLabel value="" />
 
 						<p:outputLabel for="olvideContrasenia" value="" />
-						<p:commandLink id="olvideContrasenia" action="#"
-							style="margin-right:20px;">
+						<p:commandLink id="olvideContrasenia" action="#{seguridadBean.olvideContrasenia}"
+							style="margin-right:20px;" update="messages">
 							<h:outputText value="Olvidé Contraseña" />
 						</p:commandLink>
 					</h:panelGrid>

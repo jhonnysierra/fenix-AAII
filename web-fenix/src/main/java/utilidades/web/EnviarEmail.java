@@ -20,7 +20,10 @@ import proyectofenix.entidades.Persona;
  * @version 1.0
  *
  */
+
+
 public class EnviarEmail {
+
 
 	/**
 	 * Usuario del correo electronico del cual se envian los correos
@@ -46,22 +49,23 @@ public class EnviarEmail {
 	 * Mensaje que se envia al usuario
 	 */
 	private String mensaje;
-	
+
 	/**
 	 * Metodo constructos de la clase EnviarEmail
 	 */
 	public EnviarEmail() {
-		
+
 	}
-	
+
 	/**
 	 * Permite enviar un correo electronico al usuario para recordar su contrasenia
 	 */
-	public boolean olvideContrasenia(Persona usuarioEmail) {
+	public boolean enviarEmailolvideContrasenia(Persona usuarioEmail) {
 		
-		para=usuarioEmail.getCorreo();
+		para = usuarioEmail.getCorreo();
 		asunto = "OLVIDE CONTRASEÑA TE LO PRESTAMOS FENIX";
 		mensaje = "Su contraseña de acceso al sistemas es: " + usuarioEmail.getContrasenia();
+		
 		Properties props = new Properties();
 
 		props = System.getProperties();
@@ -76,25 +80,29 @@ public class EnviarEmail {
 				return new PasswordAuthentication(usuario, password);
 			}
 		});
-
+		
+		session.setDebug(true);
+		
+		System.out.println("PASO DEBUG");
+		
+		Message message = new MimeMessage(session);
+		
+		
 		try {
-
-			Message message = new Message(session);
+			
 			message.setFrom(new InternetAddress(usuario));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
 			message.setSubject(asunto);
 			message.setText(mensaje);
-
 			Transport.send(message);
-			
 			return true;
-
+			
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			System.out.println("Error de email: " + e.getMessage());
+			e.printStackTrace();
+			//throw new RuntimeException(e);
 		}
-
-		
-		
+		return false;	
 
 	}
 
@@ -139,7 +147,5 @@ public class EnviarEmail {
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
-	
 
 }
