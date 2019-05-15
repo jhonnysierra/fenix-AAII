@@ -60,6 +60,11 @@ public class PrestamoClienteBean implements Serializable {
 	 * Lista de pagos del prestamo
 	 */
 	private List<Pago> pagos;
+	
+	/**
+	 * Pago cuota de prestamo
+	 */
+	private Pago pago;
 
 	/**
 	 * Cantidad de pagos realizados
@@ -110,6 +115,25 @@ public class PrestamoClienteBean implements Serializable {
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
 	}
+
+	
+	/**
+	 * @return the pago
+	 */
+	public Pago getPago() {
+		return pago;
+	}
+
+
+
+	/**
+	 * @param pago the pago to set
+	 */
+	public void setPago(Pago pago) {
+		this.pago = pago;
+	}
+
+
 
 	/**
 	 * Metodo get lista de prestamos. Actualiza los prestamos con el metodo EJB

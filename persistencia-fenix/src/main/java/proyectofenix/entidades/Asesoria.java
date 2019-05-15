@@ -23,15 +23,21 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({ @NamedQuery(name = Asesoria.OBTENER_CONSECUTIVO_ASESORIA, query = "select MAX(a.id) from Asesoria a"),
 		@NamedQuery(name = Asesoria.OBTENER_TOTAL_ASESORIAS_EMPLEADO, query = "select new proyectofenix.DTO.ConsultaAtencionEmpleadoDTO(a.empleado.cedula,COUNT(a.empleado.cedula)) from Asesoria a where a.horaInicio!=a.horaFin GROUP BY a.empleado.cedula"),
-		@NamedQuery(name = Asesoria.OBTENER_LISTA_ASESORIAS_EMPLEADO, query = "select a from Asesoria a where a.empleado.cedula=:cedula")})
+		@NamedQuery(name = Asesoria.OBTENER_LISTA_ASESORIAS_EMPLEADO, query = "select a from Asesoria a where a.empleado.cedula=:cedula"),
+		@NamedQuery(name = Asesoria.OBTENER_LISTA_ASESORIAS_CLIENTE, query = "select a from Asesoria a where a.cliente.cedula=:cedula") })
 public class Asesoria implements Serializable {
 
+	
 	/**
-	 * Permite obtener el maximo id de una asesoria y sumarle 1 para generar el
-	 * consecutivo
+	 * Permite obtener la lista de asesorias de un cliente
+	 */
+	public static final String OBTENER_LISTA_ASESORIAS_CLIENTE = "ListaAsesoriasCliente";
+	
+	/**
+	 * Permite obtener la lista de asesorias que tiene un empleado
 	 */
 	public static final String OBTENER_LISTA_ASESORIAS_EMPLEADO = "ListaAsesoriasEmpleado";
-	
+
 	/**
 	 * Permite obtener el maximo id de una asesoria y sumarle 1 para generar el
 	 * consecutivo

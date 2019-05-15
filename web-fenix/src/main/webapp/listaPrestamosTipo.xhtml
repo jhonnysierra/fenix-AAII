@@ -17,8 +17,8 @@
 		<br />
 		<h:form id="listaPrestamos">
 
-			<p:dataTable id="tablaPrestamos" value="#{prestamoTipoBean.prestamos}"
-				var="prestamo">
+			<p:dataTable id="tablaPrestamos"
+				value="#{prestamoTipoBean.prestamos}" var="prestamo">
 				<f:facet name="header">Lista de Prestamos </f:facet>
 				<p:column headerText="Id">
 					<h:outputText value="#{prestamo.id}" />
@@ -42,7 +42,7 @@
 				<p:column headerText="Tipo Prestamo">
 					<h:outputText value="#{prestamo.tipoPrestamo.nombre}" />
 				</p:column>
-				
+
 				<p:column style="width:24px">
 					<p:commandLink update=":listaPrestamos:detallePrestamo"
 						oncomplete="PF('documentDialog').show()" icon="fa fa-search"
@@ -55,7 +55,8 @@
 			</p:dataTable>
 
 			<p:dialog id="dialog" header="Detalle Prestamo" showEffect="fade"
-				widgetVar="documentDialog" modal="true" resizable="false">
+				hideEffect="explode" closeOnEscape="true" widgetVar="documentDialog"
+				modal="true" resizable="false">
 				<p:outputPanel id="detallePrestamo">
 					<p:panelGrid columns="2" cellpadding="4">
 						<h:outputLabel for="Id" value="Id: " />
@@ -98,11 +99,12 @@
 						</h:outputText>
 
 						<h:outputLabel for="noPagos" value="Número Pagos: " />
-						<h:outputText id="noPagos" value="#{prestamoTipoBean.cantidadPagos}"
+						<h:outputText id="noPagos"
+							value="#{prestamoTipoBean.cantidadPagos}"
 							style="font-weight:bold" />
 
 						<f:facet name="footer">
-							
+
 						</f:facet>
 					</p:panelGrid>
 

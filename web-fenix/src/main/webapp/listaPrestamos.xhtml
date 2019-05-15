@@ -51,7 +51,8 @@
 			</p:dataTable>
 
 			<p:dialog id="dialog" header="Detalle Prestamo" showEffect="fade"
-				widgetVar="documentDialog" modal="true" resizable="false">
+				hideEffect="explode" closeOnEscape="true" widgetVar="documentDialog"
+				modal="true" resizable="false">
 				<p:outputPanel id="detallePrestamo">
 					<p:panelGrid columns="2" cellpadding="4">
 						<h:outputLabel for="Id" value="Id: " />
@@ -98,7 +99,11 @@
 							style="font-weight:bold" />
 
 						<f:facet name="footer">
-							<p:commandButton value="Pagar Cuota" ajax="false" action="/registrarPagoCuota" />
+							<p:commandButton value="Pagar Cuota" ajax="false"
+								action="/registrarPagoCuota" />
+
+							<p:commandButton value="Ver Pagos" ajax="false"
+								action="/listaPagosEmpleado" />
 						</f:facet>
 					</p:panelGrid>
 

@@ -105,6 +105,11 @@ public class PrestamoBean implements Serializable {
 	 * Lista de pagos del prestamo
 	 */
 	private List<Pago> pagos;
+	
+	/**
+	 * Pago de un prestamo
+	 */
+	private Pago pago;
 
 	/**
 	 * Formateador de fechas
@@ -323,6 +328,21 @@ public class PrestamoBean implements Serializable {
 	 */
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
+	}
+
+	
+	/**
+	 * @return the pago
+	 */
+	public Pago getPago() {
+		return pago;
+	}
+
+	/**
+	 * @param pago the pago to set
+	 */
+	public void setPago(Pago pago) {
+		this.pago = pago;
 	}
 
 	/**

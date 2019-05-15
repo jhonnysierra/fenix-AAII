@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<meta charset="UTF-8" />
+	<ui:define name="title">Lista Pagos Cliente</ui:define>
+
+
+	<ui:define name="contenido" rendered="#{seguridadBean.loginCliente}">
+		<br />
+		<h:form id="listaPagos">
+
+			<p:dataTable id="tablaPagos" value="#{prestamoClienteBean.pagos}" var="pago">
+				<f:facet name="header">Lista de Pagos</f:facet>
+				<p:column headerText="Id">
+					<h:outputText value="#{pago.id}" />
+				</p:column>
+
+				<p:column headerText="Fecha Pago">
+					<h:outputText value="#{pago.fecha}">
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="America/Bogota" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Valor">
+					<h:outputText value="#{pago.valor}" />
+				</p:column>
+
+				<p:column headerText="Id Prestamo">
+					<h:outputText value="#{pago.prestamo.id}" />
+				</p:column>
+
+				<p:column headerText="Persona">
+					<h:outputText
+						value="#{pago.prestamo.persona.nombres} #{pago.prestamo.persona.apellidos}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

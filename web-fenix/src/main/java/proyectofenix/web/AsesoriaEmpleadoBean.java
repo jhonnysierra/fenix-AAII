@@ -147,8 +147,6 @@ public class AsesoriaEmpleadoBean {
 			asesoria.setHoraFin(horaFin);
 			bancoEJB.atenderAsesoria(asesoria);
 
-			System.out.println("Hora fin asesoria: " + asesoria.getHoraFin());
-			System.out.println("Hora actual formateada: " + formatoHora.format(horaFin));
 
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro de prestamo exitoso",
 					"Registro prestamo exitoso");

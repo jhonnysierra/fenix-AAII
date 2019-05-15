@@ -1,11 +1,8 @@
 package proyectofenix.negocio;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -280,14 +277,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 	public Asesoria realizarAsesoria(Asesoria asesoria)
 			throws ExcepcionesFenix, InformacionNoEncontradaException, NullPointerException {
 
-		/*
-		 * if (asesoria.getCliente() == null) { throw new
-		 * ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el cliente"
-		 * ); } else if (asesoria.getEmpleado() == null) { throw new
-		 * ExcepcionesFenix("No se puede realizar la asesoria porque NO se encontró el empleado"
-		 * ); }
-		 */
-
 		Cliente cliente = asesoria.getCliente();
 		// System.out.println("El cliente es" + cliente);
 
@@ -313,22 +302,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 				}
 			}
 		}
-
-		/*
-		 * if (cliente == null) { // TODO throw new
-		 * NullPointerException("El cliente especificado no existe"); } else { cliente =
-		 * entityManager.find(Cliente.class, cliente.getCedula());
-		 * System.out.println(""); if (cliente == null) { throw new
-		 * InformacionNoEncontradaException("El cliente no se encuentra registrado"); }
-		 * else { try { asesoria.setCliente(cliente); entityManager.persist(asesoria);
-		 * return asesoria; } catch (Exception e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } } }
-		 */
-		/*
-		 * if (asesoria.getCliente() != null) {
-		 * 
-		 * }
-		 */
 
 		return null;
 	}
@@ -360,7 +333,6 @@ public class ClienteEJB implements ClienteEJBRemote {
 		sumaHora.add(Calendar.HOUR, 1);
 
 		for (Asesoria a : listaAsesoriasEmpleado) {
-			System.out.println("Hora lista:" + a.getHoraInicio());
 			if (a.getFecha().equals(fecha) && a.getHoraInicio().equals(horaInicio)) {
 				throw new ExcepcionesFenix(
 						"El empleado no puede atender tu solicitud en este horario. Intenta cambiar la hora si no funciona cambia el día");
@@ -410,7 +382,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 			query.setParameter("cedula", cedulaEmpleado);
 
 			List<Asesoria> listaAsesorias = query.getResultList();
-			System.out.println("lista asesorias ejb:" + listaAsesorias.size());
+			// System.out.println("lista asesorias empleado ejb:" + listaAsesorias.size());
 			return listaAsesorias;
 		} catch (Exception e) {
 			throw new ExcepcionesFenix("No se genero la lista de asesoria del empleado. " + e.getMessage());
@@ -445,6 +417,9 @@ public class ClienteEJB implements ClienteEJBRemote {
 		} else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo()
 				.getValorPrestamo()) {
 			throw new ExcepcionesFenix("El pago supera el valor del prestamo");
+		} else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) == pago.getPrestamo()
+				.getValorPrestamo()) {
+			throw new ExcepcionesFenix("El prestamo ha sido cancelado");
 		}
 
 		try {
@@ -471,7 +446,7 @@ public class ClienteEJB implements ClienteEJBRemote {
 		return totalPagado;
 
 	}
-	
+
 	/**
 	 * Metodo que devuelve el consecutivo para el pago
 	 * 
@@ -488,5 +463,22 @@ public class ClienteEJB implements ClienteEJBRemote {
 			// System.out.println("e.mesage:" + e.getMessage());
 			throw new ExcepcionesFenix("No se puede generar el id del pago");
 		}
+	}
+
+	/**
+	 * Metodo que permite obtener la lista de las asesorias solicitadas por un
+	 * cliente
+	 * 
+	 * @param cedulaCliente cedula del cliente del que se quiere la lista
+	 * @return lista de asesorias del cliente
+	 */
+	public List<Asesoria> listaAsesoriasCliente(String cedulaCliente) {
+
+		TypedQuery<Asesoria> query = entityManager.createNamedQuery(Asesoria.OBTENER_LISTA_ASESORIAS_CLIENTE,
+				Asesoria.class);
+		query.setParameter("cedula", cedulaCliente);
+
+		List<Asesoria> listaAsesorias = query.getResultList();
+		return listaAsesorias;
 	}
 }

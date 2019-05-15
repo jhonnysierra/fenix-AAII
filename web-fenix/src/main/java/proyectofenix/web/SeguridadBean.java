@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import org.apache.commons.mail.EmailException;
 
+import proyectofenix.entidades.Administrador;
 import proyectofenix.entidades.Cliente;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.Persona;
@@ -49,12 +50,12 @@ public class SeguridadBean {
 						this.usuario = p;
 						loginCliente = true;
 						autenticado = true;
-						System.out.println("Usuario logueado:" + usuario.getCedula());
-					} else if (p.getClass() == Empleado.class) {
+						
+					} else if (p.getClass() == Empleado.class || p.getClass()==Administrador.class) {
 						this.usuario = p;
 						loginEmpleado = true;
 						autenticado = true;
-						System.out.println("Empleado logueado:" + usuario.getCedula());
+						
 					}
 
 				} else {

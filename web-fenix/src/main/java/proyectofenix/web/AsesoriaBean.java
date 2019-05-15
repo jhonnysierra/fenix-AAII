@@ -18,9 +18,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import proyecto.fenix.excepciones.ExcepcionesFenix;
+import proyectofenix.entidades.Asesoria;
 import proyectofenix.entidades.Empleado;
 import proyectofenix.entidades.TipoAsesoria;
-import proyectofenix.negocio.BancoEJB;
 import proyectofenix.negocio.ClienteEJB;
 
 /**
@@ -105,15 +105,22 @@ public class AsesoriaBean {
 	 */
 	private String fechaFormateada;
 
-	@EJB
-	private BancoEJB bancoEJB;
-
 	/**
 	 * El inyectado desde el login Seguridad Bean
 	 */
 	@Inject
 	@ManagedProperty(value = "#{seguridadBean}")
 	private SeguridadBean seguridadBean;
+
+	/**
+	 * Lista de asesorias del cliente
+	 */
+	private List<Asesoria> asesorias;
+
+	/**
+	 * Asesoria de un cliente
+	 */
+	private Asesoria asesoria;
 
 	@PostConstruct
 	private void inicializar() {
@@ -131,7 +138,7 @@ public class AsesoriaBean {
 
 		// Se formatea la fecha para fecha y hora colombiana
 		fechaFormateada = formatoFecha.format(fecha);
-		cedulaCliente=seguridadBean.getUsuario().getCedula();
+		cedulaCliente = seguridadBean.getUsuario().getCedula();
 
 		try {
 			clienteEJB.crearAsesoria(tipoAsesoria.getId(), empleado.getCedula(), cedulaCliente, fecha, horaInicio);
@@ -151,12 +158,14 @@ public class AsesoriaBean {
 	}
 
 	public void reiniciarVariables() {
-		id=0;
-		cedulaCliente="";
-		cedulaEmpleado="";
-		fecha=null;
-		horaInicio=null;
-		horaFin=null;
+		id = 0;
+		cedulaCliente = "";
+		cedulaEmpleado = "";
+		fecha = null;
+		horaInicio = null;
+		horaFin = null;
+		empleado = null;
+		tipoAsesoria = null;
 	}
 	// ---------------Metodos Get y Set--------------------
 
@@ -392,6 +401,43 @@ public class AsesoriaBean {
 	 */
 	public void setSeguridadBean(SeguridadBean seguridadBean) {
 		this.seguridadBean = seguridadBean;
+	}
+
+	/**
+	 * Metodo get lista de asesorias del cliente
+	 * 
+	 * @return the asesorias
+	 */
+	public List<Asesoria> getAsesorias() {
+		asesorias = clienteEJB.listaAsesoriasCliente(seguridadBean.getUsuario().getCedula());
+		return asesorias;
+	}
+
+	/**
+	 * Metodo set lista de asesorias del cliente
+	 * 
+	 * @param asesorias the asesorias to set
+	 */
+	public void setAsesorias(List<Asesoria> asesorias) {
+		this.asesorias = asesorias;
+	}
+
+	/**
+	 * Metodo get asesoria del cliente
+	 * 
+	 * @return the asesoria
+	 */
+	public Asesoria getAsesoria() {
+		return asesoria;
+	}
+
+	/**
+	 * Metodo set asesoria del cliente
+	 * 
+	 * @param asesoria the asesoria to set
+	 */
+	public void setAsesoria(Asesoria asesoria) {
+		this.asesoria = asesoria;
 	}
 
 }

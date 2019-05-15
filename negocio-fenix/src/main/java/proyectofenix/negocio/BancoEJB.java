@@ -369,6 +369,9 @@ public class BancoEJB implements BancoEJBRemote {
 		} else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) > pago.getPrestamo()
 				.getValorPrestamo()) {
 			throw new ExcepcionesFenix("El pago supera el valor del prestamo");
+		}else if ((sumaPagosPrestamo(pago.getPrestamo().getPagos()) + pago.getValor()) == pago.getPrestamo()
+				.getValorPrestamo()) {
+			throw new ExcepcionesFenix("El prestamo ha sido cancelado");
 		}
 
 		try {
@@ -634,7 +637,7 @@ public class BancoEJB implements BancoEJBRemote {
 	 */
 	public BienRaiz agregarBienRaiz(BienRaiz bienraiz) throws ExcepcionesFenix {
 		if (entityManager.find(BienRaiz.class, bienraiz.getId()) != null) {
-			throw new ExcepcionesFenix("Error: ya se ha registrado una bien con este identificador");
+			throw new ExcepcionesFenix("Error: ya se ha registrado un bien con este identificador");
 		}
 
 		try {

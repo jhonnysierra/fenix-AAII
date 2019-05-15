@@ -17,8 +17,8 @@
 		<br />
 		<h:form id="listaPrestamos" rendered="#{seguridadBean.loginCliente}">
 
-			<p:dataTable id="tablaPrestamos" value="#{prestamoClienteBean.prestamos}"
-				var="prestamo" >
+			<p:dataTable id="tablaPrestamos"
+				value="#{prestamoClienteBean.prestamos}" var="prestamo">
 				<f:facet name="header">Lista de Prestamos Cliente</f:facet>
 				<p:column headerText="Id">
 					<h:outputText value="#{prestamo.id}" />
@@ -51,7 +51,8 @@
 			</p:dataTable>
 
 			<p:dialog id="dialog" header="Detalle Prestamo" showEffect="fade"
-				widgetVar="documentDialog" modal="true" resizable="false">
+				hideEffect="explode" closeOnEscape="true" widgetVar="documentDialog"
+				modal="true" resizable="false">
 				<p:outputPanel id="detallePrestamo">
 					<p:panelGrid columns="2" cellpadding="4">
 						<h:outputLabel for="Id" value="Id: " />
@@ -94,11 +95,16 @@
 						</h:outputText>
 
 						<h:outputLabel for="noPagos" value="Número Pagos: " />
-						<h:outputText id="noPagos" value="#{prestamoClienteBean.cantidadPagos}"
+						<h:outputText id="noPagos"
+							value="#{prestamoClienteBean.cantidadPagos}"
 							style="font-weight:bold" />
 
 						<f:facet name="footer">
-							<p:commandButton value="Pagar Cuota" ajax="false" action="/registrarPagoCuotaCliente" />
+							<p:commandButton value="Pagar Cuota" ajax="false"
+								action="/registrarPagoCuotaCliente" />
+								
+							<p:commandButton value="Ver Pagos" ajax="false"
+								action="/listaPagosCliente" />
 						</f:facet>
 					</p:panelGrid>
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/template.xhtml">
+
+	<meta charset="UTF-8" />
+	<ui:define name="title">Registrar Bien Raiz</ui:define>
+
+
+	<ui:define name="contenido">
+
+		<h4>Los campos de este formulario son obligarotios</h4>
+		<h:outputStylesheet>
+        .ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
+        {
+            border: none !important;
+            border-style: none !important;
+            border-width: 0px !important;
+        }
+    </h:outputStylesheet>
+
+		<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
+
+		<h:form id="registrarBienRaiz">
+			<p:panelGrid columns="2">
+				<f:facet name="header">Registrar Bien Raíz</f:facet>
+				<label>Identificador o Número Matrícula:</label>
+				<p:inputText id="bienId" placeholder="Número de matricula"
+					required="true"
+					requiredMessage="Necesitamos una persona asociada al prestamo"
+					value="#{bienRaizBean.id}" />
+
+
+				<label>Avaluo:</label>
+				<p:inputText id="bienAvaluo"
+					placeholder="Ingrese el avaluo del bien raiz" required="true"
+					requiredMessage="Por favor Ingrese el avaluo del bien raiz"
+					onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+					value="#{bienRaizBean.avaluo}">
+				</p:inputText>
+
+				<label>Dirección:</label>
+				<p:inputText id="bienValor"
+					placeholder="Direccion del bien raiz" required="true"
+					requiredMessage="Por favor Ingrese la direccion del bien raiz"
+					value="#{bienRaizBean.direccion}">
+				</p:inputText>
+
+				<label>Persona:</label>
+				<p:inputText id="bienPersona" placeholder="" required="true"
+					requiredMessage="Necesitamos una persona asociada al prestamo"
+					value="#{bienRaizBean.clienteBean.cliente.nombres} #{bienRaizBean.clienteBean.cliente.apellidos}"
+					disabled="true" />
+
+				<p:outputLabel for="bienRegistrar"></p:outputLabel>
+				<p:commandButton id="bienRegistrar" ajax="false" icon="fa fa-save"
+					value="Aceptar" action="#{bienRaizBean.registrarBienRaiz}" />
+
+			</p:panelGrid>
+
+			<script type="text/javascript">
+				var campoValor = document
+						.getElementById('registrarBienRaiz:bienAvaluo').value;
+
+				if (this.campoValor == "0.0") {
+					document.getElementById('registrarBienRaiz:bienAvaluo').value = '';
+
+				}
+
+			</script>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
